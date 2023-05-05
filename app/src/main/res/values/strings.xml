@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SofaScoreApp</string>
+
+    <string name="football">Football</string>
+    <string name="basketball">Basketball</string>
+    <string name="amer_football_short">Am. Football</string>
+
+</resources>
