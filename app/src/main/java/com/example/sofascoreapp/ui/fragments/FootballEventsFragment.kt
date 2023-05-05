@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.databinding.FragmentFootballEventsBinding
 import com.example.sofascoreapp.ui.adapters.DatesAdapter
 import com.example.sofascoreapp.ui.adapters.EventsRecyclerAdapter
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.viewmodel.SharedViewModel
+import java.time.LocalDate
 
 class FootballEventsFragment : Fragment() {
 
@@ -30,14 +32,14 @@ class FootballEventsFragment : Fragment() {
         sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
 
         return binding.root
-   }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         sharedViewModel.initializeAvailableDays()
 
-        sharedViewModel.getAvailableDays().observe(viewLifecycleOwner) {
+        sharedViewModel.getFootballAvailableDays().observe(viewLifecycleOwner) {
             binding.daysRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             datesAdapter = DatesAdapter(requireContext(), it, sharedViewModel, SportType.FOOTBALL)
@@ -46,7 +48,8 @@ class FootballEventsFragment : Fragment() {
         }
 
 
-        sharedViewModel.setFootballDate(Utilities().getTodaysDate())
+        //sharedViewModel.setFootballDate(Utilities().getTodaysDate())
+        sharedViewModel.setFootballDate("2023-05-05")
 
         sharedViewModel.footballDate.observe(viewLifecycleOwner) {
             sharedViewModel.getNewestEvents("football", it)
@@ -61,7 +64,24 @@ class FootballEventsFragment : Fragment() {
                 recyclerAdapter =
                     EventsRecyclerAdapter(requireContext(), groupedMatches as ArrayList<Any>)
                 binding.recyclerView.adapter = recyclerAdapter
+
+            } else {
+                binding.recyclerView.adapter = null
             }
+
+            if (sharedViewModel.footballDate.value == LocalDate.now().toString()) {
+                binding.info.date.text = getString(R.string.today)
+            } else {
+                binding.info.date.text =
+                    Utilities().getLongDate(sharedViewModel.footballDate.value!!)
+            }
+
+            if (it.body()?.isNotEmpty() == true) {
+                binding.info.noOfEvents.text = getString(R.string.numberOfEvents, it.body()?.size)
+            } else {
+                binding.info.noOfEvents.text = getString(R.string.noEventsToday)
+            }
+
         }
 
     }

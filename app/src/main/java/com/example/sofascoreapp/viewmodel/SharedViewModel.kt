@@ -14,14 +14,24 @@ import java.time.format.DateTimeFormatter
 
 class SharedViewModel : ViewModel() {
 
-    private val _availableDays = MutableLiveData<ArrayList<MatchDate>>()
+    private val _footballAvailableDays = MutableLiveData<ArrayList<MatchDate>>()
 
-    fun getAvailableDays(): MutableLiveData<ArrayList<MatchDate>> {
-        return _availableDays
+    fun getFootballAvailableDays(): MutableLiveData<ArrayList<MatchDate>> {
+        return _footballAvailableDays
     }
 
-    fun setAvailableDays(results: ArrayList<MatchDate>) {
-        _availableDays.value = results
+    fun setFootballAvailableDays(results: ArrayList<MatchDate>) {
+        _footballAvailableDays.value = results
+    }
+
+    private val _basketballAvailableDays = MutableLiveData<ArrayList<MatchDate>>()
+
+    fun getBasketballAvailableDays(): MutableLiveData<ArrayList<MatchDate>> {
+        return _basketballAvailableDays
+    }
+
+    fun setBasketballAvailableDays(results: ArrayList<MatchDate>) {
+        _basketballAvailableDays.value = results
     }
 
     fun initializeAvailableDays() {
@@ -48,7 +58,8 @@ class SharedViewModel : ViewModel() {
             date = date.plusDays(1)
         }
 
-        setAvailableDays(list as ArrayList<MatchDate>)
+        setFootballAvailableDays(list as ArrayList<MatchDate>)
+        setBasketballAvailableDays(list)
     }
 
     private val _footballEvents = MutableLiveData<Response<ArrayList<Event>>>()
@@ -105,9 +116,20 @@ class SharedViewModel : ViewModel() {
 
     fun setFootballDate(date: String) {
         _footballDate.value = date
-        clearAllAvailableStatus()
-        _availableDays.value!![_availableDays.value!!.indexOf(MatchDate(date, false))].isSelected =
+        clearFootballDays()
+        _footballAvailableDays.value!![_footballAvailableDays.value!!.indexOf(
+            MatchDate(
+                date,
+                false
+            )
+        )].isSelected =
             true
+    }
+
+    fun clearFootballDays() {
+        for (item in _footballAvailableDays.value!!) {
+            item.isSelected = false
+        }
     }
 
 
@@ -117,6 +139,20 @@ class SharedViewModel : ViewModel() {
 
     fun setBasketballDate(date: String) {
         _basketballDate.value = date
+        clearBasketballDays()
+        _basketballAvailableDays.value!![_basketballAvailableDays.value!!.indexOf(
+            MatchDate(
+                date,
+                false
+            )
+        )].isSelected =
+            true
+    }
+
+    fun clearBasketballDays() {
+        for (item in _basketballAvailableDays.value!!) {
+            item.isSelected = false
+        }
     }
 
 
@@ -126,12 +162,6 @@ class SharedViewModel : ViewModel() {
 
     fun setAmerFootballDate(date: String) {
         _amerFootballDate.value = date
-    }
-
-    fun clearAllAvailableStatus() {
-        for (item in _availableDays.value!!) {
-            item.isSelected = false
-        }
     }
 
 

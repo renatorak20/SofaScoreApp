@@ -6,17 +6,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.FootballEventsFragment">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/daysRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/date_list_item"
         tools:orientation="horizontal" />
+
+    <include
+        android:id="@+id/info"
+        layout="@layout/events_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/daysRecyclerView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -25,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/daysRecyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/info" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

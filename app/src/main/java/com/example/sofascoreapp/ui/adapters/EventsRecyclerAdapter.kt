@@ -10,6 +10,7 @@ import com.example.sofascoreapp.data.model.Country
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Tournament
+import com.example.sofascoreapp.data.model.WinnerCode
 import com.example.sofascoreapp.databinding.MatchListItemBinding
 import com.example.sofascoreapp.databinding.MatchListLeagueSectionBinding
 import com.example.sofascoreapp.utils.Utilities
@@ -85,6 +86,21 @@ class EventsRecyclerAdapter(
                 EventStatusEnum.FINISHED -> {
                     binding.homeScore.text = event.homeScore.total.toString()
                     binding.awayScore.text = event.awayScore.total.toString()
+
+                    when (event.winnerCode) {
+                        WinnerCode.HOME -> {
+                            binding.homeTeamLayout.teamName.setTextColor(context.getColor(R.color.on_surface_on_surface_lv_1))
+                            binding.homeScore.setTextColor(context.getColor(R.color.on_surface_on_surface_lv_1))
+                        }
+
+                        WinnerCode.AWAY -> {
+                            binding.awayTeamLayout.teamName.setTextColor(context.getColor(R.color.on_surface_on_surface_lv_1))
+                            binding.awayScore.setTextColor(context.getColor(R.color.on_surface_on_surface_lv_1))
+                        }
+
+                        else -> {}
+                    }
+
                 }
 
                 else -> {
@@ -114,6 +130,7 @@ class EventsRecyclerAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(tournament: Tournament) {
             binding.country.text = tournament.country.name
+            binding.league.text = tournament.name
             binding.leagueIcon.load(context.getString(R.string.tournament_icon_url, tournament.id))
         }
     }

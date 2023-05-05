@@ -7,5 +7,8 @@
 
     <string name="team_icon_url">https://academy.dev.sofascore.com/team/%1$d/image</string>
     <string name="tournament_icon_url">https://academy.dev.sofascore.com/tournament/%1$d/image</string>
+    <string name="today">TODAY</string>
+    <string name="numberOfEvents">%1$d Events</string>
+    <string name="noEventsToday">No events for this day</string>
 
 </resources>

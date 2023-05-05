@@ -11,6 +11,9 @@ import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.databinding.DateListItemBinding
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.viewmodel.SharedViewModel
+import java.time.LocalDate
+import java.util.Date
+import java.util.Locale
 
 
 class DatesAdapter(
@@ -44,7 +47,11 @@ class DatesAdapter(
             holder.binding.indicator.visibility = View.INVISIBLE
         }
 
-        holder.binding.dayInWeek.text = Utilities().getDayInWeek(item.date)
+        if (item.date == LocalDate.now().toString()) {
+            holder.binding.dayInWeek.text = context.getString(R.string.today)
+        } else {
+            holder.binding.dayInWeek.text = Utilities().getDayInWeek(item.date)
+        }
         holder.binding.date.text = Utilities().getAvailableDateShort(item.date)
 
         holder.binding.layout.setOnClickListener {

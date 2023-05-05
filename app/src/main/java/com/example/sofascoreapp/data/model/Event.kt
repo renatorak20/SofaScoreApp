@@ -10,7 +10,7 @@ data class Event(
     val startDate: String?,
     val homeScore: Score,
     val awayScore: Score,
-    val winnerCode: String?,
+    val winnerCode: WinnerCode?,
     val round: Int
 )
 

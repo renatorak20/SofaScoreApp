@@ -28,12 +28,18 @@ class Utilities {
         return dayOfWeekFormat.format(dateObject).toUpperCase()
     }
 
-
     fun getAvailableDateShort(date: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val dateObject = inputFormat.parse(date)
         val dayOfWeekFormat = SimpleDateFormat("dd.MM.", Locale.getDefault())
         return dayOfWeekFormat.format(dateObject).toUpperCase()
+    }
+
+    fun getLongDate(date: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val dateObject = inputFormat.parse(date)
+        val dayOfWeekFormat = SimpleDateFormat("EEE, dd.MM.yyyy.", Locale.getDefault())
+        return dayOfWeekFormat.format(dateObject)
     }
 
 }
