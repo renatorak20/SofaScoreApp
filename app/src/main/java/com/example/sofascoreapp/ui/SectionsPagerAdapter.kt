@@ -4,12 +4,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.sofascoreapp.ui.fragments.AmericanFootballFragment
-import com.example.sofascoreapp.ui.fragments.BasketballFragment
-import com.example.sofascoreapp.ui.fragments.FootballFragment
+import com.example.sofascoreapp.ui.fragments.AmericanFootballTournamentsFragment
+import com.example.sofascoreapp.ui.fragments.BasketballEventsFragment
+import com.example.sofascoreapp.ui.fragments.BasketballTournamentsFragment
+import com.example.sofascoreapp.ui.fragments.FootballEventsFragment
+import com.example.sofascoreapp.ui.fragments.FootballTournamentsFragment
 
 private const val NUM_TABS = 3
 
-class SectionsPagerAdapter(fa: FragmentActivity) :
+class SectionsPagerAdapter(fa: FragmentActivity, val type: Int) :
     FragmentStateAdapter(fa) {
 
     override fun getItemCount(): Int {
@@ -17,10 +20,22 @@ class SectionsPagerAdapter(fa: FragmentActivity) :
     }
 
     override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> FootballFragment()
-            1 -> BasketballFragment()
-            else -> AmericanFootballFragment()
+        when (type) {
+            1 -> {
+                return when (position) {
+                    0 -> FootballEventsFragment()
+                    1 -> BasketballEventsFragment()
+                    else -> AmericanFootballFragment()
+                }
+            }
+
+            else -> {
+                return when (position) {
+                    0 -> FootballTournamentsFragment()
+                    1 -> BasketballTournamentsFragment()
+                    else -> AmericanFootballTournamentsFragment()
+                }
+            }
         }
     }
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="82dp"
+    android:layout_height="60dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/color_primary_variant"
+    android:id="@+id/layout">
+
+    <TextView
+        android:id="@+id/dayInWeek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="6dp"
+        android:textSize="12sp"
+        android:textColor="@color/surface_surface_0"
+        tools:text="TODAY" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dayInWeek"
+        android:layout_centerHorizontal="true"
+        android:textSize="12sp"
+        android:textColor="@color/surface_surface_0"
+        tools:text="13.12." />
+
+    <View
+        android:id="@+id/indicator"
+        android:layout_width="48dp"
+        android:layout_height="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/surface_surface_0"
+        android:visibility="invisible" />
+
+</RelativeLayout>

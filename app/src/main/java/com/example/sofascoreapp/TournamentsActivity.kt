@@ -1,36 +1,29 @@
 package com.example.sofascoreapp
 
-import android.content.Intent
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.example.sofascoreapp.databinding.ActivityMainBinding
+import com.example.sofascoreapp.databinding.ActivityTournamentsBinding
 import com.example.sofascoreapp.databinding.ViewPagerTabBinding
 import com.example.sofascoreapp.ui.SectionsPagerAdapter
+import com.example.sofascoreapp.viewmodel.TournamentsViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
+class TournamentsActivity : AppCompatActivity() {
 
-val tabArray = arrayOf(
-    R.string.football,
-    R.string.basketball,
-    R.string.amer_football_short
-)
-
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityTournamentsBinding
+    private lateinit var tournamentViewModel: TournamentsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_tournaments)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityTournamentsBinding.inflate(layoutInflater)
+        tournamentViewModel = ViewModelProvider(this)[TournamentsViewModel::class.java]
 
-
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, 1)
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, 2)
         val viewPager: ViewPager2 = binding.viewPager
         viewPager.adapter = sectionsPagerAdapter
 
@@ -42,6 +35,7 @@ class MainActivity : AppCompatActivity() {
                     customTabView.tabTitle.text = getString(R.string.football)
                     customTabView.tabIcon.setImageDrawable(getDrawable(R.drawable.icon_football))
                 }
+
                 1 -> {
                     customTabView.tabTitle.text = getString(R.string.basketball)
                     customTabView.tabIcon.setImageDrawable(getDrawable(R.drawable.icon_basketball))
@@ -54,8 +48,6 @@ class MainActivity : AppCompatActivity() {
             }
             tab.customView = customTabView.root
         }.attach()
-
-        binding.viewPager.isUserInputEnabled = false
 
     }
 
