@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sofascoreapp.data.model.BasketballEvent
-import com.example.sofascoreapp.data.model.FootballEvent
+import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.MatchDate
 import com.example.sofascoreapp.data.networking.Network
 import kotlinx.coroutines.launch
@@ -52,13 +51,13 @@ class SharedViewModel : ViewModel() {
         setAvailableDays(list as ArrayList<MatchDate>)
     }
 
-    private val _footballEvents = MutableLiveData<Response<ArrayList<FootballEvent>>>()
+    private val _footballEvents = MutableLiveData<Response<ArrayList<Event>>>()
 
-    fun setFootballEvents(results: Response<ArrayList<FootballEvent>>) {
+    fun setFootballEvents(results: Response<ArrayList<Event>>) {
         _footballEvents.value = results
     }
 
-    fun footballEvents(): MutableLiveData<Response<ArrayList<FootballEvent>>> {
+    fun footballEvents(): MutableLiveData<Response<ArrayList<Event>>> {
         return _footballEvents
     }
 
@@ -66,37 +65,37 @@ class SharedViewModel : ViewModel() {
         viewModelScope.launch {
             when (sport) {
                 "football" -> {
-                    setFootballEvents(Network().getService().getEventsForFootball(sport, date))
+                    setFootballEvents(Network().getService().getEventsForSport(sport, date))
                 }
 
                 "basketball" -> {
-                    setBasketballEvents(Network().getService().getEventsForBasketball(sport, date))
+                    setBasketballEvents(Network().getService().getEventsForSport(sport, date))
                 }
 
                 else -> {
-                    setFootballEvents(Network().getService().getEventsForFootball(sport, date))
+                    setFootballEvents(Network().getService().getEventsForSport(sport, date))
                 }
             }
         }
     }
 
-    private val _basketballEvents = MutableLiveData<Response<ArrayList<BasketballEvent>>>()
+    private val _basketballEvents = MutableLiveData<Response<ArrayList<Event>>>()
 
-    fun setBasketballEvents(results: Response<ArrayList<BasketballEvent>>) {
+    fun setBasketballEvents(results: Response<ArrayList<Event>>) {
         _basketballEvents.value = results
     }
 
-    fun basketballEvents(): MutableLiveData<Response<ArrayList<BasketballEvent>>> {
+    fun basketballEvents(): MutableLiveData<Response<ArrayList<Event>>> {
         return _basketballEvents
     }
 
-    private val _amerFootballEvents = MutableLiveData<Response<ArrayList<FootballEvent>>>()
+    private val _amerFootballEvents = MutableLiveData<Response<ArrayList<Event>>>()
 
-    fun setAmerFootballEvents(results: Response<ArrayList<FootballEvent>>) {
+    fun setAmerFootballEvents(results: Response<ArrayList<Event>>) {
         _amerFootballEvents.value = results
     }
 
-    fun amerFootballEvents(): MutableLiveData<Response<ArrayList<FootballEvent>>> {
+    fun amerFootballEvents(): MutableLiveData<Response<ArrayList<Event>>> {
         return _amerFootballEvents
     }
 

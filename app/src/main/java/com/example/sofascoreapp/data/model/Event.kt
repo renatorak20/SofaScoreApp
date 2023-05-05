@@ -1,6 +1,6 @@
 package com.example.sofascoreapp.data.model
 
-data class FootballEvent(
+data class Event(
     val id: Int,
     val slug: String,
     val tournament: Tournament,
@@ -10,20 +10,6 @@ data class FootballEvent(
     val startDate: String?,
     val homeScore: Score,
     val awayScore: Score,
-    val winnerCode: String?,
-    val round: Int
-)
-
-data class BasketballEvent(
-    val id: Int,
-    val slug: String,
-    val tournament: Tournament,
-    val homeTeam: Team2,
-    val awayTeam: Team2,
-    val status: EventStatusEnum,
-    val startDate: String?,
-    val homeScore: ArrayList<Score>,
-    val awayScore: ArrayList<Score>,
     val winnerCode: String?,
     val round: Int
 )

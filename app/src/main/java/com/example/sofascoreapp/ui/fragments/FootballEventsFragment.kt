@@ -56,8 +56,10 @@ class FootballEventsFragment : Fragment() {
         sharedViewModel.footballEvents().observe(viewLifecycleOwner) {
             if (it.body()?.isNotEmpty() == true) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                val groupedMatches =
+                    it.body()!!.groupBy { it.tournament }.flatMap { listOf(it.key) + it.value }
                 recyclerAdapter =
-                    EventsRecyclerAdapter(requireContext(), it.body() as ArrayList<Any>)
+                    EventsRecyclerAdapter(requireContext(), groupedMatches as ArrayList<Any>)
                 binding.recyclerView.adapter = recyclerAdapter
             }
         }

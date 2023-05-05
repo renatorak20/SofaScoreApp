@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sofascoreapp.R
+import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.databinding.FragmentAmericanFootballEventsBinding
 import com.example.sofascoreapp.ui.adapters.EventsRecyclerAdapter
 import com.example.sofascoreapp.viewmodel.SharedViewModel
@@ -34,19 +35,19 @@ class AmericanFootballFragment : Fragment() {
 
         sharedViewModel.getNewestEvents("american-football", "2023-05-06")
 
-        sharedViewModel.basketballEvents().observe(viewLifecycleOwner) {
-            if (it.body()?.isNotEmpty() == true) {
-                binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                recyclerAdapter =
-                    it.body()?.let { it1 ->
-                        EventsRecyclerAdapter(
-                            requireContext(),
-                            it1 as ArrayList<Any>
-                        )
-                    }!!
-                binding.recyclerView.adapter = recyclerAdapter
-            }
-        }
+        /*        sharedViewModel.basketballEvents().observe(viewLifecycleOwner) {
+                    if (it.body()?.isNotEmpty() == true) {
+                        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                        recyclerAdapter =
+                            it.body()?.let { it1 ->
+                                EventsRecyclerAdapter(
+                                    requireContext(),
+                                    it1 as ArrayList<Event>
+                                )
+                            }!!
+                        binding.recyclerView.adapter = recyclerAdapter
+                    }
+                }*/
 
     }
 

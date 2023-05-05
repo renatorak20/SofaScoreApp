@@ -2,124 +2,119 @@ package com.example.sofascoreapp.ui.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.sofascoreapp.R
-import com.example.sofascoreapp.data.model.BasketballEvent
-import com.example.sofascoreapp.data.model.FootballEvent
+import com.example.sofascoreapp.data.model.Country
+import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.EventStatusEnum
+import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.databinding.MatchListItemBinding
+import com.example.sofascoreapp.databinding.MatchListLeagueSectionBinding
 import com.example.sofascoreapp.utils.Utilities
+import java.lang.IllegalArgumentException
+
+private const val TYPE_SECTION = 0
+private const val TYPE_MATCH = 1
 
 class EventsRecyclerAdapter(
     val context: Context,
     val array: ArrayList<Any>
 ) :
-    RecyclerView.Adapter<EventsRecyclerAdapter.FootballViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
-    class FootballViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = MatchListItemBinding.bind(view)
+    override fun getItemViewType(position: Int) = when (array[position]) {
+        is Event -> TYPE_MATCH
+        is Tournament -> TYPE_SECTION
+        else -> throw IllegalArgumentException()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FootballViewHolder {
-        return FootballViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.match_list_item, parent, false)
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
+        TYPE_MATCH -> {
+            MatchViewHolder(
+                MatchListItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ), context
+            )
+        }
+
+        else -> {
+            SectionViewHolder(
+                MatchListLeagueSectionBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ), context
+            )
+        }
+
     }
 
     override fun getItemCount() = array.size
 
-    override fun onBindViewHolder(holder: FootballViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val item = array[position]
-
-        when (item) {
-            is FootballEvent -> {
-                holder.binding.timeLayout.timeOfMatch.text = item.startDate?.let {
-                    Utilities().getMatchHour(
-                        it
-                    )
-                }
-
-                holder.binding.homeTeamLayout.teamName.text = item.homeTeam.name
-                holder.binding.awayTeamLayout.teamName.text = item.awayTeam.name
-
-
-                when (item.status) {
-                    EventStatusEnum.INPROGRESS -> {
-                        holder.binding.homeScore.text = item.homeScore.total.toString()
-                        holder.binding.awayScore.text = item.awayScore.total.toString()
-                    }
-
-                    EventStatusEnum.FINISHED -> {
-                        holder.binding.homeScore.text = item.homeScore.total.toString()
-                        holder.binding.awayScore.text = item.awayScore.total.toString()
-                    }
-
-                    else -> {
-                        holder.binding.timeLayout.currentMinute.text = "-"
-                    }
-                }
-
-                holder.binding.homeTeamLayout.clubIcon.load(
-                    context.getString(
-                        R.string.team_icon_url,
-                        item.homeTeam.id
-                    )
-                )
-                holder.binding.awayTeamLayout.clubIcon.load(
-                    context.getString(
-                        R.string.team_icon_url,
-                        item.awayTeam.id
-                    )
-                )
-            }
-
-            is BasketballEvent -> {
-                holder.binding.timeLayout.timeOfMatch.text = item.startDate?.let {
-                    Utilities().getMatchHour(
-                        it
-                    )
-                }
-
-                holder.binding.homeTeamLayout.teamName.text = item.homeTeam.name
-                holder.binding.awayTeamLayout.teamName.text = item.awayTeam.name
-
-
-                when (item.status) {
-                    EventStatusEnum.INPROGRESS -> {
-                        holder.binding.homeScore.text = item.homeScore.toString()
-                        holder.binding.awayScore.text = item.awayScore.toString()
-                    }
-
-                    EventStatusEnum.FINISHED -> {
-                        holder.binding.homeScore.text = item.homeScore.toString()
-                        holder.binding.awayScore.text = item.awayScore.toString()
-                    }
-
-                    else -> {
-                        holder.binding.timeLayout.currentMinute.text = "-"
-                    }
-                }
-
-                holder.binding.homeTeamLayout.clubIcon.load(
-                    context.getString(
-                        R.string.team_icon_url,
-                        item.homeTeam.id
-                    )
-                )
-                holder.binding.awayTeamLayout.clubIcon.load(
-                    context.getString(
-                        R.string.team_icon_url,
-                        item.awayTeam.id
-                    )
-                )
-            }
+        if (holder is MatchViewHolder) {
+            holder.bind(array[position] as Event)
+        } else if (holder is SectionViewHolder) {
+            holder.bind(array[position] as Tournament)
         }
 
+    }
 
+    class MatchViewHolder(private val binding: MatchListItemBinding, val context: Context) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(event: Event) {
+
+            binding.timeLayout.timeOfMatch.text =
+                event.startDate?.let { Utilities().getMatchHour(it) }
+
+            binding.homeTeamLayout.teamName.text = event.homeTeam.name
+            binding.awayTeamLayout.teamName.text = event.awayTeam.name
+
+
+            when (event.status) {
+                EventStatusEnum.INPROGRESS -> {
+                    binding.homeScore.text = event.homeScore.total.toString()
+                    binding.awayScore.text = event.awayScore.total.toString()
+                }
+
+                EventStatusEnum.FINISHED -> {
+                    binding.homeScore.text = event.homeScore.total.toString()
+                    binding.awayScore.text = event.awayScore.total.toString()
+                }
+
+                else -> {
+                    binding.timeLayout.currentMinute.text = "-"
+                }
+            }
+
+            binding.homeTeamLayout.clubIcon.load(
+                context.getString(
+                    R.string.team_icon_url,
+                    event.homeTeam.id
+                )
+            )
+            binding.awayTeamLayout.clubIcon.load(
+                context.getString(
+                    R.string.team_icon_url,
+                    event.awayTeam.id
+                )
+            )
+        }
+
+    }
+
+    class SectionViewHolder(
+        private val binding: MatchListLeagueSectionBinding,
+        val context: Context
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(tournament: Tournament) {
+            binding.country.text = tournament.country.name
+            binding.leagueIcon.load(context.getString(R.string.tournament_icon_url, tournament.id))
+        }
     }
 }
