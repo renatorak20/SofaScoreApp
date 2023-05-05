@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.Event
+import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.networking.Network
 import com.example.sofascoreapp.databinding.FragmentFootballBinding
 import com.example.sofascoreapp.databinding.MatchListItemBinding
@@ -51,9 +52,33 @@ class FootballMainAdapter(
         holder.binding.homeTeamLayout.teamName.text = item.homeTeam.name
         holder.binding.awayTeamLayout.teamName.text = item.awayTeam.name
 
-        holder.binding.homeScore.text = item.homeScore.toString()
-        holder.binding.awayScore.text = item.awayScore.toString()
 
+        when (item.status) {
+            EventStatusEnum.INPROGRESS -> {
+                holder.binding.homeScore.text = item.homeScore.toString()
+                holder.binding.awayScore.text = item.awayScore.toString()
+            }
+
+            EventStatusEnum.FINISHED -> {
+                holder.binding.homeScore.text = item.homeScore.toString()
+                holder.binding.awayScore.text = item.awayScore.toString()
+            }
+
+            else -> {}
+        }
+
+        holder.binding.homeTeamLayout.clubIcon.load(
+            context.getString(
+                R.string.team_icon_url,
+                item.homeTeam.id
+            )
+        )
+        holder.binding.awayTeamLayout.clubIcon.load(
+            context.getString(
+                R.string.team_icon_url,
+                item.awayTeam.id
+            )
+        )
 
     }
 }

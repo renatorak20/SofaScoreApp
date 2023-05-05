@@ -6,7 +6,7 @@ data class Event(
     val tournament: Tournament,
     val homeTeam: HomeTeam,
     val awayTeam: AwayTeam,
-    val status: String,
+    val status: EventStatusEnum,
     val startDate: String?,
     val homeScore: ArrayList<HomeScore>,
     val awayScore: ArrayList<AwayScore>,

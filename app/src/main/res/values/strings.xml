@@ -5,4 +5,6 @@
     <string name="basketball">Basketball</string>
     <string name="amer_football_short">Am. Football</string>
 
+    <string name="team_icon_url">https://academy.dev.sofascore.com/team/%1$d/image</string>
+
 </resources>

@@ -15,8 +15,4 @@ interface SofaScoreService {
     @GET("/event/{id}")
     suspend fun getEvent(@Path("id") id: Int): Response<Event>
 
-    @GET("/team/{id}/image")
-    suspend fun getTeamImage(@Path("id") id: Int): Response<ResponseBody>
-
-
 }
