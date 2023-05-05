@@ -105,6 +105,9 @@ class SharedViewModel : ViewModel() {
 
     fun setFootballDate(date: String) {
         _footballDate.value = date
+        clearAllAvailableStatus()
+        _availableDays.value!![_availableDays.value!!.indexOf(MatchDate(date, false))].isSelected =
+            true
     }
 
 
@@ -123,6 +126,12 @@ class SharedViewModel : ViewModel() {
 
     fun setAmerFootballDate(date: String) {
         _amerFootballDate.value = date
+    }
+
+    fun clearAllAvailableStatus() {
+        for (item in _availableDays.value!!) {
+            item.isSelected = false
+        }
     }
 
 

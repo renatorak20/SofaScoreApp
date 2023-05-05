@@ -53,7 +53,7 @@ class DatesAdapter(
                 SportType.BASKETBALL -> viewModel.setBasketballDate(item.date)
                 else -> viewModel.setAmerFootballDate(item.date)
             }
-
+            notifyDataSetChanged()
         }
 
     }
