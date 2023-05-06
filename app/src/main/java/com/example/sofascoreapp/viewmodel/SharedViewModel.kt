@@ -34,15 +34,15 @@ class SharedViewModel : ViewModel() {
         _basketballAvailableDays.value = results
     }
 
-    fun initializeAvailableDays() {
+    fun initializeAvailableDays(days: Int) {
 
         val list: MutableList<MatchDate> = mutableListOf()
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
         val currentDate = LocalDate.now()
-        val thirtyDaysAgo = currentDate.minusDays(30)
-        val thirtyDaysLater = currentDate.plusDays(30)
+        val thirtyDaysAgo = currentDate.minusDays(days.toLong())
+        val thirtyDaysLater = currentDate.plusDays(days.toLong())
 
         var date = thirtyDaysAgo
         while (date.isBefore(currentDate)) {
@@ -123,7 +123,6 @@ class SharedViewModel : ViewModel() {
                 false
             )
         )].isSelected = true
-
     }
 
     fun clearFootballDays() {

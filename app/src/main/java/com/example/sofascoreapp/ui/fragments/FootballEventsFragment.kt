@@ -37,7 +37,7 @@ class FootballEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.initializeAvailableDays()
+        sharedViewModel.initializeAvailableDays(30)
 
         sharedViewModel.getFootballAvailableDays().observe(viewLifecycleOwner) {
             binding.daysRecyclerView.layoutManager =
@@ -46,6 +46,7 @@ class FootballEventsFragment : Fragment() {
             binding.daysRecyclerView.adapter = datesAdapter
             binding.daysRecyclerView.scrollToPosition(it.indexOf(it.find { it.isSelected }) - 2)
         }
+
 
         sharedViewModel.setFootballDate(Utilities().getTodaysDate())
 

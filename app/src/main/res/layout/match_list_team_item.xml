@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/surface_surface_1">
+    app:backgroundColor="@color/surface_surface_0">
 
     <ImageView
         android:id="@+id/clubIcon"
@@ -20,6 +20,7 @@
         style="@style/Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="?attr/on_surface_on_surface_lv_2"
         android:maxWidth="192dp"
         android:layout_marginStart="8dp"
         android:textSize="14sp"
