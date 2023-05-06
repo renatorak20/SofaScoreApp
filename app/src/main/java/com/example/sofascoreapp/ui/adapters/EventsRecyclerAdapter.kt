@@ -101,6 +101,8 @@ class EventsRecyclerAdapter(
                         else -> {}
                     }
 
+                    binding.timeLayout.currentMinute.text = context.getString(R.string.ft)
+
                 }
 
                 else -> {

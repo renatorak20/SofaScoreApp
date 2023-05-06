@@ -1,15 +1,12 @@
 package com.example.sofascoreapp.data.networking
 
 import com.example.sofascoreapp.data.model.Score
-import com.example.sofascoreapp.data.model.ScoreConverter
-import com.example.sofascoreapp.data.networking.SofaScoreService
+import com.example.sofascoreapp.utils.ScoreConverter
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.reflect.Type
 
 class Network {
 

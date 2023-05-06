@@ -11,9 +11,10 @@ import com.example.sofascoreapp.ui.fragments.FootballEventsFragment
 import com.example.sofascoreapp.ui.fragments.FootballTournamentsFragment
 
 private const val NUM_TABS = 3
-
 class SectionsPagerAdapter(fa: FragmentActivity, val type: Int) :
     FragmentStateAdapter(fa) {
+
+    private var selectedFragment: Fragment? = null
 
     override fun getItemCount(): Int {
         return NUM_TABS
@@ -23,19 +24,23 @@ class SectionsPagerAdapter(fa: FragmentActivity, val type: Int) :
         when (type) {
             1 -> {
                 return when (position) {
-                    0 -> FootballEventsFragment()
-                    1 -> BasketballEventsFragment()
-                    else -> AmericanFootballFragment()
+                    0 -> FootballEventsFragment().also { selectedFragment = it }
+                    1 -> BasketballEventsFragment().also { selectedFragment = it }
+                    else -> AmericanFootballFragment().also { selectedFragment = it }
                 }
             }
 
             else -> {
                 return when (position) {
-                    0 -> FootballTournamentsFragment()
-                    1 -> BasketballTournamentsFragment()
-                    else -> AmericanFootballTournamentsFragment()
+                    0 -> FootballTournamentsFragment().also { selectedFragment = it }
+                    1 -> BasketballTournamentsFragment().also { selectedFragment = it }
+                    else -> AmericanFootballTournamentsFragment().also { selectedFragment = it }
                 }
             }
         }
+    }
+
+    fun getSelectedFragment(): Fragment? {
+        return selectedFragment
     }
 }

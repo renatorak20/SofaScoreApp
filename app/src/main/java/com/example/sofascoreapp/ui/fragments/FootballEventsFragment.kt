@@ -47,9 +47,7 @@ class FootballEventsFragment : Fragment() {
             binding.daysRecyclerView.scrollToPosition(it.indexOf(it.find { it.isSelected }) - 2)
         }
 
-
-        //sharedViewModel.setFootballDate(Utilities().getTodaysDate())
-        sharedViewModel.setFootballDate("2023-05-05")
+        sharedViewModel.setFootballDate(Utilities().getTodaysDate())
 
         sharedViewModel.footballDate.observe(viewLifecycleOwner) {
             sharedViewModel.getNewestEvents("football", it)
@@ -83,11 +81,6 @@ class FootballEventsFragment : Fragment() {
             }
 
         }
-
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        sharedViewModel.footballEvents().removeObservers(viewLifecycleOwner)
-    }
 }

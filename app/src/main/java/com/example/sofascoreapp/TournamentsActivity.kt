@@ -1,11 +1,15 @@
 package com.example.sofascoreapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sofascoreapp.databinding.ActivityTournamentsBinding
-import com.example.sofascoreapp.databinding.ViewPagerTabBinding
 import com.example.sofascoreapp.ui.SectionsPagerAdapter
 import com.example.sofascoreapp.viewmodel.TournamentsViewModel
 import com.google.android.material.tabs.TabLayout
@@ -14,40 +18,32 @@ import com.google.android.material.tabs.TabLayoutMediator
 class TournamentsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTournamentsBinding
-    private lateinit var tournamentViewModel: TournamentsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tournaments)
 
         binding = ActivityTournamentsBinding.inflate(layoutInflater)
-        tournamentViewModel = ViewModelProvider(this)[TournamentsViewModel::class.java]
+        setContentView(binding.root)
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, 2)
-        val viewPager: ViewPager2 = binding.viewPager
-        viewPager.adapter = sectionsPagerAdapter
+        supportActionBar?.hide()
 
-        val tabs: TabLayout = binding.tabs
-        TabLayoutMediator(tabs, viewPager) { tab, position ->
-            val customTabView = ViewPagerTabBinding.inflate(layoutInflater)
-            when (position) {
-                0 -> {
-                    customTabView.tabTitle.text = getString(R.string.football)
-                    customTabView.tabIcon.setImageDrawable(getDrawable(R.drawable.icon_football))
-                }
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_tournaments_football,
+                R.id.navigation_tournaments_basketball,
+                R.id.navigation_tournaments_american_football
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
 
-                1 -> {
-                    customTabView.tabTitle.text = getString(R.string.basketball)
-                    customTabView.tabIcon.setImageDrawable(getDrawable(R.drawable.icon_basketball))
-                }
+        binding.navView.isItemActiveIndicatorEnabled = false
 
-                else -> {
-                    customTabView.tabTitle.text = getString(R.string.amer_football_short)
-                    customTabView.tabIcon.setImageDrawable(getDrawable(R.drawable.icon_american_football))
-                }
-            }
-            tab.customView = customTabView.root
-        }.attach()
+
+        binding.toolbar.back.setOnClickListener {
+            finish()
+        }
 
     }
 

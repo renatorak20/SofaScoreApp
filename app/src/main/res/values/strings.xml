@@ -10,5 +10,6 @@
     <string name="today">TODAY</string>
     <string name="numberOfEvents">%1$d Events</string>
     <string name="noEventsToday">No events for this day</string>
+    <string name="ft">FT</string>
 
 </resources>

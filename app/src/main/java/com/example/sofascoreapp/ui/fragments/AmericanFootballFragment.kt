@@ -16,7 +16,6 @@ import com.example.sofascoreapp.viewmodel.SharedViewModel
 class AmericanFootballFragment : Fragment() {
 
     private lateinit var binding: FragmentAmericanFootballEventsBinding
-    private lateinit var recyclerAdapter: EventsRecyclerAdapter
     private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
@@ -33,21 +32,6 @@ class AmericanFootballFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.getNewestEvents("american-football", "2023-05-06")
-
-        /*        sharedViewModel.basketballEvents().observe(viewLifecycleOwner) {
-                    if (it.body()?.isNotEmpty() == true) {
-                        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                        recyclerAdapter =
-                            it.body()?.let { it1 ->
-                                EventsRecyclerAdapter(
-                                    requireContext(),
-                                    it1 as ArrayList<Event>
-                                )
-                            }!!
-                        binding.recyclerView.adapter = recyclerAdapter
-                    }
-                }*/
 
     }
 

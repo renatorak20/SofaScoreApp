@@ -122,8 +122,8 @@ class SharedViewModel : ViewModel() {
                 date,
                 false
             )
-        )].isSelected =
-            true
+        )].isSelected = true
+
     }
 
     fun clearFootballDays() {

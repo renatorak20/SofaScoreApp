@@ -47,8 +47,7 @@ class BasketballEventsFragment : Fragment() {
             binding.daysRecyclerView.scrollToPosition(it.indexOf(it.find { it.isSelected }) - 2)
         }
 
-        //sharedViewModel.setBasketballDate(Utilities().getTodaysDate())
-        sharedViewModel.setBasketballDate("2023-05-05")
+        sharedViewModel.setBasketballDate(Utilities().getTodaysDate())
 
         sharedViewModel.basketballDate.observe(viewLifecycleOwner) {
             sharedViewModel.getNewestEvents("basketball", it)
