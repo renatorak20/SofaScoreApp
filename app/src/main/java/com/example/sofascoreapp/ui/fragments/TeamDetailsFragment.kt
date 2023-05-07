@@ -40,12 +40,12 @@ class TeamDetailsFragment : Fragment() {
         teamDetailsViewModel =
             ViewModelProvider(requireActivity())[TeamDetailsViewModel::class.java]
 
-        teamDetailsViewModel.getTeamID().observe(requireActivity()) {
+        teamDetailsViewModel.getTeamID().observe(viewLifecycleOwner) {
             teamDetailsViewModel.getLatestTeamDetails()
         }
 
 
-        teamDetailsViewModel.getTeamDetails().observe(requireActivity()) { response ->
+        teamDetailsViewModel.getTeamDetails().observe(viewLifecycleOwner) { response ->
             if (response.isSuccessful) {
                 binding.coach.coachName.text =
                     getString(R.string.coachName, response.body()?.managerName)
@@ -53,7 +53,7 @@ class TeamDetailsFragment : Fragment() {
             }
         }
 
-        teamDetailsViewModel.getTeamPlayers().observe(requireActivity()) { response ->
+        teamDetailsViewModel.getTeamPlayers().observe(viewLifecycleOwner) { response ->
             if (response.isSuccessful) {
                 binding.stats.totalPlayersNumber.text = response.body()?.size.toString()
 
@@ -68,7 +68,7 @@ class TeamDetailsFragment : Fragment() {
             }
         }
 
-        teamDetailsViewModel.getTeamTournaments().observe(requireActivity()) { response ->
+        teamDetailsViewModel.getTeamTournaments().observe(viewLifecycleOwner) { response ->
             if (response.isSuccessful) {
                 if (binding.tournamentGrid.isEmpty()) {
                     for (tournament in response.body()!!) {

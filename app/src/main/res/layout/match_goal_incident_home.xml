@@ -4,7 +4,8 @@
     android:layout_height="65dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/surface_surface_1">
+    android:background="?attr/surface_surface_1"
+    android:id="@+id/layout">
 
     <ImageView
         android:id="@+id/goalIcon"
@@ -22,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
-        android:textColor="@color/on_surface_on_surface_lv_2"
+        android:textColor="?attr/on_surface_on_surface_lv_1"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/goalIcon"
@@ -50,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:textColor="@color/on_surface_on_surface_lv_1"
+        android:textColor="?attr/on_surface_on_surface_lv_1"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/newResult"
         app:layout_constraintStart_toEndOf="@+id/newResult"
@@ -75,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
-        android:textColor="@color/on_surface_on_surface_lv_2"
+        android:textColor="?attr/on_surface_on_surface_lv_1"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/goalIconAway"
@@ -105,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="48dp"
-        android:textColor="@color/on_surface_on_surface_lv_1"
+        android:textColor="?attr/on_surface_on_surface_lv_1"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/newResultAway"
         app:layout_constraintEnd_toStartOf="@+id/newResultAway"

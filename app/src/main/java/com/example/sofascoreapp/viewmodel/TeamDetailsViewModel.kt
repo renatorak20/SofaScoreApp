@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.Player
+import com.example.sofascoreapp.data.model.Standing
+import com.example.sofascoreapp.data.model.StandingRow
 import com.example.sofascoreapp.data.model.TeamDetails
 import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.data.networking.Network
@@ -24,6 +26,17 @@ class TeamDetailsViewModel : ViewModel() {
     fun getTeamID(): MutableLiveData<Int> {
         return _teamID
     }
+
+    private val _sport = MutableLiveData<String>()
+
+    fun setSport(sport: String) {
+        _sport.value = sport
+    }
+
+    fun getSport(): MutableLiveData<String> {
+        return _sport
+    }
+
 
     private val _teamDetails = MutableLiveData<Response<TeamDetails>>()
 
@@ -65,6 +78,16 @@ class TeamDetailsViewModel : ViewModel() {
         return _teamEvents
     }
 
+    private val _standings = MutableLiveData<ArrayList<Standing>>()
+
+    fun setStandings(rows: ArrayList<Standing>) {
+        _standings.value = rows
+    }
+
+    fun getStandings(): MutableLiveData<ArrayList<Standing>> {
+        return _standings
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getLatestTeamDetails() {
         viewModelScope.launch {
@@ -90,9 +113,20 @@ class TeamDetailsViewModel : ViewModel() {
             setTeamPlayers(teamPlayers.getCompleted())
             setTeamTournaments(teamTournaments.getCompleted())
             setTeamEvents(teamEvents.getCompleted())
-
+            setSport(_teamEvents.value?.body()!![0].tournament.sport.name)
         }
     }
 
-
+    fun getTeamTournamentStandings() {
+        viewModelScope.launch {
+            var tournaments: ArrayList<Standing> = arrayListOf()
+            for (tournament in _teamTournaments.value?.body()!!) {
+                val response = Network().getService().getTournamentStandings(tournament.id)
+                if (response.isSuccessful) {
+                    tournaments.addAll(response.body()!!)
+                }
+            }
+            setStandings(tournaments)
+        }
+    }
 }

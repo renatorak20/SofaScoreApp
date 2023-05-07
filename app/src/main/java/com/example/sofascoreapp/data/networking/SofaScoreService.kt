@@ -3,6 +3,7 @@ package com.example.sofascoreapp.data.networking
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.Player
+import com.example.sofascoreapp.data.model.Standing
 import com.example.sofascoreapp.data.model.TeamDetails
 import com.example.sofascoreapp.data.model.Tournament
 import retrofit2.Response
@@ -51,5 +52,8 @@ interface SofaScoreService {
 
     @GET("/event/{id}/incidents")
     suspend fun getEventIncidents(@Path("id") id: Int): Response<ArrayList<Incident>>
+
+    @GET("/tournament/{id}/standings")
+    suspend fun getTournamentStandings(@Path("id") id: Int): Response<ArrayList<Standing>>
 
 }

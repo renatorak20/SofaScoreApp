@@ -17,6 +17,8 @@ import com.example.sofascoreapp.ui.adapters.MatchIncidentsAdapter
 import com.example.sofascoreapp.ui.adapters.TournamentsAdapter
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.viewmodel.MatchDetailViewModel
+import java.util.ArrayList
+import java.util.Collections
 
 class MatchDetailActivity : AppCompatActivity() {
 
@@ -42,8 +44,8 @@ class MatchDetailActivity : AppCompatActivity() {
         matchViewModel.getIncidents().observe(this) {
             if (it.isSuccessful && it.body()!!.isNotEmpty()) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(this)
-                recyclerAdapter =
-                    MatchIncidentsAdapter(this, it.body()!!.reversed() as ArrayList<Incident>)
+                val reversedList = it.body()!!.reversed() as ArrayList<Incident>
+                recyclerAdapter = MatchIncidentsAdapter(this, reversedList)
                 binding.recyclerView.adapter = recyclerAdapter
             }
         }
