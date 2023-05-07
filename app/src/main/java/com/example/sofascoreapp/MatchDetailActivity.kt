@@ -4,13 +4,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Incident
+import com.example.sofascoreapp.data.model.WinnerCode
 import com.example.sofascoreapp.databinding.ActivityMainBinding
 import com.example.sofascoreapp.databinding.ActivityMatchDetailBinding
 import com.example.sofascoreapp.ui.adapters.MatchIncidentsAdapter
@@ -53,13 +56,56 @@ class MatchDetailActivity : AppCompatActivity() {
         matchViewModel.getEvent().observe(this) {
             if (it.isSuccessful && it.body() != null) {
 
+                if (it.body()!!.status == EventStatusEnum.NOTSTARTED) {
+                    binding.noResultsLayout.layout.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
+
+                    binding.matchHeader.scoreLayout.layout.visibility = View.INVISIBLE
+                    binding.matchHeader.notStartedLayout.layout.visibility = View.VISIBLE
+
+                    binding.matchHeader.notStartedLayout.date.text =
+                        Utilities().getDate(it.body()!!.startDate!!)
+                    binding.matchHeader.notStartedLayout.hour.text =
+                        Utilities().getMatchHour(it.body()!!.startDate!!)
+
+                } else {
+
+                    binding.matchHeader.scoreLayout.homeTeamScore.text =
+                        it.body()!!.homeScore.total.toString()
+                    binding.matchHeader.scoreLayout.awayTeamScore.text =
+                        it.body()!!.awayScore.total.toString()
+                    binding.matchHeader.scoreLayout.currentMinute.text =
+                        getString(R.string.full_time)
+
+                    val typedValue = TypedValue()
+                    theme.resolveAttribute(
+                        R.attr.on_surface_on_surface_lv_1,
+                        typedValue,
+                        true
+                    );
+                    val teamColor = ContextCompat.getColor(this, typedValue.resourceId)
+
+                    when (it.body()!!.winnerCode) {
+                        WinnerCode.HOME -> binding.matchHeader.scoreLayout.homeTeamScore.setTextColor(
+                            teamColor
+                        )
+
+                        WinnerCode.DRAW -> {
+                            binding.matchHeader.scoreLayout.homeTeamScore.setTextColor(teamColor)
+                            binding.matchHeader.scoreLayout.awayTeamScore.setTextColor(teamColor)
+                            binding.matchHeader.scoreLayout.minus.setTextColor(teamColor)
+                        }
+
+                        else -> binding.matchHeader.scoreLayout.awayTeamScore.setTextColor(teamColor)
+                    }
+                }
+
                 binding.toolbar.toolbarLeagueIcon.load(
                     getString(
                         R.string.tournament_icon_url,
                         it.body()!!.tournament.id
                     )
                 )
-
 
                 binding.matchHeader.homeTeamLayout.teamIcon.load(
                     getString(
@@ -77,29 +123,6 @@ class MatchDetailActivity : AppCompatActivity() {
                 binding.matchHeader.homeTeamLayout.teamTitle.text = it.body()!!.homeTeam.name
                 binding.matchHeader.awayTeamLayout.teamTitle.text = it.body()!!.awayTeam.name
 
-                when (it.body()!!.status) {
-                    EventStatusEnum.FINISHED -> {
-                        binding.matchHeader.scoreLayout.homeTeamScore.text =
-                            it.body()!!.homeScore.total.toString()
-                        binding.matchHeader.scoreLayout.awayTeamScore.text =
-                            it.body()!!.awayScore.total.toString()
-                        binding.matchHeader.scoreLayout.currentMinute.text =
-                            getString(R.string.full_time)
-                    }
-
-                    EventStatusEnum.NOTSTARTED -> {
-                        binding.matchHeader.scoreLayout.layout.visibility = View.INVISIBLE
-                        binding.matchHeader.notStartedLayout.layout.visibility = View.VISIBLE
-
-                        binding.matchHeader.notStartedLayout.date.text =
-                            Utilities().getDate(it.body()!!.startDate!!)
-                        binding.matchHeader.notStartedLayout.hour.text =
-                            Utilities().getMatchHour(it.body()!!.startDate!!)
-                    }
-
-                    else -> {}
-                }
-
                 binding.toolbar.toolbarLeagueTitle.text = getString(
                     R.string.match_toolbar_text,
                     it.body()!!.tournament.sport.name,
@@ -107,6 +130,7 @@ class MatchDetailActivity : AppCompatActivity() {
                     it.body()!!.tournament.name,
                     it.body()!!.round
                 )
+
 
             }
         }

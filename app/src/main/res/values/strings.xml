@@ -19,6 +19,8 @@
     <string name="squad">Squad</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_team_details">Team Details</string>
+    <string name="no_results_yet">No results yet</string>
+    <string name="view_tournament_details">View Tournament Details</string>
 
     <!--TeamDetails-->
     <string name="teamInfo">Team Info</string>
