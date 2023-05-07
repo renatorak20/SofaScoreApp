@@ -24,7 +24,19 @@
         <item name="status_alert">@color/status_alert</item>
         <item name="status_success">@color/status_success</item>
         <item name="specific_live">@color/specific_live</item>
+
+        <item name="colorPrimaryDark">@color/color_primary_default</item>
+
     </style>
 
     <style name="Theme.SofaScoreApp" parent="Base.Theme.SofaScoreApp" />
+
+    <style name="Theme.SofaScoreApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.SofaScoreApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.SofaScoreApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

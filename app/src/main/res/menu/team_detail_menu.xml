@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_team_details"
+        android:title="@string/details" />
+
+    <item
+        android:id="@+id/navigation_team_matches"
+        android:title="@string/matches" />
+
+    <item
+        android:id="@+id/navigation_team_standings"
+        android:title="@string/standings" />
+
+    <item
+        android:id="@+id/navigation_team_squad"
+        android:title="@string/squad" />
+
+</menu>

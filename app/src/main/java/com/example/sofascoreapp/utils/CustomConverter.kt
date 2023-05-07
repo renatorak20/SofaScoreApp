@@ -4,7 +4,7 @@ import com.example.sofascoreapp.data.model.Score
 import com.google.gson.*
 import java.lang.reflect.Type
 
-class ScoreConverter : JsonDeserializer<Score>, JsonSerializer<Score> {
+class CustomConverter : JsonDeserializer<Score> {
 
     override fun deserialize(
         json: JsonElement,
@@ -27,29 +27,7 @@ class ScoreConverter : JsonDeserializer<Score>, JsonSerializer<Score> {
             else -> Score(null, null, null, null, null, null)
         }
     }
-
-    override fun serialize(
-        src: Score?,
-        typeOfSrc: Type,
-        context: JsonSerializationContext
-    ): JsonElement {
-        return if (src == null || src.isEmpty()) {
-            JsonArray()
-        } else {
-            context.serialize(src)
-        }
-    }
-
-    private fun Score.isEmpty(): Boolean {
-        return total == null &&
-                period1 == null &&
-                period2 == null &&
-                period3 == null &&
-                period4 == null &&
-                overtime == null
-    }
 }
-
 
 
 

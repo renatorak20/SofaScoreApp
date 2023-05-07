@@ -12,7 +12,7 @@ import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class SharedViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
 
     private val _footballAvailableDays = MutableLiveData<ArrayList<MatchDate>>()
 
@@ -32,6 +32,16 @@ class SharedViewModel : ViewModel() {
 
     fun setBasketballAvailableDays(results: ArrayList<MatchDate>) {
         _basketballAvailableDays.value = results
+    }
+
+    private val _aFootballAvailableDays = MutableLiveData<ArrayList<MatchDate>>()
+
+    fun getAFootballAvailableDays(): MutableLiveData<ArrayList<MatchDate>> {
+        return _aFootballAvailableDays
+    }
+
+    fun setAFootballAvailableDays(results: ArrayList<MatchDate>) {
+        _aFootballAvailableDays.value = results
     }
 
     fun initializeAvailableDays(days: Int) {
@@ -60,6 +70,7 @@ class SharedViewModel : ViewModel() {
 
         setFootballAvailableDays(list as ArrayList<MatchDate>)
         setBasketballAvailableDays(list)
+        setAFootballAvailableDays(list)
     }
 
     private val _footballEvents = MutableLiveData<Response<ArrayList<Event>>>()
@@ -126,8 +137,10 @@ class SharedViewModel : ViewModel() {
     }
 
     fun clearFootballDays() {
-        for (item in _footballAvailableDays.value!!) {
-            item.isSelected = false
+        if (!_footballAvailableDays.value.isNullOrEmpty()) {
+            for (item in _footballAvailableDays.value!!) {
+                item.isSelected = false
+            }
         }
     }
 
@@ -149,8 +162,10 @@ class SharedViewModel : ViewModel() {
     }
 
     fun clearBasketballDays() {
-        for (item in _basketballAvailableDays.value!!) {
-            item.isSelected = false
+        if (!_basketballAvailableDays.value.isNullOrEmpty()) {
+            for (item in _basketballAvailableDays.value!!) {
+                item.isSelected = false
+            }
         }
     }
 
@@ -161,6 +176,26 @@ class SharedViewModel : ViewModel() {
 
     fun setAmerFootballDate(date: String) {
         _amerFootballDate.value = date
+    }
+
+    fun setAFootballDate(date: String) {
+        _amerFootballDate.value = date
+        clearAFootballDays()
+        _aFootballAvailableDays.value!![_aFootballAvailableDays.value!!.indexOf(
+            MatchDate(
+                date,
+                false
+            )
+        )].isSelected =
+            true
+    }
+
+    fun clearAFootballDays() {
+        if (!_aFootballAvailableDays.value.isNullOrEmpty()) {
+            for (item in _aFootballAvailableDays.value!!) {
+                item.isSelected = false
+            }
+        }
     }
 
 

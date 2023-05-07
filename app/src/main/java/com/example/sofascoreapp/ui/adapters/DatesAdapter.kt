@@ -10,16 +10,14 @@ import com.example.sofascoreapp.data.model.MatchDate
 import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.databinding.DateListItemBinding
 import com.example.sofascoreapp.utils.Utilities
-import com.example.sofascoreapp.viewmodel.SharedViewModel
+import com.example.sofascoreapp.viewmodel.MainViewModel
 import java.time.LocalDate
-import java.util.Date
-import java.util.Locale
 
 
 class DatesAdapter(
     val context: Context,
     val array: MutableList<MatchDate>,
-    val viewModel: SharedViewModel,
+    val viewModel: MainViewModel,
     val sportType: SportType
 ) :
     RecyclerView.Adapter<DatesAdapter.MatchDateViewHolder>() {

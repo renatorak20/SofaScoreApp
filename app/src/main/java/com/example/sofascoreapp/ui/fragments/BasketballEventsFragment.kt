@@ -13,14 +13,14 @@ import com.example.sofascoreapp.databinding.FragmentBasketballEventsBinding
 import com.example.sofascoreapp.ui.adapters.DatesAdapter
 import com.example.sofascoreapp.ui.adapters.EventsRecyclerAdapter
 import com.example.sofascoreapp.utils.Utilities
-import com.example.sofascoreapp.viewmodel.SharedViewModel
+import com.example.sofascoreapp.viewmodel.MainViewModel
 import java.time.LocalDate
 
 class BasketballEventsFragment : Fragment() {
 
     private lateinit var binding: FragmentBasketballEventsBinding
     private lateinit var recyclerAdapter: EventsRecyclerAdapter
-    private lateinit var sharedViewModel: SharedViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var datesAdapter: DatesAdapter
 
     override fun onCreateView(
@@ -29,7 +29,7 @@ class BasketballEventsFragment : Fragment() {
     ): View {
 
         binding = FragmentBasketballEventsBinding.inflate(layoutInflater)
-        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
 
         return binding.root
     }
@@ -37,25 +37,25 @@ class BasketballEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.initializeAvailableDays(30)
+        mainViewModel.initializeAvailableDays(30)
 
-        sharedViewModel.getBasketballAvailableDays().observe(viewLifecycleOwner) {
+        mainViewModel.getBasketballAvailableDays().observe(viewLifecycleOwner) {
             binding.daysRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            datesAdapter = DatesAdapter(requireContext(), it, sharedViewModel, SportType.BASKETBALL)
+            datesAdapter = DatesAdapter(requireContext(), it, mainViewModel, SportType.BASKETBALL)
             binding.daysRecyclerView.adapter = datesAdapter
             binding.daysRecyclerView.scrollToPosition(it.indexOf(it.find { it.isSelected }) - 2)
         }
 
 
-        sharedViewModel.setBasketballDate(Utilities().getTodaysDate())
+        mainViewModel.setBasketballDate(Utilities().getTodaysDate())
 
 
-        sharedViewModel.basketballDate.observe(viewLifecycleOwner) {
-            sharedViewModel.getNewestEvents("basketball", it)
+        mainViewModel.basketballDate.observe(viewLifecycleOwner) {
+            mainViewModel.getNewestEvents("basketball", it)
         }
 
-        sharedViewModel.basketballEvents().observe(viewLifecycleOwner) {
+        mainViewModel.basketballEvents().observe(viewLifecycleOwner) {
             if (it.body()?.isNotEmpty() == true) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 val groupedMatches =
@@ -67,11 +67,11 @@ class BasketballEventsFragment : Fragment() {
                 binding.recyclerView.adapter = null
             }
 
-            if (sharedViewModel.basketballDate.value == LocalDate.now().toString()) {
+            if (mainViewModel.basketballDate.value == LocalDate.now().toString()) {
                 binding.info.date.text = getString(R.string.today)
             } else {
                 binding.info.date.text =
-                    Utilities().getLongDate(sharedViewModel.basketballDate.value!!)
+                    Utilities().getLongDate(mainViewModel.basketballDate.value!!)
             }
 
             if (it.body()?.isNotEmpty() == true) {
@@ -81,11 +81,6 @@ class BasketballEventsFragment : Fragment() {
             }
         }
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        sharedViewModel.basketballEvents().removeObservers(viewLifecycleOwner)
     }
 
 

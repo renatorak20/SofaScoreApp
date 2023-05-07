@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/team"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_team"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/totalPlayersNumber"
+        style="@style/Headline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="?attr/color_primary_default"
+        app:layout_constraintEnd_toEndOf="@+id/team"
+        app:layout_constraintStart_toStartOf="@+id/team"
+        app:layout_constraintTop_toBottomOf="@+id/team"
+        tools:text="24" />
+
+    <TextView
+        android:id="@+id/totalPlayersText"
+        style="@style/Micro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/totalPlayers"
+        android:textColor="?attr/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/totalPlayersNumber"
+        app:layout_constraintStart_toStartOf="@+id/totalPlayersNumber"
+        app:layout_constraintTop_toBottomOf="@+id/totalPlayersNumber" />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/statIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorSize="30dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="8dp"
+        android:indeterminate="false"
+        android:progress="33"
+        app:trackColor="?attr/color_secondary_default"
+        app:indicatorColor="?attr/color_primary_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/foreignPlayerNumber"
+        style="@style/Headline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="?attr/color_primary_default"
+        app:layout_constraintEnd_toEndOf="@+id/statIndicator"
+        app:layout_constraintStart_toStartOf="@+id/statIndicator"
+        app:layout_constraintTop_toBottomOf="@+id/statIndicator"
+        tools:text="24" />
+
+    <TextView
+        android:id="@+id/foreignPlayerText"
+        style="@style/Micro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/foreignPlayers"
+        android:textColor="?attr/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/foreignPlayerNumber"
+        app:layout_constraintStart_toStartOf="@+id/foreignPlayerNumber"
+        app:layout_constraintTop_toBottomOf="@+id/foreignPlayerNumber" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

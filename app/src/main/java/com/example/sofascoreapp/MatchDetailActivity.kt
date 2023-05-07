@@ -1,0 +1,121 @@
+package com.example.sofascoreapp
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.lifecycle.ViewModelProvider
+import coil.load
+import com.bumptech.glide.util.Util
+import com.example.sofascoreapp.data.model.EventStatusEnum
+import com.example.sofascoreapp.databinding.ActivityMainBinding
+import com.example.sofascoreapp.databinding.ActivityMatchDetailBinding
+import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.viewmodel.MatchDetailViewModel
+
+class MatchDetailActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMatchDetailBinding
+    private lateinit var matchViewModel: MatchDetailViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityMatchDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        matchViewModel = ViewModelProvider(this)[MatchDetailViewModel::class.java]
+
+        supportActionBar?.hide()
+
+        matchViewModel.matchID = intent.getIntExtra("matchID", 0)
+
+        matchViewModel.getEventInfo()
+        matchViewModel.getEventIncidents()
+
+        matchViewModel.getIncidents().observe(this) {
+            for (item in it.body()!!) {
+                Log.i("TAG", item.toString())
+            }
+        }
+
+        matchViewModel.getEvent().observe(this) {
+            if (it.isSuccessful && it.body() != null) {
+
+                binding.toolbar.toolbarLeagueIcon.load(
+                    getString(
+                        R.string.tournament_icon_url,
+                        it.body()!!.tournament.id
+                    )
+                )
+
+
+                binding.matchHeader.homeTeamLayout.teamIcon.load(
+                    getString(
+                        R.string.team_icon_url,
+                        it.body()!!.homeTeam.id
+                    )
+                )
+                binding.matchHeader.awayTeamLayout.teamIcon.load(
+                    getString(
+                        R.string.team_icon_url,
+                        it.body()!!.awayTeam.id
+                    )
+                )
+
+                binding.matchHeader.homeTeamLayout.teamTitle.text = it.body()!!.homeTeam.name
+                binding.matchHeader.awayTeamLayout.teamTitle.text = it.body()!!.awayTeam.name
+
+                when (it.body()!!.status) {
+                    EventStatusEnum.FINISHED -> {
+                        binding.matchHeader.scoreLayout.homeTeamScore.text =
+                            it.body()!!.homeScore.total.toString()
+                        binding.matchHeader.scoreLayout.awayTeamScore.text =
+                            it.body()!!.awayScore.total.toString()
+                        binding.matchHeader.scoreLayout.currentMinute.text =
+                            getString(R.string.full_time)
+                    }
+
+                    EventStatusEnum.NOTSTARTED -> {
+                        binding.matchHeader.scoreLayout.layout.visibility = View.INVISIBLE
+                        binding.matchHeader.notStartedLayout.layout.visibility = View.VISIBLE
+
+                        binding.matchHeader.notStartedLayout.date.text =
+                            Utilities().getDate(it.body()!!.startDate!!)
+                        binding.matchHeader.notStartedLayout.hour.text =
+                            Utilities().getMatchHour(it.body()!!.startDate!!)
+                    }
+
+                    else -> {}
+                }
+
+                binding.toolbar.toolbarLeagueTitle.text = getString(
+                    R.string.match_toolbar_text,
+                    it.body()!!.tournament.sport.name,
+                    it.body()!!.tournament.country.name,
+                    it.body()!!.tournament.name,
+                    it.body()!!.round
+                )
+
+            }
+        }
+
+        binding.matchHeader.homeTeamLayout.root.setOnClickListener {
+            val intent = Intent(this, TeamDetailsActivity::class.java)
+            intent.putExtra("teamID", matchViewModel.getEvent().value?.body()!!.homeTeam.id)
+            startActivity(intent)
+        }
+
+        binding.matchHeader.awayTeamLayout.root.setOnClickListener {
+            val intent = Intent(this, TeamDetailsActivity::class.java)
+            intent.putExtra("teamID", matchViewModel.getEvent().value?.body()!!.awayTeam.id)
+            startActivity(intent)
+        }
+
+        binding.toolbar.back.setOnClickListener {
+            finish()
+        }
+
+    }
+}

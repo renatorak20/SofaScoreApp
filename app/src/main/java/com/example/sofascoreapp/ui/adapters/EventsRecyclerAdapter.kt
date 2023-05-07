@@ -1,12 +1,15 @@
 package com.example.sofascoreapp.ui.adapters
 
 import android.content.Context
+import android.content.Intent
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
-import com.example.sofascoreapp.data.model.Country
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Tournament
@@ -87,15 +90,31 @@ class EventsRecyclerAdapter(
                     binding.homeScore.text = event.homeScore.total.toString()
                     binding.awayScore.text = event.awayScore.total.toString()
 
+                    val typedValue = TypedValue()
+                    context.theme.resolveAttribute(
+                        R.attr.on_surface_on_surface_lv_1,
+                        typedValue,
+                        true
+                    );
+                    val teamColor = ContextCompat.getColor(context, typedValue.resourceId)
+
+                    context.theme.resolveAttribute(
+                        R.attr.on_surface_on_surface_lv_1,
+                        typedValue,
+                        true
+                    );
+                    val scoreColor = ContextCompat.getColor(context, typedValue.resourceId)
+
                     when (event.winnerCode) {
                         WinnerCode.HOME -> {
-                            binding.homeTeamLayout.teamName.setTextColor(context.getColor(R.color.on_surface_on_surface_lv_1))
-                            binding.homeScore.setTextColor(context.getColor(R.color.on_surface_on_surface_lv_1))
+                            binding.homeTeamLayout.teamName.setTextColor(teamColor)
+                            binding.homeScore.setTextColor(scoreColor)
                         }
 
                         WinnerCode.AWAY -> {
-                            binding.awayTeamLayout.teamName.setTextColor(context.getColor(R.color.on_surface_on_surface_lv_1))
-                            binding.awayScore.setTextColor(context.getColor(R.color.on_surface_on_surface_lv_1))
+
+                            binding.awayTeamLayout.teamName.setTextColor(teamColor)
+                            binding.awayScore.setTextColor(scoreColor)
                         }
 
                         else -> {}
@@ -122,6 +141,12 @@ class EventsRecyclerAdapter(
                     event.awayTeam.id
                 )
             )
+
+            binding.layout.setOnClickListener {
+                val intent = Intent(context, MatchDetailActivity::class.java)
+                intent.putExtra("matchID", event.id)
+                context.startActivity(intent)
+            }
         }
 
     }

@@ -31,7 +31,7 @@
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/color_primary_default"
+        android:background="?attr/color_primary_default"
         app:itemBackground="@drawable/navigation_indicator"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
