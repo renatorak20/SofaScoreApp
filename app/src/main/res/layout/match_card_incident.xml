@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:background="?attr/surface_surface_1"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/cardIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/minute"
+        style="@style/Micro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cardIcon"
+        app:layout_constraintStart_toStartOf="@+id/cardIcon"
+        app:layout_constraintTop_toBottomOf="@+id/cardIcon"
+        tools:text="87" />
+
+    <TextView
+        android:id="@+id/playerName"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textColor="@color/on_surface_on_surface_lv_1"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/cardIcon"
+        app:layout_constraintTop_toTopOf="@+id/cardIcon"
+        tools:text="Jonathan Livingstone" />
+
+    <TextView
+        android:id="@+id/reason"
+        style="@style/Micro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/playerName"
+        app:layout_constraintTop_toBottomOf="@+id/playerName"
+        tools:text="Foul" />
+
+
+    <ImageView
+        android:id="@+id/cardIconAway"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/minuteAway"
+        style="@style/Micro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cardIconAway"
+        app:layout_constraintStart_toStartOf="@+id/cardIconAway"
+        app:layout_constraintTop_toBottomOf="@+id/cardIconAway"
+        tools:text="87"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/playerNameAway"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:textColor="@color/on_surface_on_surface_lv_1"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/cardIconAway"
+        app:layout_constraintTop_toTopOf="@+id/cardIconAway"
+        tools:text="Jonathan Livingstone"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/reasonAway"
+        style="@style/Micro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/playerNameAway"
+        app:layout_constraintTop_toBottomOf="@+id/playerNameAway"
+        tools:text="Foul"
+        android:visibility="invisible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

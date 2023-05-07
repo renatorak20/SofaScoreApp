@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.data.model.EventStatusEnum
+import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.databinding.ActivityMainBinding
 import com.example.sofascoreapp.databinding.ActivityMatchDetailBinding
+import com.example.sofascoreapp.ui.adapters.MatchIncidentsAdapter
+import com.example.sofascoreapp.ui.adapters.TournamentsAdapter
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.viewmodel.MatchDetailViewModel
 
@@ -18,6 +22,7 @@ class MatchDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMatchDetailBinding
     private lateinit var matchViewModel: MatchDetailViewModel
+    private lateinit var recyclerAdapter: MatchIncidentsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +40,11 @@ class MatchDetailActivity : AppCompatActivity() {
         matchViewModel.getEventIncidents()
 
         matchViewModel.getIncidents().observe(this) {
-            for (item in it.body()!!) {
-                Log.i("TAG", item.toString())
+            if (it.isSuccessful && it.body()!!.isNotEmpty()) {
+                binding.recyclerView.layoutManager = LinearLayoutManager(this)
+                recyclerAdapter =
+                    MatchIncidentsAdapter(this, it.body()!!.reversed() as ArrayList<Incident>)
+                binding.recyclerView.adapter = recyclerAdapter
             }
         }
 

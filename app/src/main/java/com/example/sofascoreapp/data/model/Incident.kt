@@ -2,31 +2,19 @@ package com.example.sofascoreapp.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class IncidentCard(
-    val player: Player,
-    val teamSide: CardTeamSideEnum,
-    val color: CardColorEnum,
-    val id: Int,
-    val time: Int,
-    val type: IncidentEnum
-)
 
-data class IncidentGoal(
-    val player: Player,
-    val scoringTeam: GoalScoringTeamEnum,
-    val homeScore: Int,
-    val awayScore: Int,
-    val goalType: GoalTypeEnum,
+data class Incident(
+    val player: Player?,
+    val scoringTeam: GoalScoringTeamEnum?,
+    val teamSide: CardTeamSideEnum?,
+    val homeScore: Int?,
+    val awayScore: Int?,
+    val goalType: GoalTypeEnum?,
     val id: Int,
     val time: Int,
-    val type: IncidentEnum
-)
-
-data class IncidentPeriod(
-    val text: String,
-    val id: Int,
-    val time: Int,
-    val type: IncidentEnum
+    val type: IncidentEnum,
+    val text: String?,
+    val color: CardColorEnum?
 )
 
 

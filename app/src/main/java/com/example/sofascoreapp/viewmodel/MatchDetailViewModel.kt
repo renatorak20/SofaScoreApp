@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sofascoreapp.data.model.Event
+import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.MatchDate
 import com.example.sofascoreapp.data.networking.Network
 import kotlinx.coroutines.launch
@@ -30,13 +31,13 @@ class MatchDetailViewModel : ViewModel() {
     }
 
 
-    private val _incidents = MutableLiveData<Response<ArrayList<Any>>>()
+    private val _incidents = MutableLiveData<Response<ArrayList<Incident>>>()
 
-    fun setIncidents(results: Response<ArrayList<Any>>) {
+    fun setIncidents(results: Response<ArrayList<Incident>>) {
         _incidents.value = results
     }
 
-    fun getIncidents(): MutableLiveData<Response<ArrayList<Any>>> {
+    fun getIncidents(): MutableLiveData<Response<ArrayList<Incident>>> {
         return _incidents
     }
 

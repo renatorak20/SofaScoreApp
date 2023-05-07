@@ -1,6 +1,7 @@
 package com.example.sofascoreapp.data.networking
 
 import com.example.sofascoreapp.data.model.Event
+import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.data.model.TeamDetails
 import com.example.sofascoreapp.data.model.Tournament
@@ -38,10 +39,17 @@ interface SofaScoreService {
         @Path("page") page: Int
     ): Response<ArrayList<Event>>
 
+    @GET("/tournament/{id}/events/{span}/{page}")
+    suspend fun getTournamentEventsPage(
+        @Path("id") id: Int,
+        @Path("span") span: String,
+        @Path("page") page: Int
+    ): Response<ArrayList<Event>>
+
     @GET("/player/{id}")
     suspend fun getPlayerInfo(@Path("id") id: Int): Response<Player>
 
     @GET("/event/{id}/incidents")
-    suspend fun getEventIncidents(@Path("id") id: Int): Response<ArrayList<Any>>
+    suspend fun getEventIncidents(@Path("id") id: Int): Response<ArrayList<Incident>>
 
 }

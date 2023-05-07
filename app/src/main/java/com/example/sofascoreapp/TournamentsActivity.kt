@@ -11,6 +11,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sofascoreapp.databinding.ActivityTournamentsBinding
 import com.example.sofascoreapp.ui.SectionsPagerAdapter
+import com.example.sofascoreapp.ui.adapters.MatchIncidentsAdapter
+import com.example.sofascoreapp.ui.adapters.TournamentsAdapter
 import com.example.sofascoreapp.viewmodel.TournamentsViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -18,6 +20,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class TournamentsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTournamentsBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/surface_surface_1">
+
+    <ImageView
+        android:id="@+id/goalIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/icon_goal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/minute"
+        style="@style/Micro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/goalIcon"
+        app:layout_constraintStart_toStartOf="@+id/goalIcon"
+        app:layout_constraintTop_toBottomOf="@+id/goalIcon"
+        tools:text="87" />
+
+    <TextView
+        android:id="@+id/newResult"
+        style="@style/Headline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:textColor="?attr/on_surface_on_surface_lv_1"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/goalIcon"
+        app:layout_constraintTop_toTopOf="@+id/goalIcon"
+        app:layout_constraintVertical_bias="0.272"
+        tools:text="1 - 2" />
+
+    <TextView
+        android:id="@+id/playerName"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:textColor="@color/on_surface_on_surface_lv_1"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/newResult"
+        app:layout_constraintStart_toEndOf="@+id/newResult"
+        app:layout_constraintTop_toTopOf="@+id/newResult"
+        tools:text="Jonathan Livingstone" />
+
+
+    <ImageView
+        android:id="@+id/goalIconAway"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/icon_goal"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/minuteAway"
+        style="@style/Micro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/goalIconAway"
+        app:layout_constraintStart_toStartOf="@+id/goalIconAway"
+        app:layout_constraintTop_toBottomOf="@+id/goalIconAway"
+        tools:text="87"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/newResultAway"
+        style="@style/Headline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="52dp"
+        android:textColor="?attr/on_surface_on_surface_lv_1"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/goalIconAway"
+        app:layout_constraintTop_toTopOf="@+id/goalIconAway"
+        app:layout_constraintVertical_bias="0.272"
+        tools:text="1 - 2"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/playerNameAway"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:textColor="@color/on_surface_on_surface_lv_1"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/newResultAway"
+        app:layout_constraintEnd_toStartOf="@+id/newResultAway"
+        app:layout_constraintTop_toTopOf="@+id/newResultAway"
+        tools:text="Jonathan Livingstone"
+        android:visibility="invisible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

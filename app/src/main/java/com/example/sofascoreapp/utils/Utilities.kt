@@ -1,6 +1,15 @@
 package com.example.sofascoreapp.utils
 
+import android.content.Context
+import android.view.View
+import android.widget.ImageView
+import com.example.sofascoreapp.R
+import com.example.sofascoreapp.data.model.CardColorEnum
+import com.example.sofascoreapp.data.model.GoalTypeEnum
+import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.Player
+import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
+import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -98,6 +107,64 @@ class Utilities {
         teamMembersList.add("Players")
         teamMembersList.addAll(players)
         return teamMembersList
+    }
+
+
+    fun setImageGoal(imageView: ImageView, incident: Incident) {
+        when (incident.goalType) {
+            GoalTypeEnum.REGULAR -> imageView.setImageResource(R.drawable.icon_goal)
+            GoalTypeEnum.PENALTY -> imageView.setImageResource(R.drawable.ic_penalty_score)
+            else -> imageView.setImageResource(R.drawable.ic_autogoal)
+        }
+    }
+
+    fun setImageCard(imageView: ImageView, incident: Incident) {
+        when (incident.color) {
+            CardColorEnum.YELLOW -> imageView.setImageResource(R.drawable.ic_yellow_card)
+            else -> imageView.setImageResource(R.drawable.ic_red_card)
+        }
+    }
+
+    fun toggleHomeAwayGoalLayout(
+        binding: MatchGoalIncidentHomeBinding,
+        incident: Incident,
+        context: Context
+    ) {
+        binding.playerName.visibility = View.GONE
+        binding.newResult.visibility = View.GONE
+        binding.minute.visibility = View.GONE
+        binding.goalIcon.visibility = View.GONE
+
+        binding.playerNameAway.visibility = View.VISIBLE
+        binding.newResultAway.visibility = View.VISIBLE
+        binding.minuteAway.visibility = View.VISIBLE
+        binding.goalIconAway.visibility = View.VISIBLE
+
+        binding.minuteAway.text = context.getString(R.string.minute, incident.time)
+        binding.minuteAway.text =
+            context.getString(R.string.result, incident.homeScore, incident.awayScore)
+        binding.playerNameAway.text = incident.player?.name
+        setImageGoal(binding.goalIconAway, incident)
+    }
+
+    fun toggleHomeAwayCardLayout(
+        binding: MatchCardIncidentBinding,
+        incident: Incident,
+        context: Context
+    ) {
+        binding.playerName.visibility = View.GONE
+        binding.cardIcon.visibility = View.GONE
+        binding.minute.visibility = View.GONE
+        binding.reason.visibility = View.GONE
+
+        binding.playerNameAway.visibility = View.VISIBLE
+        binding.cardIconAway.visibility = View.VISIBLE
+        binding.minuteAway.visibility = View.VISIBLE
+        binding.reasonAway.visibility = View.VISIBLE
+
+        binding.minuteAway.text = context.getString(R.string.minute, incident.time)
+        binding.playerNameAway.text = incident.player?.name
+        setImageCard(binding.cardIconAway, incident)
     }
 
 
