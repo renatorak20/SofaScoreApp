@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <include
+        android:id="@+id/playerClubLayout"
+        layout="@layout/player_club_item"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nationalityTitle"
+        style="@style/Assistive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="40dp"
+        android:text="@string/nationality"
+        android:textColor="?attr/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/nationalityGuideline"
+        app:layout_constraintEnd_toEndOf="@id/nationalityGuideline"
+        app:layout_constraintTop_toBottomOf="@id/playerClubLayout" />
+
+    <ImageView
+        android:id="@+id/nationalityIcon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/nationalityText"
+        app:layout_constraintStart_toStartOf="@+id/nationalityTitle"
+        app:layout_constraintTop_toBottomOf="@+id/nationalityTitle" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/nationalityGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.20"
+        android:orientation="vertical" />
+
+    <TextView
+        android:id="@+id/nationalityText"
+        style="@style/Headline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:textColor="?attr/on_surface_on_surface_lv_1"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/nationalityTitle"
+        app:layout_constraintStart_toEndOf="@+id/nationalityIcon"
+        app:layout_constraintTop_toBottomOf="@+id/nationalityTitle"
+        tools:text="Cro" />
+
+    <TextView
+        android:id="@+id/positionTitle"
+        style="@style/Assistive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/position"
+        android:textColor="?attr/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/positionGuideline"
+        app:layout_constraintEnd_toEndOf="@id/positionGuideline"
+        app:layout_constraintTop_toTopOf="@+id/nationalityTitle" />
+
+    <TextView
+        android:id="@+id/positionText"
+        style="@style/Headline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="?attr/on_surface_on_surface_lv_1"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/positionTitle"
+        app:layout_constraintStart_toStartOf="@+id/positionTitle"
+        app:layout_constraintTop_toBottomOf="@+id/positionTitle"
+        tools:text="Midfield" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/positionGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.5"
+        android:orientation="vertical" />
+
+    <TextView
+        android:id="@+id/dateText"
+        style="@style/Assistive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:textColor="?attr/on_surface_on_surface_lv_2"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/yearGuideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/yearGuideline"
+        app:layout_constraintTop_toTopOf="@+id/positionTitle"
+        tools:text="9 Sep 1985" />
+
+    <TextView
+        android:id="@+id/yearsText"
+        style="@style/Headline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="?attr/on_surface_on_surface_lv_1"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/dateText"
+        app:layout_constraintStart_toStartOf="@+id/dateText"
+        app:layout_constraintTop_toBottomOf="@+id/dateText"
+        tools:text="37 Yrs" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/yearGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.80"
+        android:orientation="vertical" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

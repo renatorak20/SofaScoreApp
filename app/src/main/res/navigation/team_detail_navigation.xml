@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_team_details">
+
+    <fragment
+        android:id="@+id/navigation_team_details"
+        android:name="com.example.sofascoreapp.ui.fragments.TeamDetailsFragment"
+        android:label="@string/details"
+        tools:layout="@layout/fragment_team_details" />
+
+    <fragment
+        android:id="@+id/navigation_team_matches"
+        android:name="com.example.sofascoreapp.ui.fragments.TeamMatchesFragment"
+        android:label="@string/matches"
+        tools:layout="@layout/fragment_team_matches" />
+
+    <fragment
+        android:id="@+id/navigation_team_standings"
+        android:name="com.example.sofascoreapp.ui.fragments.TeamStandingsFragment"
+        android:label="@string/standings"
+        tools:layout="@layout/fragment_team_standings" />
+
+    <fragment
+        android:id="@+id/navigation_team_squad"
+        android:name="com.example.sofascoreapp.ui.fragments.TeamSquadFragment"
+        android:label="@string/squad"
+        tools:layout="@layout/fragment_team_squad" />
+
+</navigation>

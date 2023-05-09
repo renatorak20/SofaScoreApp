@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/color_primary_default">
+
+    <ImageView
+        android:id="@+id/teamLogo"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/rounded_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/teamName"
+        style="@style/Headline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textColor="?attr/surface_surface_1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/teamLogo"
+        app:layout_constraintTop_toTopOf="@+id/teamLogo"
+        tools:text="Barcelona" />
+
+    <ImageView
+        android:id="@+id/countryImage"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/country"
+        app:layout_constraintStart_toStartOf="@+id/teamName"
+        app:layout_constraintTop_toBottomOf="@+id/teamName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/country"
+        style="@style/Headline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textColor="?attr/surface_surface_1"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/countryImage"
+        app:layout_constraintTop_toBottomOf="@+id/teamName"
+        tools:text="Spain" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

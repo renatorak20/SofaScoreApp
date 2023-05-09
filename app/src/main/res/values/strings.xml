@@ -5,4 +5,62 @@
     <string name="basketball">Basketball</string>
     <string name="amer_football_short">Am. Football</string>
 
+    <string name="team_icon_url">https://academy.dev.sofascore.com/team/%1$d/image</string>
+    <string name="tournament_icon_url">https://academy.dev.sofascore.com/tournament/%1$d/image</string>
+    <string name="player_image_url">https://academy.dev.sofascore.com/player/%1$d/image</string>
+    <string name="today">TODAY</string>
+    <string name="numberOfEvents">%1$d Events</string>
+    <string name="noEventsToday">No events for this day</string>
+    <string name="ft">FT</string>
+    <string name="full_time">Full Time</string>
+    <string name="details">Details</string>
+    <string name="matches">Matches</string>
+    <string name="standings">Standings</string>
+    <string name="squad">Squad</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_team_details">Team Details</string>
+    <string name="no_results_yet">No results yet</string>
+    <string name="view_tournament_details">View Tournament Details</string>
+
+    <!--TeamDetails-->
+    <string name="teamInfo">Team Info</string>
+    <string name="coachName">Coach: %1$s</string>
+    <string name="totalPlayers">Total Players</string>
+    <string name="foreignPlayers">Foreign Players</string>
+    <string name="tournaments">Tournaments</string>
+    <string name="venue">Venue</string>
+    <string name="stadium">Stadium</string>
+    <string name="nextMatch">Next match</string>
+    <string name="tomorrow">Tomorrow</string>
+
+    <!--Player details activity-->
+    <string name="match_toolbar_text">%1$s, %2$s, %3$s, Round %4$d</string>
+    <string name="title_activity_player_details">PlayerDetailsActivity</string>
+    <string name="content_scrolling"></string>
+    <string name="large_text"></string>
+    <string name="nationality">Nationality</string>
+    <string name="position">Position</string>
+    <string name="years">%1$d Yrs</string>
+
+
+    <string name="action_settings">Settings</string>
+
+
+    <string name="team">Team</string>
+    <string name="no">#</string>
+    <string name="played_matches">P</string>
+    <string name="wins">W</string>
+    <string name="draws">D</string>
+    <string name="loses">L</string>
+    <string name="goals">Goals</string>
+    <string name="points">PTS</string>
+    <string name="difference">DIFF</string>
+    <string name="percentage">PCT</string>
+
+    <string name="period_full_time">FT (%1$d - %2$d)</string>
+    <string name="period_half_time">HT (%1$d - %2$d)</string>
+    <string name="period_basketball_a_football">%1$dQ (%2$d-%3$d)</string>
+    <string name="result">%1$d - %2$d</string>
+    <string name="minute">%1$d\'</string>
+
 </resources>

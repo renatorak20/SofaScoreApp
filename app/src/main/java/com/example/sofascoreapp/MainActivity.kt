@@ -1,57 +1,57 @@
 package com.example.sofascoreapp
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
-import com.example.sofascoreapp.databinding.ActivityMainBinding
-import com.example.sofascoreapp.databinding.ViewPagerTabBinding
-import com.example.sofascoreapp.ui.SectionsPagerAdapter
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.example.sofascoreapp.databinding.SharedActivityLayoutBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
-val tabArray = arrayOf(
-    R.string.football,
-    R.string.basketball,
-    R.string.amer_football_short
-)
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: SharedActivityLayoutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = SharedActivityLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this)
-        val viewPager: ViewPager2 = binding.viewPager
-        viewPager.adapter = sectionsPagerAdapter
 
-        val tabs: TabLayout = binding.tabs
-        TabLayoutMediator(tabs, viewPager) {
-                tab, position ->
-            val customTabView = ViewPagerTabBinding.inflate(layoutInflater)
-            when (position) {
-                0 -> {
-                    customTabView.tabTitle.text = getString(R.string.football)
-                    customTabView.tabIcon.setImageDrawable(getDrawable(R.drawable.icon_football))
-                }
-                1 -> {
-                    customTabView.tabTitle.text = getString(R.string.basketball)
-                    customTabView.tabIcon.setImageDrawable(getDrawable(R.drawable.icon_basketball))
-                }
-                else -> {
-                    customTabView.tabTitle.text = getString(R.string.amer_football_short)
-                    customTabView.tabIcon.setImageDrawable(getDrawable(R.drawable.icon_american_football))
-                }
+
+        supportActionBar?.hide()
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_matches_football,
+                R.id.navigation_matches_basketball,
+                R.id.navigation_matches_american_football
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navViewMain.setupWithNavController(navController)
+
+
+        binding.toolbarMain.tournamentsIcon.setOnClickListener {
+            val intent = Intent(this, TournamentsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.navViewMain.isItemActiveIndicatorEnabled = false
+
+        supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_tournaments)
+            ?.let { fragment ->
+                fragment.view?.visibility = View.GONE
             }
-            tab.customView = customTabView.root
-        }.attach()
     }
+
 
 }
