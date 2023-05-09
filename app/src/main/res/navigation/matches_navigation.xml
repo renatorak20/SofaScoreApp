@@ -9,16 +9,16 @@
         android:id="@+id/navigation_matches_football"
         android:name="com.example.sofascoreapp.ui.fragments.FootballEventsFragment"
         android:label="@string/football"
-        tools:layout="@layout/fragment_football_events" />
+        tools:layout="@layout/fragment_sport_events" />
     <fragment
         android:id="@+id/navigation_matches_basketball"
         android:name="com.example.sofascoreapp.ui.fragments.BasketballEventsFragment"
         android:label="@string/basketball"
-        tools:layout="@layout/fragment_basketball_events" />
+        tools:layout="@layout/fragment_sport_events" />
     <fragment
         android:id="@+id/navigation_matches_american_football"
         android:name="com.example.sofascoreapp.ui.fragments.AmericanFootballFragment"
         android:label="@string/amer_football_short"
-        tools:layout="@layout/fragment_american_football_events" />
+        tools:layout="@layout/fragment_sport_events" />
 
 </navigation>

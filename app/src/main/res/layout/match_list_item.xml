@@ -21,26 +21,26 @@
     <include
         android:id="@+id/homeTeamLayout"
         layout="@layout/match_list_team_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="4dp"
         app:layout_constraintBottom_toTopOf="@id/awayTeamLayout"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintHorizontal_bias="0.005"
         app:layout_constraintStart_toEndOf="@+id/timeLayout"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.216"
-        app:layout_constraintHorizontal_bias="0.005"/>
+        app:layout_constraintVertical_bias="0.216" />
 
     <include
         android:id="@+id/awayTeamLayout"
         layout="@layout/match_list_team_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintHorizontal_bias="0.005"
         app:layout_constraintStart_toEndOf="@+id/timeLayout"
         app:layout_constraintTop_toBottomOf="@id/homeTeamLayout"
@@ -56,9 +56,16 @@
         app:layout_constraintBottom_toTopOf="@id/awayScore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/homeTeamLayout"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/homeScore"
+        app:layout_constraintGuide_end="50dp" />
 
     <TextView
         android:id="@+id/awayScore"
@@ -70,7 +77,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/homeTeamLayout"
         app:layout_constraintTop_toBottomOf="@id/homeScore"
         tools:text="2" />
 

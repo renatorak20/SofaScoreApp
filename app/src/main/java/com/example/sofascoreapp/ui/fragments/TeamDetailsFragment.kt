@@ -47,7 +47,7 @@ class TeamDetailsFragment : Fragment() {
 
         teamDetailsViewModel.getTeamDetails().observe(viewLifecycleOwner) { response ->
             if (response.isSuccessful) {
-                binding.coach.coachName.text =
+                binding.coach.name.text =
                     getString(R.string.coachName, response.body()?.managerName)
                 binding.stadiumText.text = response.body()?.venue
             }

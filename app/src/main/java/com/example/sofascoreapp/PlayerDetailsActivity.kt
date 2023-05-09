@@ -61,7 +61,7 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
                 binding.content.positionText.text = player.position
                 binding.content.dateText.text = Utilities().getDateOfBirth(player.dateOfBirth!!)
                 binding.content.yearsText.text =
-                    getString(R.string.years, Utilities().calculateYears(player.dateOfBirth!!))
+                    getString(R.string.years, Utilities().calculateYears(player.dateOfBirth))
             }
         }
 

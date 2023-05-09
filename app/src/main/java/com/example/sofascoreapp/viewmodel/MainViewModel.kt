@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.MatchDate
+import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.data.networking.Network
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -14,34 +15,38 @@ import java.time.format.DateTimeFormatter
 
 class MainViewModel : ViewModel() {
 
-    private val _footballAvailableDays = MutableLiveData<ArrayList<MatchDate>>()
+    private val _availableDays = MutableLiveData<ArrayList<MatchDate>>()
+    private val _date = MutableLiveData<String>()
 
-    fun getFootballAvailableDays(): MutableLiveData<ArrayList<MatchDate>> {
-        return _footballAvailableDays
+    fun setAvailableDays(days: ArrayList<MatchDate>) {
+        _availableDays.value = days
     }
 
-    fun setFootballAvailableDays(results: ArrayList<MatchDate>) {
-        _footballAvailableDays.value = results
+    fun getAvailableDays(): MutableLiveData<ArrayList<MatchDate>> {
+        return _availableDays
     }
 
-    private val _basketballAvailableDays = MutableLiveData<ArrayList<MatchDate>>()
-
-    fun getBasketballAvailableDays(): MutableLiveData<ArrayList<MatchDate>> {
-        return _basketballAvailableDays
+    fun getDate(): MutableLiveData<String> {
+        return _date
     }
 
-    fun setBasketballAvailableDays(results: ArrayList<MatchDate>) {
-        _basketballAvailableDays.value = results
+    fun setDate(date: String) {
+        _date.value = date
+        clearDays()
+        _availableDays.value!![_availableDays.value!!.indexOf(
+            MatchDate(
+                date,
+                false
+            )
+        )].isSelected = true
     }
 
-    private val _aFootballAvailableDays = MutableLiveData<ArrayList<MatchDate>>()
-
-    fun getAFootballAvailableDays(): MutableLiveData<ArrayList<MatchDate>> {
-        return _aFootballAvailableDays
-    }
-
-    fun setAFootballAvailableDays(results: ArrayList<MatchDate>) {
-        _aFootballAvailableDays.value = results
+    fun clearDays() {
+        if (!_availableDays.value.isNullOrEmpty()) {
+            for (item in _availableDays.value!!) {
+                item.isSelected = false
+            }
+        }
     }
 
     fun initializeAvailableDays(days: Int) {
@@ -68,135 +73,37 @@ class MainViewModel : ViewModel() {
             date = date.plusDays(1)
         }
 
-        setFootballAvailableDays(list as ArrayList<MatchDate>)
-        setBasketballAvailableDays(list)
-        setAFootballAvailableDays(list)
+        setAvailableDays((list as ArrayList<MatchDate>))
     }
 
-    private val _footballEvents = MutableLiveData<Response<ArrayList<Event>>>()
+    private val _events = MutableLiveData<Response<ArrayList<Event>>>()
 
-    fun setFootballEvents(results: Response<ArrayList<Event>>) {
-        _footballEvents.value = results
+    fun setEvents(results: Response<ArrayList<Event>>) {
+        _events.value = results
     }
 
-    fun footballEvents(): MutableLiveData<Response<ArrayList<Event>>> {
-        return _footballEvents
+    fun getEvents(): MutableLiveData<Response<ArrayList<Event>>> {
+        return _events
     }
 
-    fun getNewestEvents(sport: String, date: String) {
+    fun getNewestEvents(sport: SportType, date: String) {
         viewModelScope.launch {
             when (sport) {
-                "football" -> {
-                    setFootballEvents(Network().getService().getEventsForSport(sport, date))
+                SportType.FOOTBALL -> {
+                    setEvents(Network().getService().getEventsForSport("football", date))
                 }
 
-                "basketball" -> {
-                    setBasketballEvents(Network().getService().getEventsForSport(sport, date))
+                SportType.BASKETBALL -> {
+                    setEvents(Network().getService().getEventsForSport("basketball", date))
                 }
 
                 else -> {
-                    setFootballEvents(Network().getService().getEventsForSport(sport, date))
+                    setEvents(Network().getService().getEventsForSport("american-football", date))
                 }
             }
         }
     }
 
-    private val _basketballEvents = MutableLiveData<Response<ArrayList<Event>>>()
-
-    fun setBasketballEvents(results: Response<ArrayList<Event>>) {
-        _basketballEvents.value = results
-    }
-
-    fun basketballEvents(): MutableLiveData<Response<ArrayList<Event>>> {
-        return _basketballEvents
-    }
-
-    private val _amerFootballEvents = MutableLiveData<Response<ArrayList<Event>>>()
-
-    fun setAmerFootballEvents(results: Response<ArrayList<Event>>) {
-        _amerFootballEvents.value = results
-    }
-
-    fun amerFootballEvents(): MutableLiveData<Response<ArrayList<Event>>> {
-        return _amerFootballEvents
-    }
-
-    private val _footballDate = MutableLiveData<String>()
-    var footballDate: LiveData<String> = _footballDate
-        get() = _footballDate
-
-    fun setFootballDate(date: String) {
-        _footballDate.value = date
-        clearFootballDays()
-        _footballAvailableDays.value!![_footballAvailableDays.value!!.indexOf(
-            MatchDate(
-                date,
-                false
-            )
-        )].isSelected = true
-    }
-
-    fun clearFootballDays() {
-        if (!_footballAvailableDays.value.isNullOrEmpty()) {
-            for (item in _footballAvailableDays.value!!) {
-                item.isSelected = false
-            }
-        }
-    }
-
-
-    private val _basketballDate = MutableLiveData<String>()
-    var basketballDate: LiveData<String> = _basketballDate
-        get() = _basketballDate
-
-    fun setBasketballDate(date: String) {
-        _basketballDate.value = date
-        clearBasketballDays()
-        _basketballAvailableDays.value!![_basketballAvailableDays.value!!.indexOf(
-            MatchDate(
-                date,
-                false
-            )
-        )].isSelected =
-            true
-    }
-
-    fun clearBasketballDays() {
-        if (!_basketballAvailableDays.value.isNullOrEmpty()) {
-            for (item in _basketballAvailableDays.value!!) {
-                item.isSelected = false
-            }
-        }
-    }
-
-
-    private val _amerFootballDate = MutableLiveData<String>()
-    var amerFootballDate: LiveData<String> = _amerFootballDate
-        get() = _amerFootballDate
-
-    fun setAmerFootballDate(date: String) {
-        _amerFootballDate.value = date
-    }
-
-    fun setAFootballDate(date: String) {
-        _amerFootballDate.value = date
-        clearAFootballDays()
-        _aFootballAvailableDays.value!![_aFootballAvailableDays.value!!.indexOf(
-            MatchDate(
-                date,
-                false
-            )
-        )].isSelected =
-            true
-    }
-
-    fun clearAFootballDays() {
-        if (!_aFootballAvailableDays.value.isNullOrEmpty()) {
-            for (item in _aFootballAvailableDays.value!!) {
-                item.isSelected = false
-            }
-        }
-    }
 
 
 }

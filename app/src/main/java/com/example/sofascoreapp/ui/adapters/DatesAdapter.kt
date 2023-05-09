@@ -53,11 +53,7 @@ class DatesAdapter(
         holder.binding.date.text = Utilities().getAvailableDateShort(item.date)
 
         holder.binding.layout.setOnClickListener {
-            when (sportType) {
-                SportType.FOOTBALL -> viewModel.setFootballDate(item.date)
-                SportType.BASKETBALL -> viewModel.setBasketballDate(item.date)
-                else -> viewModel.setAmerFootballDate(item.date)
-            }
+            viewModel.setDate(item.date)
             notifyDataSetChanged()
         }
 

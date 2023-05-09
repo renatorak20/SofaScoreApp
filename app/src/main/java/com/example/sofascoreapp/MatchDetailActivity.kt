@@ -14,7 +14,6 @@ import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.WinnerCode
-import com.example.sofascoreapp.databinding.ActivityMainBinding
 import com.example.sofascoreapp.databinding.ActivityMatchDetailBinding
 import com.example.sofascoreapp.ui.adapters.MatchIncidentsAdapter
 import com.example.sofascoreapp.ui.adapters.TournamentsAdapter

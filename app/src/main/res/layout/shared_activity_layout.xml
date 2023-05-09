@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/activity_main_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <fragment
+        android:id="@+id/nav_host_fragment_activity_main"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:colorControlHighlight="@android:color/transparent"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nav_view_main"
+        app:navGraph="@navigation/matches_navigation" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view_main"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/color_primary_default"
+        app:itemBackground="@drawable/navigation_indicator"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:elevation="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_main"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/matches_menu" />
+
+
+    <include
+        android:id="@+id/toolbar_tournaments"
+        layout="@layout/toolbar_simple"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone" />
+
+    <fragment
+        android:id="@+id/nav_host_fragment_activity_tournaments"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:colorControlHighlight="@android:color/transparent"
+        app:defaultNavHost="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nav_view_tournaments"
+        app:navGraph="@navigation/tournaments_navigation"
+        android:visibility="gone" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view_tournaments"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/color_primary_default"
+        app:itemBackground="@drawable/navigation_indicator"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:elevation="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_tournaments"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/tournaments_menu"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
