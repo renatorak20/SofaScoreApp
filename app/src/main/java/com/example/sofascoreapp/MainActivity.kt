@@ -24,8 +24,6 @@ class MainActivity : AppCompatActivity() {
         binding = SharedActivityLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         supportActionBar?.hide()
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
@@ -51,6 +49,11 @@ class MainActivity : AppCompatActivity() {
             ?.let { fragment ->
                 fragment.view?.visibility = View.GONE
             }
+
+        binding.toolbarMain.settingsIcon.setOnClickListener {
+            val settingIntent = Intent(this, SettingsActivity::class.java)
+            startActivity(settingIntent)
+        }
     }
 
 
