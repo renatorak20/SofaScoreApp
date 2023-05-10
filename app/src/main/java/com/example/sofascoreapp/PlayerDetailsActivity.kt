@@ -47,6 +47,7 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
                     )
                 ) {
                     transformations(CircleCropTransformation())
+                    error(getDrawable(R.drawable.ic_person))
                 }
 
                 binding.content.playerClubLayout.clubIcon.load(

@@ -62,6 +62,7 @@ class TeamMembersRecyclerAdapter(
             with(binding) {
                 memberImage.load(context.getString(R.string.player_image_url, player.id)) {
                     transformations(CircleCropTransformation())
+                    error(context.getDrawable(R.drawable.ic_person))
                 }
                 name.text = player.name
                 countryName.text = player.country?.name
