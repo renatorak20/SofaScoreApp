@@ -45,11 +45,6 @@ class Preferences(val activity: Activity) {
     }
 
     fun checkForChangeTheme(newTheme: Int) {
-        Log.i("CURRENT THEME", getCurrentTheme().toString())
-        Log.i(
-            "NEW THEME",
-            preferences.getString(extrasThemes[0], extrasThemes[newTheme]).toString()
-        )
         if (getCurrentTheme() == preferences.getString(extrasThemes[0], extrasThemes[newTheme])) {
             swapTheme()
         }

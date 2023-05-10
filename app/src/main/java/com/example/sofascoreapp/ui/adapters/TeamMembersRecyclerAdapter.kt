@@ -23,12 +23,8 @@ class TeamMembersRecyclerAdapter(
         private const val VIEW_TYPE_SECTION = 2
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return when (array[position]) {
-            is Player -> VIEW_TYPE_PLAYER
-            is String -> VIEW_TYPE_SECTION
-            else -> throw IllegalArgumentException()
-        }
+    override fun setHasStableIds(hasStableIds: Boolean) {
+        setHasStableIds(true)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -55,7 +51,7 @@ class TeamMembersRecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is MemberViewHolder -> holder.bind(array[position] as Player)
-            is SectionViewHolder -> holder.bind(array[position] as String)
+            else -> (holder as SectionViewHolder).bind(array[position] as String)
         }
     }
 
@@ -88,5 +84,18 @@ class TeamMembersRecyclerAdapter(
             binding.title.text = title
         }
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (array[position]) {
+            is Player -> VIEW_TYPE_PLAYER
+            is String -> VIEW_TYPE_SECTION
+            else -> throw IllegalArgumentException()
+        }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
 }
 

@@ -24,14 +24,26 @@ class SettingsActivity : AppCompatActivity() {
         binding.toolbar.title.text = getString(R.string.action_settings)
 
         when (Preferences(this).getCurrentTheme()) {
-            getString(R.string.light) -> binding.theme.themeRadioGroup.check(R.id.lightButton)
-            else -> binding.theme.themeRadioGroup.check(R.id.darkButton)
+            getString(R.string.light) -> binding.themeDate.themeRadioGroup.check(R.id.lightButton)
+            else -> binding.themeDate.themeRadioGroup.check(R.id.darkButton)
         }
 
-        binding.theme.themeRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
+        when (Preferences(this).getCurrentDate()) {
+            getString(R.string.first_format) -> binding.themeDate.dateRadioGroup.check((R.id.firstFormat))
+            else -> binding.themeDate.dateRadioGroup.check((R.id.secondFormat))
+        }
+
+        binding.themeDate.themeRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
             when (id) {
                 R.id.lightButton -> Preferences(this).checkForChangeTheme(1)
                 else -> Preferences(this).checkForChangeTheme(2)
+            }
+        }
+
+        binding.themeDate.dateRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
+            when (id) {
+                R.id.firstFormat -> Preferences(this).checkForChangeDate(1)
+                else -> Preferences(this).checkForChangeDate(2)
             }
         }
 

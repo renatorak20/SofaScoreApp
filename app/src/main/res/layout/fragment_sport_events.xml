@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         app:indicatorSize="80dp"
         android:indeterminate="true"
+        app:indicatorColor="?attr/color_primary_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

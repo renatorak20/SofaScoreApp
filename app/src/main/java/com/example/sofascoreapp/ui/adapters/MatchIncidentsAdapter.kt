@@ -15,20 +15,37 @@ import com.example.sofascoreapp.data.model.GoalScoringTeamEnum
 import com.example.sofascoreapp.data.model.GoalTypeEnum
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.IncidentEnum
+import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
 import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
+import com.example.sofascoreapp.databinding.MatchHoopItemBinding
 import com.example.sofascoreapp.databinding.PeriodLayoutBinding
-import com.example.sofascoreapp.utils.Utilities
-
-private const val TYPE_PERIOD = 0
-private const val TYPE_GOAL = 1
-private const val TYPE_CARD = 2
 
 class MatchIncidentsAdapter(
     val context: Context,
-    val array: ArrayList<Incident>
+    val array: ArrayList<Incident>,
+    val sport: SportType
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    companion object {
+        private const val TYPE_PERIOD = 0
+        private const val TYPE_GOAL = 1
+        private const val TYPE_CARD = 2
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val incident = array[position]
+        return when (incident.type) {
+            IncidentEnum.CARD -> TYPE_CARD
+            IncidentEnum.PERIOD -> TYPE_PERIOD
+            IncidentEnum.GOAL -> TYPE_GOAL
+        }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -44,13 +61,30 @@ class MatchIncidentsAdapter(
             }
 
             TYPE_GOAL -> {
-                GoalViewHolder(
-                    MatchGoalIncidentHomeBinding.inflate(
-                        inflater,
-                        parent,
-                        false
-                    ), context
-                )
+                when (sport) {
+
+                    SportType.BASKETBALL -> {
+                        GoalBasketballViewHolder(
+                            MatchHoopItemBinding.inflate(
+                                inflater,
+                                parent,
+                                false
+                            ), context
+                        )
+                    }
+
+                    else -> {
+                        GoalViewHolder(
+                            MatchGoalIncidentHomeBinding.inflate(
+                                inflater,
+                                parent,
+                                false
+                            ), context
+                        )
+                    }
+
+
+                }
             }
 
             else -> {
@@ -65,25 +99,19 @@ class MatchIncidentsAdapter(
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        val incident = array[position]
-        return when (incident.type) {
-            IncidentEnum.CARD -> TYPE_CARD
-            IncidentEnum.PERIOD -> TYPE_PERIOD
-            IncidentEnum.GOAL -> TYPE_GOAL
-        }
-    }
-
-    override fun getItemCount() = array.size
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+        holder.setIsRecyclable(false)
         when (holder) {
             is PeriodViewHolder -> holder.bind(array[position])
             is GoalViewHolder -> holder.bind(array[position])
             is CardViewHolder -> holder.bind(array[position])
+            else -> (holder as GoalBasketballViewHolder).bind(array[position])
         }
     }
+
+
+    override fun getItemCount() = array.size
+
 
     inner class PeriodViewHolder(private val binding: PeriodLayoutBinding, val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
@@ -104,14 +132,43 @@ class MatchIncidentsAdapter(
                     newResult.text =
                         context.getString(R.string.result, incident.homeScore, incident.awayScore)
                     playerName.text = incident.player?.name
-                    setImageGoal(goalIcon, incident)
+                    setImageGoal(goalIcon, incident, sport)
                 } else {
-                    toggleHomeAwayGoalLayout(binding)
+                    toggleHomeAwayGoalFootballLayout(binding)
                     minuteAway.text = context.getString(R.string.minute, incident.time)
                     playerNameAway.text = incident.player?.name
                     newResultAway.text =
                         context.getString(R.string.result, incident.homeScore, incident.awayScore)
-                    setImageGoal(goalIconAway, incident)
+                    setImageGoal(goalIconAway, incident, sport)
+                }
+
+                layout.setOnClickListener {
+                    val intent = Intent(context, PlayerDetailsActivity::class.java)
+                    intent.putExtra("playerID", incident.player?.id)
+                    context.startActivity(intent)
+                }
+            }
+        }
+    }
+
+    inner class GoalBasketballViewHolder(
+        private val binding: MatchHoopItemBinding,
+        val context: Context
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(incident: Incident) {
+            with(binding) {
+
+                minute.text = context.getString(R.string.minute, incident.time)
+
+                if (incident.scoringTeam == GoalScoringTeamEnum.AWAY) {
+                    newResultAway.text =
+                        context.getString(R.string.result, incident.homeScore, incident.awayScore)
+                    toggleHomeAwayGoalBasketballLayoutLayout(binding)
+                    setImageHoop(goalIconAway, incident)
+                } else {
+                    newResult.text =
+                        context.getString(R.string.result, incident.homeScore, incident.awayScore)
+                    setImageHoop(goalIcon, incident)
                 }
 
                 layout.setOnClickListener {
@@ -151,11 +208,34 @@ class MatchIncidentsAdapter(
         }
     }
 
-    private fun setImageGoal(imageView: ImageView, incident: Incident) {
+    private fun setImageGoal(imageView: ImageView, incident: Incident, sport: SportType) {
+
+        when (sport) {
+            SportType.FOOTBALL -> {
+                when (incident.goalType) {
+                    GoalTypeEnum.REGULAR -> imageView.setImageResource(R.drawable.icon_goal)
+                    GoalTypeEnum.PENALTY -> imageView.setImageResource(R.drawable.ic_penalty_score)
+                    else -> imageView.setImageResource(R.drawable.ic_autogoal)
+                }
+            }
+
+            else -> {
+                when (incident.goalType) {
+                    GoalTypeEnum.TOUCHDOWN -> imageView.setImageResource(R.drawable.ic_touchdown)
+                    GoalTypeEnum.EXTRAPOINT -> imageView.setImageResource(R.drawable.ic_extra_point)
+                    else -> imageView.setImageResource(R.drawable.ic_field_goal)
+                }
+            }
+        }
+
+
+    }
+
+    private fun setImageHoop(imageView: ImageView, incident: Incident) {
         when (incident.goalType) {
-            GoalTypeEnum.REGULAR -> imageView.setImageResource(R.drawable.icon_goal)
-            GoalTypeEnum.PENALTY -> imageView.setImageResource(R.drawable.ic_penalty_score)
-            else -> imageView.setImageResource(R.drawable.ic_autogoal)
+            GoalTypeEnum.ONEPOINT -> imageView.setImageResource(R.drawable.ic_hoop_one)
+            GoalTypeEnum.TWOPOINT -> imageView.setImageResource(R.drawable.ic_hoop_two)
+            else -> imageView.setImageResource(R.drawable.ic_hoop_three)
         }
     }
 
@@ -166,7 +246,7 @@ class MatchIncidentsAdapter(
         }
     }
 
-    private fun toggleHomeAwayGoalLayout(
+    private fun toggleHomeAwayGoalFootballLayout(
         binding: MatchGoalIncidentHomeBinding
     ) {
         with(binding) {
@@ -197,6 +277,19 @@ class MatchIncidentsAdapter(
             reasonAway.visibility = View.VISIBLE
         }
     }
+
+    private fun toggleHomeAwayGoalBasketballLayoutLayout(
+        binding: MatchHoopItemBinding
+    ) {
+        with(binding) {
+            goalIcon.visibility = View.GONE
+            newResult.visibility = View.GONE
+
+            goalIconAway.visibility = View.VISIBLE
+            newResultAway.visibility = View.VISIBLE
+        }
+    }
+
 
 }
 

@@ -3,8 +3,10 @@ package com.example.sofascoreapp.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import com.example.sofascoreapp.MainActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.CardColorEnum
@@ -119,5 +121,11 @@ class Utilities {
         activity.finish()
     }
 
+    fun setRotatingText(textView: TextView) {
+        textView.isSelected = true
+        textView.isSingleLine = true
+        textView.marqueeRepeatLimit = -1
+        textView.ellipsize = TextUtils.TruncateAt.MARQUEE
+    }
 
 }

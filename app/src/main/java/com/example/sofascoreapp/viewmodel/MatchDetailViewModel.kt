@@ -7,6 +7,7 @@ import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.MatchDate
 import com.example.sofascoreapp.data.networking.Network
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -24,12 +25,6 @@ class MatchDetailViewModel : ViewModel() {
         return _event
     }
 
-    fun getEventInfo() {
-        viewModelScope.launch {
-            setEvent(Network().getService().getEvent(matchID))
-        }
-    }
-
 
     private val _incidents = MutableLiveData<Response<ArrayList<Incident>>>()
 
@@ -41,9 +36,21 @@ class MatchDetailViewModel : ViewModel() {
         return _incidents
     }
 
-    fun getEventIncidents() {
+    fun getAllEventInfo() {
         viewModelScope.launch {
-            setIncidents(Network().getService().getEventIncidents(matchID))
+            val infoResponse = async {
+                Network().getService().getEvent(matchID)
+            }
+            val incidentsResponse = async {
+                Network().getService().getEventIncidents(matchID)
+            }
+
+            infoResponse.await()
+            incidentsResponse.await()
+
+            setEvent(infoResponse.getCompleted())
+            setIncidents(incidentsResponse.getCompleted())
+
         }
     }
 

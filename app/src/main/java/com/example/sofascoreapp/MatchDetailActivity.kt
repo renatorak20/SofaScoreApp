@@ -3,6 +3,7 @@ package com.example.sofascoreapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -13,6 +14,7 @@ import coil.load
 import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Incident
+import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.data.model.WinnerCode
 import com.example.sofascoreapp.databinding.ActivityMatchDetailBinding
 import com.example.sofascoreapp.ui.adapters.MatchIncidentsAdapter
@@ -40,14 +42,32 @@ class MatchDetailActivity : AppCompatActivity() {
 
         matchViewModel.matchID = intent.getIntExtra("matchID", 0)
 
-        matchViewModel.getEventInfo()
-        matchViewModel.getEventIncidents()
+        matchViewModel.getAllEventInfo()
 
         matchViewModel.getIncidents().observe(this) {
             if (it.isSuccessful && it.body()!!.isNotEmpty()) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(this)
                 val reversedList = it.body()!!.reversed() as ArrayList<Incident>
-                recyclerAdapter = MatchIncidentsAdapter(this, reversedList)
+                recyclerAdapter =
+                    when (matchViewModel.getEvent().value?.body()!!.tournament.sport.name) {
+                        getString(R.string.football) -> MatchIncidentsAdapter(
+                            this,
+                            reversedList,
+                            SportType.FOOTBALL
+                        )
+
+                        getString(R.string.basketball) -> MatchIncidentsAdapter(
+                            this,
+                            reversedList,
+                            SportType.BASKETBALL
+                        )
+
+                        else -> MatchIncidentsAdapter(
+                            this,
+                            reversedList,
+                            SportType.AMERICAN_FOOTBALL
+                        )
+                    }
                 binding.recyclerView.adapter = recyclerAdapter
             }
         }
@@ -130,6 +150,7 @@ class MatchDetailActivity : AppCompatActivity() {
                     it.body()!!.round
                 )
 
+                Utilities().setRotatingText(binding.toolbar.toolbarLeagueTitle)
 
             }
         }
