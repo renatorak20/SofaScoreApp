@@ -11,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.sofascoreapp.databinding.SharedActivityLayoutBinding
+import com.example.sofascoreapp.utils.Preferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -54,6 +55,9 @@ class MainActivity : AppCompatActivity() {
             val settingIntent = Intent(this, SettingsActivity::class.java)
             startActivity(settingIntent)
         }
+
+        Preferences(this).loadPreferences()
+
     }
 
 

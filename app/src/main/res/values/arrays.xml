@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="dateFormats">
+        <item>dateFormat</item>
+        <item>first</item>
+        <item>second</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>Theme</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+
+</resources>

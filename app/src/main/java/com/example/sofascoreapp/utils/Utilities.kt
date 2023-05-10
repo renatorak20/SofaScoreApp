@@ -1,8 +1,11 @@
 package com.example.sofascoreapp.utils
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.widget.ImageView
+import com.example.sofascoreapp.MainActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.CardColorEnum
 import com.example.sofascoreapp.data.model.GoalTypeEnum
@@ -109,6 +112,12 @@ class Utilities {
         return teamMembersList
     }
 
+    fun restartApp(activity: Activity) {
+        val intent = Intent(activity, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        activity.startActivity(intent)
+        activity.finish()
+    }
 
 
 }

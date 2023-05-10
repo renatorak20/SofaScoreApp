@@ -2,8 +2,11 @@ package com.example.sofascoreapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.databinding.ActivitySettingsBinding
+import com.example.sofascoreapp.utils.Preferences
+import com.example.sofascoreapp.utils.Utilities
 import org.intellij.lang.annotations.Language
 
 class SettingsActivity : AppCompatActivity() {
@@ -19,5 +22,18 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding.toolbar.title.text = getString(R.string.action_settings)
+
+        when (Preferences(this).getCurrentTheme()) {
+            getString(R.string.light) -> binding.theme.themeRadioGroup.check(R.id.lightButton)
+            else -> binding.theme.themeRadioGroup.check(R.id.darkButton)
+        }
+
+        binding.theme.themeRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
+            when (id) {
+                R.id.lightButton -> Preferences(this).checkForChangeTheme(1)
+                else -> Preferences(this).checkForChangeTheme(2)
+            }
+        }
+
     }
 }

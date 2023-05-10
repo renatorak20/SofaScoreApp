@@ -30,35 +30,38 @@ class MatchIncidentsAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        TYPE_PERIOD -> {
-            PeriodViewHolder(
-                PeriodLayoutBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                ), context
-            )
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            TYPE_PERIOD -> {
+                PeriodViewHolder(
+                    PeriodLayoutBinding.inflate(
+                        inflater,
+                        parent,
+                        false
+                    ), context
+                )
+            }
 
-        TYPE_GOAL -> {
-            GoalViewHolder(
-                MatchGoalIncidentHomeBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                ), context
-            )
-        }
+            TYPE_GOAL -> {
+                GoalViewHolder(
+                    MatchGoalIncidentHomeBinding.inflate(
+                        inflater,
+                        parent,
+                        false
+                    ), context
+                )
+            }
 
-        else -> {
-            CardViewHolder(
-                MatchCardIncidentBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                ), context
-            )
+            else -> {
+                CardViewHolder(
+                    MatchCardIncidentBinding.inflate(
+                        inflater,
+                        parent,
+                        false
+                    ), context
+                )
+            }
         }
     }
 
@@ -67,7 +70,7 @@ class MatchIncidentsAdapter(
         return when (incident.type) {
             IncidentEnum.CARD -> TYPE_CARD
             IncidentEnum.PERIOD -> TYPE_PERIOD
-            else -> TYPE_GOAL
+            IncidentEnum.GOAL -> TYPE_GOAL
         }
     }
 
@@ -76,16 +79,16 @@ class MatchIncidentsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when (holder) {
-            is PeriodViewHolder -> holder.bind(array[position], holder)
-            is GoalViewHolder -> holder.bind(array[position], holder)
-            is CardViewHolder -> holder.bind(array[position], holder)
+            is PeriodViewHolder -> holder.bind(array[position])
+            is GoalViewHolder -> holder.bind(array[position])
+            is CardViewHolder -> holder.bind(array[position])
         }
     }
 
     inner class PeriodViewHolder(private val binding: PeriodLayoutBinding, val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(incident: Incident, holder: PeriodViewHolder) {
-            holder.binding.periodText.text = incident.text
+        fun bind(incident: Incident) {
+            binding.periodText.text = incident.text
         }
     }
 
@@ -94,26 +97,28 @@ class MatchIncidentsAdapter(
         val context: Context
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(incident: Incident, holder: GoalViewHolder) {
-            if (incident.scoringTeam == GoalScoringTeamEnum.HOME) {
-                holder.binding.minute.text = context.getString(R.string.minute, incident.time)
-                holder.binding.newResult.text =
-                    context.getString(R.string.result, incident.homeScore, incident.awayScore)
-                holder.binding.playerName.text = incident.player?.name
-                setImageGoal(holder.binding.goalIcon, incident)
-            } else {
-                toggleHomeAwayGoalLayout(binding)
-                holder.binding.minuteAway.text = context.getString(R.string.minute, incident.time)
-                holder.binding.playerNameAway.text = incident.player?.name
-                holder.binding.newResultAway.text =
-                    context.getString(R.string.result, incident.homeScore, incident.awayScore)
-                setImageGoal(holder.binding.goalIconAway, incident)
-            }
+        fun bind(incident: Incident) {
+            with(binding) {
+                if (incident.scoringTeam == GoalScoringTeamEnum.HOME) {
+                    minute.text = context.getString(R.string.minute, incident.time)
+                    newResult.text =
+                        context.getString(R.string.result, incident.homeScore, incident.awayScore)
+                    playerName.text = incident.player?.name
+                    setImageGoal(goalIcon, incident)
+                } else {
+                    toggleHomeAwayGoalLayout(binding)
+                    minuteAway.text = context.getString(R.string.minute, incident.time)
+                    playerNameAway.text = incident.player?.name
+                    newResultAway.text =
+                        context.getString(R.string.result, incident.homeScore, incident.awayScore)
+                    setImageGoal(goalIconAway, incident)
+                }
 
-            holder.binding.layout.setOnClickListener {
-                val intent = Intent(context, PlayerDetailsActivity::class.java)
-                intent.putExtra("playerID", incident.player?.id)
-                context.startActivity(intent)
+                layout.setOnClickListener {
+                    val intent = Intent(context, PlayerDetailsActivity::class.java)
+                    intent.putExtra("playerID", incident.player?.id)
+                    context.startActivity(intent)
+                }
             }
         }
     }
@@ -124,22 +129,24 @@ class MatchIncidentsAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(incident: Incident, holder: CardViewHolder) {
-            if (incident.teamSide == CardTeamSideEnum.HOME) {
-                holder.binding.minute.text = context.getString(R.string.minute, incident.time)
-                holder.binding.playerName.text = incident.player?.name
-                setImageCard(holder.binding.cardIcon, incident)
-            } else {
-                toggleHomeAwayCardLayout(binding)
-                holder.binding.minuteAway.text = context.getString(R.string.minute, incident.time)
-                holder.binding.playerNameAway.text = incident.player?.name
-                setImageCard(holder.binding.cardIconAway, incident)
-            }
+        fun bind(incident: Incident) {
+            with(binding) {
+                if (incident.teamSide == CardTeamSideEnum.HOME) {
+                    minute.text = context.getString(R.string.minute, incident.time)
+                    playerName.text = incident.player?.name
+                    setImageCard(cardIcon, incident)
+                } else {
+                    toggleHomeAwayCardLayout(binding)
+                    minuteAway.text = context.getString(R.string.minute, incident.time)
+                    playerNameAway.text = incident.player?.name
+                    setImageCard(cardIconAway, incident)
+                }
 
-            holder.binding.layout.setOnClickListener {
-                val intent = Intent(context, PlayerDetailsActivity::class.java)
-                intent.putExtra("playerID", incident.player?.id)
-                context.startActivity(intent)
+                layout.setOnClickListener {
+                    val intent = Intent(context, PlayerDetailsActivity::class.java)
+                    intent.putExtra("playerID", incident.player?.id)
+                    context.startActivity(intent)
+                }
             }
         }
     }
@@ -162,29 +169,34 @@ class MatchIncidentsAdapter(
     private fun toggleHomeAwayGoalLayout(
         binding: MatchGoalIncidentHomeBinding
     ) {
-        binding.playerName.visibility = View.GONE
-        binding.newResult.visibility = View.GONE
-        binding.minute.visibility = View.GONE
-        binding.goalIcon.visibility = View.GONE
+        with(binding) {
+            playerName.visibility = View.GONE
+            newResult.visibility = View.GONE
+            minute.visibility = View.GONE
+            goalIcon.visibility = View.GONE
 
-        binding.playerNameAway.visibility = View.VISIBLE
-        binding.newResultAway.visibility = View.VISIBLE
-        binding.minuteAway.visibility = View.VISIBLE
-        binding.goalIconAway.visibility = View.VISIBLE
+            playerNameAway.visibility = View.VISIBLE
+            newResultAway.visibility = View.VISIBLE
+            minuteAway.visibility = View.VISIBLE
+            goalIconAway.visibility = View.VISIBLE
+        }
     }
 
     private fun toggleHomeAwayCardLayout(
         binding: MatchCardIncidentBinding
     ) {
-        binding.playerName.visibility = View.GONE
-        binding.cardIcon.visibility = View.GONE
-        binding.minute.visibility = View.GONE
-        binding.reason.visibility = View.GONE
+        with(binding) {
+            playerName.visibility = View.GONE
+            cardIcon.visibility = View.GONE
+            minute.visibility = View.GONE
+            reason.visibility = View.GONE
 
-        binding.playerNameAway.visibility = View.VISIBLE
-        binding.cardIconAway.visibility = View.VISIBLE
-        binding.minuteAway.visibility = View.VISIBLE
-        binding.reasonAway.visibility = View.VISIBLE
+            playerNameAway.visibility = View.VISIBLE
+            cardIconAway.visibility = View.VISIBLE
+            minuteAway.visibility = View.VISIBLE
+            reasonAway.visibility = View.VISIBLE
+        }
     }
+
 }
 
