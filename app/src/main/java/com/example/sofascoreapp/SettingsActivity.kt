@@ -33,18 +33,12 @@ class SettingsActivity : AppCompatActivity() {
             else -> binding.themeDate.dateRadioGroup.check((R.id.secondFormat))
         }
 
-        binding.themeDate.themeRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
-            when (id) {
-                R.id.lightButton -> Preferences(this).checkForChangeTheme(1)
-                else -> Preferences(this).checkForChangeTheme(2)
-            }
+        binding.themeDate.themeRadioGroup.setOnCheckedChangeListener { radioGroup, i ->
+            Preferences(this).swapTheme()
         }
 
         binding.themeDate.dateRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
-            when (id) {
-                R.id.firstFormat -> Preferences(this).checkForChangeDate(1)
-                else -> Preferences(this).checkForChangeDate(2)
-            }
+            Preferences(this).swapDateFormats()
         }
 
     }

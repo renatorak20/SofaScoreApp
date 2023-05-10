@@ -38,18 +38,6 @@ class Preferences(val activity: Activity) {
         Utilities().restartApp(activity)
     }
 
-    fun checkForChangeDate(newDateFormat: Int) {
-        if (getCurrentDate() != preferences.getString(extrasDates[0], extrasDates[newDateFormat])) {
-            swapDateFormats()
-        }
-    }
-
-    fun checkForChangeTheme(newTheme: Int) {
-        if (getCurrentTheme() == preferences.getString(extrasThemes[0], extrasThemes[newTheme])) {
-            swapTheme()
-        }
-    }
-
     fun loadPreferences() {
         when (getCurrentTheme()) {
             extrasThemes[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
