@@ -1,7 +1,6 @@
 package com.example.sofascoreapp.data.networking
 
 import com.example.sofascoreapp.data.model.Score
-import com.example.sofascoreapp.utils.CustomConverter
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,9 +17,6 @@ class Network {
     }
 
     init {
-        val gson = GsonBuilder()
-            .registerTypeAdapter(Score::class.java, CustomConverter())
-            .create()
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
@@ -29,7 +25,7 @@ class Network {
 
         val retrofit = Retrofit.Builder()
             .baseUrl(baseURL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient)
             .build()
 

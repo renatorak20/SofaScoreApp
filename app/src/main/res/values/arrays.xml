@@ -16,5 +16,6 @@
     <string-array name="languages">
         <item>en</item>
         <item>hr</item>
+        <item>de</item>
     </string-array>
 </resources>

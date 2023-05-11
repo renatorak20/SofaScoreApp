@@ -47,12 +47,13 @@ class Preferences(val activity: Activity) {
     fun setLanguage(langCode: String) {
         preferences.edit().putString(resources.getString(R.string.lang), langCode).apply()
         setAppLocale(langCode)
-        Utilities().restartApp(activity)
+
     }
 
     private fun setAppLocale(language: String) {
         val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(language)
         AppCompatDelegate.setApplicationLocales(appLocale)
+        Utilities().restartApp(activity)
     }
 
     fun loadPreferences() {
