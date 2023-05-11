@@ -127,4 +127,6 @@
     </string>
     <string name="lang" translatable="false">lang</string>
 
+    <string name="round_no" translatable="false">Round %1$d</string>
+
 </resources>

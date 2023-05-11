@@ -3,6 +3,10 @@ package com.example.sofascoreapp.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import androidx.paging.liveData
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.data.model.Standing
@@ -10,6 +14,7 @@ import com.example.sofascoreapp.data.model.StandingRow
 import com.example.sofascoreapp.data.model.TeamDetails
 import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.data.networking.Network
+import com.example.sofascoreapp.ui.paging.TeamEventsPagingSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -68,15 +73,14 @@ class TeamDetailsViewModel : ViewModel() {
         return _teamTournaments
     }
 
-    private val _teamEvents = MutableLiveData<Response<ArrayList<Event>>>()
-
-    fun setTeamEvents(events: Response<ArrayList<Event>>) {
-        _teamEvents.value = events
-    }
-
-    fun getTeamEvents(): MutableLiveData<Response<ArrayList<Event>>> {
-        return _teamEvents
-    }
+    val teamEvents = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            enablePlaceholders = false
+        ),
+        0,
+        pagingSourceFactory = { TeamEventsPagingSource(_teamID.value!!) }
+    ).liveData.cachedIn(viewModelScope)
 
     private val _standings = MutableLiveData<ArrayList<Standing>>()
 
@@ -112,8 +116,7 @@ class TeamDetailsViewModel : ViewModel() {
             setTeamDetails(teamDetails.getCompleted())
             setTeamPlayers(teamPlayers.getCompleted())
             setTeamTournaments(teamTournaments.getCompleted())
-            setTeamEvents(teamEvents.getCompleted())
-            setSport(_teamEvents.value?.body()!![0].tournament.sport.name)
+            setSport(teamEvents.getCompleted().body()!![0].tournament.sport.name)
         }
     }
 

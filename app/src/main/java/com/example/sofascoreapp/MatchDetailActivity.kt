@@ -157,7 +157,10 @@ class MatchDetailActivity : AppCompatActivity() {
                         Intent(
                             this,
                             TournamentActivity::class.java
-                        ).putExtra("tournamentID", it.body()!!.id)
+                        ).putExtra(
+                            "tournamentID",
+                            matchViewModel.getEvent().value?.body()!!.tournament.id
+                        )
                     )
                 }
 

@@ -99,6 +99,7 @@ class TeamDetailsFragment : Fragment() {
             }
         }
 
+        /*
         teamDetailsViewModel.getTeamEvents().observe(requireActivity()) { response ->
             if (response.isSuccessful) {
 
@@ -152,7 +153,7 @@ class TeamDetailsFragment : Fragment() {
             intent.putExtra("matchID", teamDetailsViewModel.getTeamEvents().value?.body()!![0].id)
             startActivity(intent)
         }
-
+*/
 
     }
 }
