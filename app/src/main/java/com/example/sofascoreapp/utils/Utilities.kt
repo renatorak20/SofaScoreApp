@@ -66,6 +66,12 @@ class Utilities {
         return offsetDateTime.format(formatter)
     }
 
+    fun getInvertedDate(date: String): String? {
+        val formatter = DateTimeFormatter.ofPattern("MM.dd.yyyy")
+        val offsetDateTime = OffsetDateTime.parse(date)
+        return offsetDateTime.format(formatter)
+    }
+
     fun calculateForignPlayers(playersNat: List<String>, clubCountry: String): Int {
         var count = 0
         for (player in playersNat) {
@@ -94,6 +100,13 @@ class Utilities {
         val inputFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME
         val dateTime = LocalDate.parse(dateTimeString, inputFormat)
         val outputFormat = DateTimeFormatter.ofPattern("d MMM yyyy")
+        return dateTime.format(outputFormat)
+    }
+
+    fun getInvertedDateOfBirth(dateTimeString: String): String {
+        val inputFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+        val dateTime = LocalDate.parse(dateTimeString, inputFormat)
+        val outputFormat = DateTimeFormatter.ofPattern("MMM d yyyy")
         return dateTime.format(outputFormat)
     }
 

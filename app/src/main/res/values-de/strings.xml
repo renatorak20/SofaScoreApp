@@ -41,4 +41,7 @@
     <string name="about_description">Sofascore Android Academy</string>
     <string name="class_year">Klasse 2023</string>
     <string name="app_name_text">App Name</string>
+
+    <string name="round_no">Kolo %1$d</string>
+
 </resources>

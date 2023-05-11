@@ -6,19 +6,26 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.sofascoreapp.databinding.ActivityPlayerDetailsBinding
+import com.example.sofascoreapp.ui.adapters.EventsPagingAdapter
+import com.example.sofascoreapp.ui.adapters.LoadStateHeaderFooterAdapter
+import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.viewmodel.PlayerDetailsViewModel
+import com.example.sofascoreapp.viewmodel.SpecificTournamentViewModel
 import com.google.android.material.appbar.AppBarLayout
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
 
     private lateinit var binding: ActivityPlayerDetailsBinding
     private lateinit var viewModel: PlayerDetailsViewModel
+    private lateinit var recyclerAdapter: EventsPagingAdapter
     private var isExpanded = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,9 +67,23 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
 
                 binding.content.nationalityText.text = player.country?.name?.subSequence(0, 3)
                 binding.content.positionText.text = player.position
-                binding.content.dateText.text = Utilities().getDateOfBirth(player.dateOfBirth!!)
-                binding.content.yearsText.text =
-                    getString(R.string.years, Utilities().calculateYears(player.dateOfBirth))
+
+                if (Preferences(this).getSavedDateFormat()) {
+                    binding.content.dateText.text = player.dateOfBirth?.let {
+                        Utilities().getDateOfBirth(
+                            it
+                        )
+                    }
+                } else {
+                    binding.content.dateText.text = player.dateOfBirth?.let {
+                        Utilities().getInvertedDateOfBirth(
+                            it
+                        )
+                    }
+                }
+
+                binding.content.yearsText.text = getString(R.string.years,
+                    player.dateOfBirth?.let { Utilities().calculateYears(it) })
             }
         }
 
@@ -76,6 +97,19 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
 
         binding.back.setOnClickListener {
             finish()
+        }
+
+        binding.content.recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerAdapter = EventsPagingAdapter(this, 0)
+        binding.content.recyclerView.adapter = recyclerAdapter.withLoadStateHeaderAndFooter(
+            LoadStateHeaderFooterAdapter(), LoadStateHeaderFooterAdapter()
+        )
+        binding.content.recyclerView.setHasFixedSize(true)
+
+        viewModel.playerEvents.observe(this) { pagingData ->
+            lifecycleScope.launch {
+                recyclerAdapter.submitData(pagingData)
+            }
         }
 
     }

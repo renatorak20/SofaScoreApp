@@ -42,4 +42,6 @@
     <string name="class_year">Razred 2023.</string>
     <string name="app_name_text">Ime aplikacije</string>
 
+    <string name="round_no">Runde %1$d</string>
+
 </resources>

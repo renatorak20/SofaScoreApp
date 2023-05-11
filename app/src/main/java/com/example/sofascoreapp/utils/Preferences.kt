@@ -26,6 +26,11 @@ class Preferences(val activity: Activity) {
     fun getCurrentLanguage() =
         preferences.getString(resources.getString(R.string.lang), extrasLanguages[0])
 
+
+    fun getSavedDateFormat(): Boolean {
+        return getCurrentDate() == extrasDates[1]
+    }
+
     fun swapDateFormats() {
         when (getCurrentDate()) {
             extrasDates[1] -> preferences.edit().putString(extrasDates[0], extrasDates[2]).apply()

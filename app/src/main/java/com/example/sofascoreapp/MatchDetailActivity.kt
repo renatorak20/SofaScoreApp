@@ -3,26 +3,22 @@ package com.example.sofascoreapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.data.model.WinnerCode
 import com.example.sofascoreapp.databinding.ActivityMatchDetailBinding
 import com.example.sofascoreapp.ui.adapters.MatchIncidentsAdapter
-import com.example.sofascoreapp.ui.adapters.TournamentsAdapter
+import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.viewmodel.MatchDetailViewModel
 import java.util.ArrayList
-import java.util.Collections
 
 class MatchDetailActivity : AppCompatActivity() {
 
@@ -82,8 +78,13 @@ class MatchDetailActivity : AppCompatActivity() {
                     binding.matchHeader.scoreLayout.layout.visibility = View.INVISIBLE
                     binding.matchHeader.notStartedLayout.layout.visibility = View.VISIBLE
 
-                    binding.matchHeader.notStartedLayout.date.text =
-                        Utilities().getDate(it.body()!!.startDate!!)
+                    if (Preferences(this).getSavedDateFormat()) {
+                        binding.matchHeader.notStartedLayout.date.text =
+                            Utilities().getDate(it.body()!!.startDate!!)
+                    } else {
+                        binding.matchHeader.notStartedLayout.date.text =
+                            Utilities().getInvertedDate(it.body()!!.startDate!!)
+                    }
                     binding.matchHeader.notStartedLayout.hour.text =
                         Utilities().getMatchHour(it.body()!!.startDate!!)
 
@@ -161,6 +162,15 @@ class MatchDetailActivity : AppCompatActivity() {
                             "tournamentID",
                             matchViewModel.getEvent().value?.body()!!.tournament.id
                         )
+                    )
+                }
+
+                binding.noResultsLayout.viewTournamentDetails.setOnClickListener { view ->
+                    startActivity(
+                        Intent(
+                            this,
+                            TournamentActivity::class.java
+                        ).putExtra("tournamentID", it.body()!!.tournament.id)
                     )
                 }
 

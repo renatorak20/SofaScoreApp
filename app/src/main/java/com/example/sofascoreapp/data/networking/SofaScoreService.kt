@@ -47,6 +47,13 @@ interface SofaScoreService {
         @Path("page") page: Int
     ): Response<ArrayList<Event>>
 
+    @GET("/player/{id}/events/{span}/{page}")
+    suspend fun getPlayerEventsPage(
+        @Path("id") id: Int,
+        @Path("span") span: String,
+        @Path("page") page: Int
+    ): Response<ArrayList<Event>>
+
     @GET("/player/{id}")
     suspend fun getPlayerInfo(@Path("id") id: Int): Response<Player>
 
