@@ -19,7 +19,24 @@
         layout="@layout/standings_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:layout_constraintTop_toBottomOf="@+id/team_tournament_header" />
+        app:layout_constraintTop_toBottomOf="@+id/team_tournament_header"
+        android:visibility="invisible" />
+
+    <include
+        android:id="@+id/standingsBasketball"
+        layout="@layout/standings_basketball_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintTop_toBottomOf="@+id/team_tournament_header"
+        android:visibility="invisible" />
+
+    <include
+        android:id="@+id/standingsAmericanFootball"
+        layout="@layout/standings_american_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintTop_toBottomOf="@+id/team_tournament_header"
+        android:visibility="invisible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

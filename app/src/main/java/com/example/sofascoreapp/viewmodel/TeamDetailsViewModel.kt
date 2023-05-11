@@ -120,16 +120,25 @@ class TeamDetailsViewModel : ViewModel() {
     fun getTeamTournamentStandings() {
         viewModelScope.launch {
             var tournaments: ArrayList<Standing> = arrayListOf()
-            for (tournament in _teamTournaments.value?.body()!!) {
-                val response = Network().getService().getTournamentStandings(tournament.id)
-                if (response.isSuccessful) {
-                    tournaments.addAll(response.body()!!.filterIndexed { index, _ ->
-                        index % 3 == 2
-                    })
-                }
 
+            if (_teamTournaments.value?.isSuccessful == true) {
+
+                for (tournament in _teamTournaments.value?.body()!!) {
+
+                    val response = Network().getService().getTournamentStandings(tournament.id)
+                    if (response.isSuccessful) {
+                        if (response.body()!!.size > 1) {
+                            tournaments.addAll(response.body()!!.filterIndexed { index, _ ->
+                                index % 3 == 2
+                            })
+                        } else {
+                            tournaments.addAll(response.body()!!)
+                        }
+                    }
+
+                }
+                setStandings(tournaments)
             }
-            setStandings(tournaments)
         }
     }
 }

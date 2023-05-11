@@ -80,28 +80,36 @@ class TeamStandingsFragment : Fragment() {
             )
         )
 
+        when (viewModel.getSport().value) {
+            getString(R.string.football) -> {
+                recyclerAdapter = StandingsAdapter(
+                    requireContext(),
+                    viewModel.getStandings().value!![tournamentIndex].sortedStandingsRows,
+                    0,
+                    viewModel.getTeamID().value!!
+                )
+                binding.standings.layout.visibility = View.VISIBLE
+            }
 
-        recyclerAdapter = when (viewModel.getSport().value) {
-            getString(R.string.football) -> StandingsAdapter(
-                requireContext(),
-                viewModel.getStandings().value!![tournamentIndex].sortedStandingsRows,
-                0,
-                viewModel.getTeamID().value!!
-            )
+            getString(R.string.basketball) -> {
+                recyclerAdapter = StandingsAdapter(
+                    requireContext(),
+                    viewModel.getStandings().value!![tournamentIndex].sortedStandingsRows,
+                    1,
+                    viewModel.getTeamID().value!!
+                )
+                binding.standingsBasketball.layout.visibility = View.VISIBLE
+            }
 
-            getString(R.string.basketball) -> StandingsAdapter(
-                requireContext(),
-                viewModel.getStandings().value!![tournamentIndex].sortedStandingsRows,
-                1,
-                viewModel.getTeamID().value!!
-            )
-
-            else -> StandingsAdapter(
-                requireContext(),
-                viewModel.getStandings().value!![tournamentIndex].sortedStandingsRows,
-                2,
-                viewModel.getTeamID().value!!
-            )
+            else -> {
+                recyclerAdapter = StandingsAdapter(
+                    requireContext(),
+                    viewModel.getStandings().value!![tournamentIndex].sortedStandingsRows,
+                    2,
+                    viewModel.getTeamID().value!!
+                )
+                binding.standingsAmericanFootball.layout.visibility = View.VISIBLE
+            }
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = recyclerAdapter

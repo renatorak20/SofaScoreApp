@@ -43,7 +43,9 @@ class SpecificTournamentViewModel : ViewModel() {
 
     fun getLatestTournamentInfo() {
         viewModelScope.launch {
-            setTournamentInfo(Network().getService().getTournamentDetails(_tournamentID.value!!))
+            val response = Network().getService().getTournamentDetails(_tournamentID.value!!)
+            setTournamentInfo(response)
+            setSport(response.body()!!.sport.name)
         }
     }
 
@@ -53,6 +55,16 @@ class SpecificTournamentViewModel : ViewModel() {
                 Network().getService().getTournamentStandings(_tournamentID.value!!)
             )
         }
+    }
+
+    private val _sport = MutableLiveData<String>()
+
+    fun setSport(sport: String) {
+        _sport.value = sport
+    }
+
+    fun getSport(): MutableLiveData<String> {
+        return _sport
     }
 
 }

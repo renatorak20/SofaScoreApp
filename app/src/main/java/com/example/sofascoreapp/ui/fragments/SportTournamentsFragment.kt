@@ -35,7 +35,7 @@ abstract class SportTournamentsFragment : Fragment() {
 
         tournamentsViewModel.getTournaments(getSportType())
 
-        tournamentsViewModel.getTournaments().observe(requireActivity()) {
+        tournamentsViewModel.getTournaments().observe(viewLifecycleOwner) {
             if (it.isSuccessful && !it.body().isNullOrEmpty()) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerAdapter = TournamentsAdapter(requireContext(), it.body()!!)
