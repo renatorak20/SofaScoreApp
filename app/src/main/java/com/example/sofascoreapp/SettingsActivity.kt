@@ -41,5 +41,9 @@ class SettingsActivity : AppCompatActivity() {
             Preferences(this).swapDateFormats()
         }
 
+        binding.toolbar.back.setOnClickListener {
+            finish()
+        }
+
     }
 }
