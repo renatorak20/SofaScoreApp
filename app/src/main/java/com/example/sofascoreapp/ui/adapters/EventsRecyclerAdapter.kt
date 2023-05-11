@@ -1,5 +1,6 @@
 package com.example.sofascoreapp.ui.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.TournamentActivity
@@ -20,6 +22,7 @@ import com.example.sofascoreapp.databinding.MatchListItemBinding
 import com.example.sofascoreapp.databinding.MatchListLeagueSectionBinding
 import com.example.sofascoreapp.databinding.TeamMemberLayoutBinding
 import com.example.sofascoreapp.databinding.TeamMemberSectionBinding
+import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import java.lang.IllegalArgumentException
 
@@ -27,6 +30,7 @@ private const val VIEW_TYPE_SECTION = 0
 private const val VIEW_TYPE_MATCH = 1
 
 class EventsRecyclerAdapter(
+    val activity: Activity,
     val context: Context,
     val array: ArrayList<Any>
 ) :
@@ -81,12 +85,11 @@ class EventsRecyclerAdapter(
 
     }
 
-    class MatchViewHolder(private val binding: MatchListItemBinding, val context: Context) :
+    inner class MatchViewHolder(private val binding: MatchListItemBinding, val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: Event) {
             with(binding) {
-                timeLayout.timeOfMatch.text =
-                    event.startDate?.let { Utilities().getMatchHour(it) }
+
 
                 homeTeamLayout.teamName.text = event.homeTeam.name
                 awayTeamLayout.teamName.text = event.awayTeam.name
@@ -137,7 +140,27 @@ class EventsRecyclerAdapter(
                     }
 
                     else -> {
-                        timeLayout.currentMinute.text = "-"
+                        if (Utilities().isToday(event.startDate!!)) {
+                            timeLayout.currentMinute.text = "-"
+                            timeLayout.timeOfMatch.text =
+                                event.startDate.let { Utilities().getMatchHour(it) }
+                        } else if (Utilities().isTomorrow(event.startDate)) {
+                            timeLayout.currentMinute.text =
+                                event.startDate.let { Utilities().getMatchHour(it) }
+                            timeLayout.timeOfMatch.text = context.getString(R.string.tomorrow)
+                        } else {
+
+                            timeLayout.currentMinute.text =
+                                event.startDate.let { Utilities().getMatchHour(it) }
+
+                            if (Preferences(activity).getSavedDateFormat()) {
+                                timeLayout.timeOfMatch.text =
+                                    Utilities().getAvailableDateShort(event.startDate)
+                            } else {
+                                timeLayout.timeOfMatch.text =
+                                    Utilities().getInvertedAvailableDateShort(event.startDate)
+                            }
+                        }
                     }
                 }
 

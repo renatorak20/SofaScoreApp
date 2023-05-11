@@ -13,6 +13,7 @@ import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.databinding.FragmentSportEventsBinding
 import com.example.sofascoreapp.ui.adapters.DatesAdapter
 import com.example.sofascoreapp.ui.adapters.EventsRecyclerAdapter
+import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.viewmodel.MainViewModel
 import java.time.LocalDate
@@ -69,7 +70,11 @@ abstract class SportEventsFragment : Fragment() {
                 val groupedMatches =
                     it.body()!!.groupBy { it.tournament }.flatMap { listOf(it.key) + it.value }
                 recyclerAdapter =
-                    EventsRecyclerAdapter(requireContext(), groupedMatches as ArrayList<Any>)
+                    EventsRecyclerAdapter(
+                        requireActivity(),
+                        requireContext(),
+                        groupedMatches as ArrayList<Any>
+                    )
                 binding.recyclerView.adapter = recyclerAdapter
             } else {
                 binding.recyclerView.adapter = null
@@ -78,8 +83,13 @@ abstract class SportEventsFragment : Fragment() {
             if (mainViewModel.getDate().value == LocalDate.now().toString()) {
                 binding.info.date.text = getString(R.string.today)
             } else {
-                binding.info.date.text =
-                    Utilities().getLongDate(mainViewModel.getDate().value!!)
+                if (Preferences(requireActivity()).getSavedDateFormat()) {
+                    binding.info.date.text =
+                        Utilities().getLongDate(mainViewModel.getDate().value!!)
+                } else {
+                    binding.info.date.text =
+                        Utilities().getInvertedLongDate(mainViewModel.getDate().value!!)
+                }
             }
 
             if (it.body()?.isNotEmpty() == true) {

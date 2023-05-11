@@ -53,10 +53,24 @@ class Utilities {
         return dayOfWeekFormat.format(dateObject).toUpperCase()
     }
 
+    fun getInvertedAvailableDateShort(date: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val dateObject = inputFormat.parse(date)
+        val dayOfWeekFormat = SimpleDateFormat("MM.dd.", Locale.getDefault())
+        return dayOfWeekFormat.format(dateObject).toUpperCase()
+    }
+
     fun getLongDate(date: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val dateObject = inputFormat.parse(date)
         val dayOfWeekFormat = SimpleDateFormat("EEE, dd.MM.yyyy.", Locale.getDefault())
+        return dayOfWeekFormat.format(dateObject)
+    }
+
+    fun getInvertedLongDate(date: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val dateObject = inputFormat.parse(date)
+        val dayOfWeekFormat = SimpleDateFormat("EEE, MM.dd.yyyy.", Locale.getDefault())
         return dayOfWeekFormat.format(dateObject)
     }
 

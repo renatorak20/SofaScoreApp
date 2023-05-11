@@ -17,6 +17,7 @@ import com.example.sofascoreapp.TournamentActivity
 import com.example.sofascoreapp.databinding.FragmentTeamDetailsBinding
 import com.example.sofascoreapp.databinding.TeamTournementItemBinding
 import com.example.sofascoreapp.databinding.TournamentListItemBinding
+import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.viewmodel.TeamDetailsViewModel
 
@@ -99,8 +100,8 @@ class TeamDetailsFragment : Fragment() {
             }
         }
 
-        /*
-        teamDetailsViewModel.getTeamEvents().observe(requireActivity()) { response ->
+
+        teamDetailsViewModel.getNextMatch().observe(requireActivity()) { response ->
             if (response.isSuccessful) {
 
                 binding.nextMatch.homeTeamLayout.teamName.text = response.body()!![0].homeTeam.name
@@ -116,10 +117,17 @@ class TeamDetailsFragment : Fragment() {
                         Utilities().getMatchHour(response.body()!![0].startDate!!)
                     binding.nextMatch.timeLayout.currentMinute.text = "-"
                 } else {
-                    binding.nextMatch.timeLayout.timeOfMatch.text =
-                        Utilities().getAvailableDateShort(response.body()!![0].startDate!!)
-                    binding.nextMatch.timeLayout.currentMinute.text =
-                        Utilities().getMatchHour(response.body()!![0].startDate!!)
+                    if (Preferences(requireActivity()).getSavedDateFormat()) {
+                        binding.nextMatch.timeLayout.timeOfMatch.text =
+                            Utilities().getDate(response.body()!![0].startDate!!)
+                        binding.nextMatch.timeLayout.currentMinute.text =
+                            Utilities().getMatchHour(response.body()!![0].startDate!!)
+                    } else {
+                        binding.nextMatch.timeLayout.timeOfMatch.text =
+                            Utilities().getInvertedDate(response.body()!![0].startDate!!)
+                        binding.nextMatch.timeLayout.currentMinute.text =
+                            Utilities().getMatchHour(response.body()!![0].startDate!!)
+                    }
                 }
 
                 binding.nextMatch.homeTeamLayout.clubIcon.load(
@@ -150,10 +158,10 @@ class TeamDetailsFragment : Fragment() {
 
         binding.nextMatch.layout.setOnClickListener {
             val intent = Intent(requireContext(), MatchDetailActivity::class.java)
-            intent.putExtra("matchID", teamDetailsViewModel.getTeamEvents().value?.body()!![0].id)
+            intent.putExtra("matchID", teamDetailsViewModel.getNextMatch().value?.body()!![0].id)
             startActivity(intent)
         }
-*/
+
 
     }
 }

@@ -10,7 +10,6 @@ import androidx.paging.liveData
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.data.model.Standing
-import com.example.sofascoreapp.data.model.StandingRow
 import com.example.sofascoreapp.data.model.TeamDetails
 import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.data.networking.Network
@@ -117,6 +116,7 @@ class TeamDetailsViewModel : ViewModel() {
             setTeamPlayers(teamPlayers.getCompleted())
             setTeamTournaments(teamTournaments.getCompleted())
             setSport(teamEvents.getCompleted().body()!![0].tournament.sport.name)
+            setNextMatch(teamEvents.getCompleted())
         }
     }
 
@@ -144,4 +144,15 @@ class TeamDetailsViewModel : ViewModel() {
             }
         }
     }
+
+    private val _nextMatches = MutableLiveData<Response<ArrayList<Event>>>()
+
+    fun setNextMatch(events: Response<ArrayList<Event>>) {
+        _nextMatches.value = events
+    }
+
+    fun getNextMatch(): MutableLiveData<Response<ArrayList<Event>>> {
+        return _nextMatches
+    }
+
 }
