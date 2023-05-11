@@ -80,6 +80,7 @@ class TeamStandingsFragment : Fragment() {
             )
         )
 
+
         recyclerAdapter = when (viewModel.getSport().value) {
             getString(R.string.football) -> StandingsAdapter(
                 requireContext(),

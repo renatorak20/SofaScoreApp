@@ -13,6 +13,7 @@ import coil.load
 import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
+import com.example.sofascoreapp.TournamentActivity
 import com.example.sofascoreapp.databinding.FragmentTeamDetailsBinding
 import com.example.sofascoreapp.databinding.TeamTournementItemBinding
 import com.example.sofascoreapp.databinding.TournamentListItemBinding
@@ -83,6 +84,15 @@ class TeamDetailsFragment : Fragment() {
                         )
 
                         binding.tournamentGrid.addView(itemLayout.root.rootView)
+
+                        binding.tournamentGrid.setOnClickListener {
+                            context?.startActivity(
+                                Intent(
+                                    context,
+                                    TournamentActivity::class.java
+                                ).putExtra("tournamentID", tournament.id)
+                            )
+                        }
 
                     }
                 }

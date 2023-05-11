@@ -123,8 +123,11 @@ class TeamDetailsViewModel : ViewModel() {
             for (tournament in _teamTournaments.value?.body()!!) {
                 val response = Network().getService().getTournamentStandings(tournament.id)
                 if (response.isSuccessful) {
-                    tournaments.addAll(response.body()!!)
+                    tournaments.addAll(response.body()!!.filterIndexed { index, _ ->
+                        index % 3 == 2
+                    })
                 }
+
             }
             setStandings(tournaments)
         }

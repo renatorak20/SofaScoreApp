@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:background="?attr/surface_surface_1"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout">
 
     <ImageView
         android:id="@+id/leagueIcon"

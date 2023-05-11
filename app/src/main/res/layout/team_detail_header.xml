@@ -7,7 +7,7 @@
     android:background="?attr/color_primary_default">
 
     <ImageView
-        android:id="@+id/teamLogo"
+        android:id="@+id/logo"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="16dp"
@@ -18,15 +18,15 @@
 
 
     <TextView
-        android:id="@+id/teamName"
+        android:id="@+id/name"
         style="@style/Headline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:textColor="?attr/surface_surface_1"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/teamLogo"
-        app:layout_constraintTop_toTopOf="@+id/teamLogo"
+        app:layout_constraintStart_toEndOf="@+id/logo"
+        app:layout_constraintTop_toTopOf="@+id/logo"
         tools:text="Barcelona" />
 
     <ImageView
@@ -35,8 +35,8 @@
         android:layout_height="16dp"
         android:layout_marginTop="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/country"
-        app:layout_constraintStart_toStartOf="@+id/teamName"
-        app:layout_constraintTop_toBottomOf="@+id/teamName"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -48,7 +48,7 @@
         android:textColor="?attr/surface_surface_1"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/countryImage"
-        app:layout_constraintTop_toBottomOf="@+id/teamName"
+        app:layout_constraintTop_toBottomOf="@+id/name"
         tools:text="Spain" />
 
 

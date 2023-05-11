@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_tournament_matches"
+        android:title="@string/matches" />
+
+    <item
+        android:id="@+id/navigation_tournament_standings"
+        android:title="@string/standings" />
+
+</menu>

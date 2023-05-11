@@ -152,6 +152,15 @@ class MatchDetailActivity : AppCompatActivity() {
 
                 Utilities().setRotatingText(binding.toolbar.toolbarLeagueTitle)
 
+                binding.toolbar.toolbarLeagueTitle.setOnClickListener { view ->
+                    startActivity(
+                        Intent(
+                            this,
+                            TournamentActivity::class.java
+                        ).putExtra("tournamentID", it.body()!!.id)
+                    )
+                }
+
             }
         }
 

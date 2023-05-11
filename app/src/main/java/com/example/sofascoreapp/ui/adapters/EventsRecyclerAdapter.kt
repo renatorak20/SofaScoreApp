@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
+import com.example.sofascoreapp.TournamentActivity
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Player
@@ -173,6 +174,16 @@ class EventsRecyclerAdapter(
                 country.text = tournament.country.name
                 league.text = tournament.name
                 leagueIcon.load(context.getString(R.string.tournament_icon_url, tournament.id))
+
+                layout.setOnClickListener {
+                    context.startActivity(
+                        Intent(
+                            context,
+                            TournamentActivity::class.java
+                        ).putExtra("tournamentID", tournament.id)
+                    )
+                }
+
             }
         }
     }

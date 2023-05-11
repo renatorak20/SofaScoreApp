@@ -56,4 +56,7 @@ interface SofaScoreService {
     @GET("/tournament/{id}/standings")
     suspend fun getTournamentStandings(@Path("id") id: Int): Response<ArrayList<Standing>>
 
+    @GET("/tournament/{id}")
+    suspend fun getTournamentDetails(@Path("id") id: Int): Response<Tournament>
+
 }

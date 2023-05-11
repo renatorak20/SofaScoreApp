@@ -1,12 +1,14 @@
 package com.example.sofascoreapp.ui.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.sofascoreapp.R
+import com.example.sofascoreapp.TournamentActivity
 import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.databinding.TournamentListItemBinding
 
@@ -36,6 +38,15 @@ class TournamentsAdapter(
 
         holder.binding.tournamentIcon.load(context.getString(R.string.tournament_icon_url, item.id))
         holder.binding.tournamentName.text = item.name
+
+        holder.binding.layout.setOnClickListener {
+            context.startActivity(
+                Intent(
+                    context,
+                    TournamentActivity::class.java
+                ).putExtra("tournamentID", item.id)
+            )
+        }
 
     }
 }

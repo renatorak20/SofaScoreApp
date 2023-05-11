@@ -56,9 +56,9 @@ class TeamDetailsActivity : AppCompatActivity() {
 
         teamDetailsViewModel.getTeamDetails().observe(this) { response ->
             if (response.isSuccessful) {
-                binding.teamToolbar.teamName.text = response.body()!!.name
+                binding.teamToolbar.name.text = response.body()!!.name
                 binding.teamToolbar.country.text = response.body()!!.country.name
-                binding.teamToolbar.teamLogo.load(
+                binding.teamToolbar.logo.load(
                     getString(
                         R.string.team_icon_url,
                         response.body()!!.id
