@@ -34,7 +34,7 @@ class SpecificTournamentMatchesFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[SpecificTournamentViewModel::class.java]
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerAdapter = EventsPagingAdapter(requireContext(), 1)
+        recyclerAdapter = EventsPagingAdapter(requireActivity(), requireContext(), 1)
         binding.recyclerView.adapter = recyclerAdapter.withLoadStateHeaderAndFooter(
             LoadStateHeaderFooterAdapter(), LoadStateHeaderFooterAdapter()
         )

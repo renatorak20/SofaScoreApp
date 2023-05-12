@@ -100,7 +100,7 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
         }
 
         binding.content.recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerAdapter = EventsPagingAdapter(this, 0)
+        recyclerAdapter = EventsPagingAdapter(this, this, 0)
         binding.content.recyclerView.adapter = recyclerAdapter.withLoadStateHeaderAndFooter(
             LoadStateHeaderFooterAdapter(), LoadStateHeaderFooterAdapter()
         )

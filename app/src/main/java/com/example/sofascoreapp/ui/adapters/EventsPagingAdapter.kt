@@ -1,5 +1,6 @@
 package com.example.sofascoreapp.ui.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
@@ -20,6 +21,7 @@ import com.example.sofascoreapp.data.model.WinnerCode
 import com.example.sofascoreapp.databinding.MatchListItemBinding
 import com.example.sofascoreapp.databinding.MatchListLeagueSectionBinding
 import com.example.sofascoreapp.databinding.RoundSectionBinding
+import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import java.lang.IllegalArgumentException
 
@@ -27,6 +29,7 @@ private const val VIEW_TYPE_SECTION = 0
 private const val VIEW_TYPE_MATCH = 1
 
 class EventsPagingAdapter(
+    val activity: Activity,
     val context: Context,
     private val sectionType: Int
 ) :
@@ -89,7 +92,7 @@ class EventsPagingAdapter(
         }
     }
 
-    class MatchViewHolder(private val binding: MatchListItemBinding, val context: Context) :
+    inner class MatchViewHolder(private val binding: MatchListItemBinding, val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: Event) {
             with(binding) {
@@ -145,8 +148,44 @@ class EventsPagingAdapter(
                     }
 
                     else -> {
-                        Utilities().isTomorrow(event.startDate!!)
-                        timeLayout.currentMinute.text = "-"
+                        if (Utilities().isTomorrow(event.startDate!!)) {
+
+                        } else if (Utilities().isToday(event.startDate)) {
+                            if (Preferences(activity).getSavedDateFormat()) {
+                            } else {
+                                timeLayout.timeOfMatch.text =
+                                    Utilities().getInvertedAvailableDateShort(event.startDate)
+                                timeLayout.currentMinute.text =
+                                    Utilities().getMatchHour(event.startDate)
+                            }
+                        }
+                        when (decideDate(event.startDate)) {
+                            0 -> {
+                                timeLayout.timeOfMatch.text = context.getString(R.string.today)
+                                timeLayout.currentMinute.text =
+                                    Utilities().getMatchHour(event.startDate)
+                            }
+
+                            1 -> {
+                                timeLayout.timeOfMatch.text = context.getString(R.string.tomorrow)
+                                timeLayout.currentMinute.text =
+                                    Utilities().getMatchHour(event.startDate)
+                            }
+
+                            else -> {
+                                if (Preferences(activity).getSavedDateFormat()) {
+                                    timeLayout.timeOfMatch.text =
+                                        Utilities().getAvailableDateShort(event.startDate)
+                                    timeLayout.currentMinute.text =
+                                        Utilities().getMatchHour(event.startDate)
+                                } else {
+                                    timeLayout.timeOfMatch.text =
+                                        Utilities().getInvertedAvailableDateShort(event.startDate)
+                                    timeLayout.currentMinute.text =
+                                        Utilities().getMatchHour(event.startDate)
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -225,4 +264,13 @@ class EventsPagingAdapter(
         }
     }
 
+    fun decideDate(date: String): Int {
+        return if (Utilities().isToday(date)) {
+            0
+        } else if (Utilities().isTomorrow(date)) {
+            1
+        } else {
+            2
+        }
+    }
 }
