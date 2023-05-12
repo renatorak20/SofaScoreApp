@@ -67,7 +67,9 @@ class SettingsActivity : AppCompatActivity() {
 
     fun handleLanguageChange(position: Int) {
         val supportedLanguages = Preferences(this).getListOfAvailableLanguages()
-        Preferences(this).setLanguage(supportedLanguages[position].first)
+        if (Preferences(this).getCurrentLanguage() != supportedLanguages[position].first) {
+            Preferences(this).setLanguage(supportedLanguages[position].first)
+        }
     }
 
     fun loadPreferences() {

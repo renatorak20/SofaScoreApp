@@ -203,10 +203,11 @@ class StandingsAdapter(
             binding.draws.text = row.draws.toString()
             binding.loses.text = row.losses.toString()
 
-            val df = DecimalFormat("#.##")
-            if (row.percentage is Number) {
+            if (row.percentage != null) {
+                val df = DecimalFormat("#.##")
                 binding.points.text = df.format(row.percentage).toString()
             }
+
 
             binding.no.setOnClickListener {
                 showToast(row.team)

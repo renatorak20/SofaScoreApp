@@ -50,6 +50,6 @@ class PlayerDetailsViewModel : ViewModel() {
         ),
         0,
         pagingSourceFactory = { PlayerEventsPagingSource(_playerID.value!!) }
-    ).liveData.cachedIn(viewModelScope)
+    ).liveData
 
 }

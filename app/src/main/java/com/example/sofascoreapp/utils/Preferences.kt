@@ -2,6 +2,7 @@ package com.example.sofascoreapp.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.example.sofascoreapp.R
@@ -51,14 +52,13 @@ class Preferences(val activity: Activity) {
 
     fun setLanguage(langCode: String) {
         preferences.edit().putString(resources.getString(R.string.lang), langCode).apply()
-        setAppLocale(langCode)
-
+        val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(langCode)
+        AppCompatDelegate.setApplicationLocales(appLocale)
     }
 
     private fun setAppLocale(language: String) {
         val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(language)
         AppCompatDelegate.setApplicationLocales(appLocale)
-        Utilities().restartApp(activity)
     }
 
     fun loadPreferences() {
@@ -66,6 +66,8 @@ class Preferences(val activity: Activity) {
             extrasThemes[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
+
+        getCurrentLanguage()?.let { setAppLocale(it) }
     }
 
     fun getListOfAvailableLanguages(): ArrayList<Pair<String, String>> {

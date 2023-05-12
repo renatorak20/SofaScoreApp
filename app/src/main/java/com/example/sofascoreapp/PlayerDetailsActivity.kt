@@ -3,13 +3,16 @@ package com.example.sofascoreapp
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.databinding.ActivityPlayerDetailsBinding
 import com.example.sofascoreapp.ui.adapters.EventsPagingAdapter
 import com.example.sofascoreapp.ui.adapters.LoadStateHeaderFooterAdapter
@@ -54,7 +57,7 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
                     )
                 ) {
                     transformations(CircleCropTransformation())
-                    error(getDrawable(R.drawable.ic_person))
+                    error(AppCompatResources.getDrawable(applicationContext, R.drawable.ic_person))
                 }
 
                 binding.content.playerClubLayout.clubIcon.load(
@@ -102,7 +105,8 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
         binding.content.recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerAdapter = EventsPagingAdapter(this, this, 0)
         binding.content.recyclerView.adapter = recyclerAdapter.withLoadStateHeaderAndFooter(
-            LoadStateHeaderFooterAdapter(), LoadStateHeaderFooterAdapter()
+            LoadStateHeaderFooterAdapter(),
+            LoadStateHeaderFooterAdapter()
         )
         binding.content.recyclerView.setHasFixedSize(true)
 
@@ -111,7 +115,6 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
                 recyclerAdapter.submitData(pagingData)
             }
         }
-
     }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
