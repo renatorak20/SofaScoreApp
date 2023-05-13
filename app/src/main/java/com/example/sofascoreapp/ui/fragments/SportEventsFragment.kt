@@ -45,7 +45,8 @@ abstract class SportEventsFragment : Fragment() {
         mainViewModel.getAvailableDays().observe(viewLifecycleOwner) {
             binding.daysRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            datesAdapter = DatesAdapter(requireContext(), it, mainViewModel, getSportType())
+            datesAdapter =
+                DatesAdapter(requireActivity(), requireContext(), it, mainViewModel, getSportType())
             binding.daysRecyclerView.adapter = datesAdapter
             binding.daysRecyclerView.scrollToPosition(it.indexOf(it.find { it.isSelected }) - 2)
         }

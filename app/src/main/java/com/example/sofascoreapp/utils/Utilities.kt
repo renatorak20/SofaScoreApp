@@ -39,8 +39,8 @@ class Utilities {
         return currentDate.format(formatter)
     }
 
-    fun getDayInWeek(date: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    fun getDayInWeek(date: String, locale: Locale): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd")
         val dateObject = inputFormat.parse(date)
         val dayOfWeekFormat = SimpleDateFormat("EEE", Locale.getDefault())
         return dayOfWeekFormat.format(dateObject).toUpperCase()

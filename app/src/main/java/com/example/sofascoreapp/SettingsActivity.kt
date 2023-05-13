@@ -2,14 +2,10 @@ package com.example.sofascoreapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.ArrayAdapter
-import com.example.sofascoreapp.R
 import com.example.sofascoreapp.databinding.ActivitySettingsBinding
 import com.example.sofascoreapp.utils.Preferences
-import com.example.sofascoreapp.utils.Utilities
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import org.intellij.lang.annotations.Language
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -48,7 +44,7 @@ class SettingsActivity : AppCompatActivity() {
 
     fun loadSpinner() {
         val preferences = Preferences(this)
-        val supportedLanguages = preferences.getListOfAvailableLanguages()
+        val supportedLanguages = preferences.getSortedListOfAvailableLanguages()
         val currentLanguage = preferences.getCurrentLanguage()
 
         val arrayAdapter = ArrayAdapter(
@@ -66,7 +62,7 @@ class SettingsActivity : AppCompatActivity() {
 
 
     fun handleLanguageChange(position: Int) {
-        val supportedLanguages = Preferences(this).getListOfAvailableLanguages()
+        val supportedLanguages = Preferences(this).getSortedListOfAvailableLanguages()
         if (Preferences(this).getCurrentLanguage() != supportedLanguages[position].first) {
             Preferences(this).setLanguage(supportedLanguages[position].first)
         }
@@ -74,7 +70,7 @@ class SettingsActivity : AppCompatActivity() {
 
     fun loadPreferences() {
         when (Preferences(this).getCurrentTheme()) {
-            getString(R.string.light) -> binding.themeDate.themeRadioGroup.check(R.id.lightButton)
+            "Light" -> binding.themeDate.themeRadioGroup.check(R.id.lightButton)
             else -> binding.themeDate.themeRadioGroup.check(R.id.darkButton)
         }
 

@@ -43,27 +43,20 @@ class MatchDetailActivity : AppCompatActivity() {
         matchViewModel.getIncidents().observe(this) {
             if (it.isSuccessful && it.body()!!.isNotEmpty()) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
                 val reversedList = it.body()!!.reversed() as ArrayList<Incident>
-                recyclerAdapter =
+
+                val sportType =
                     when (matchViewModel.getEvent().value?.body()!!.tournament.sport.name) {
-                        getString(R.string.football) -> MatchIncidentsAdapter(
-                            this,
-                            reversedList,
-                            SportType.FOOTBALL
-                        )
-
-                        getString(R.string.basketball) -> MatchIncidentsAdapter(
-                            this,
-                            reversedList,
-                            SportType.BASKETBALL
-                        )
-
-                        else -> MatchIncidentsAdapter(
-                            this,
-                            reversedList,
-                            SportType.AMERICAN_FOOTBALL
-                        )
+                        "Football" -> SportType.FOOTBALL
+                        "Basketball" -> SportType.BASKETBALL
+                        else -> SportType.AMERICAN_FOOTBALL
                     }
+                recyclerAdapter = MatchIncidentsAdapter(
+                    this,
+                    reversedList,
+                    sportType
+                )
                 binding.recyclerView.adapter = recyclerAdapter
             }
         }
@@ -153,7 +146,7 @@ class MatchDetailActivity : AppCompatActivity() {
 
                 Utilities().setRotatingText(binding.toolbar.toolbarLeagueTitle)
 
-                binding.toolbar.toolbarLeagueTitle.setOnClickListener { view ->
+                binding.toolbar.toolbarLeagueTitle.setOnClickListener {
                     startActivity(
                         Intent(
                             this,
