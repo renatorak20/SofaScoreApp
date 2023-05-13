@@ -97,6 +97,7 @@ abstract class SportEventsFragment : Fragment() {
                 binding.info.noOfEvents.text = getString(R.string.numberOfEvents, it.body()?.size)
             } else {
                 binding.info.noOfEvents.text = getString(R.string.noEventsToday)
+                Utilities().setRotatingText(binding.info.noOfEvents)
             }
         }
     }

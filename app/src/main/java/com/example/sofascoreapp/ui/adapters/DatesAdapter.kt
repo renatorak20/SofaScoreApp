@@ -53,8 +53,7 @@ class DatesAdapter(
             holder.binding.dayInWeek.text = context.getString(R.string.today)
         } else {
             holder.binding.dayInWeek.text = Utilities().getDayInWeek(
-                item.date,
-                Locale(Preferences(activity).getCurrentLanguage()!!)
+                item.date
             )
         }
 

@@ -39,7 +39,7 @@ class Utilities {
         return currentDate.format(formatter)
     }
 
-    fun getDayInWeek(date: String, locale: Locale): String {
+    fun getDayInWeek(date: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd")
         val dateObject = inputFormat.parse(date)
         val dayOfWeekFormat = SimpleDateFormat("EEE", Locale.getDefault())

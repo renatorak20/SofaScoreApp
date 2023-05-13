@@ -41,7 +41,7 @@ class SpecificTournamentStandingsFragment : Fragment() {
     fun populateRecyclerView() {
 
         when (viewModel.getSport().value) {
-            getString(R.string.football) -> {
+            "Football" -> {
                 recyclerAdapter = StandingsAdapter(
                     requireContext(),
                     viewModel.getTournamentStandings().value?.body()!![2].sortedStandingsRows,
@@ -51,7 +51,7 @@ class SpecificTournamentStandingsFragment : Fragment() {
                 binding.standings.layout.visibility = View.VISIBLE
             }
 
-            getString(R.string.basketball) -> {
+            "Basketball" -> {
                 recyclerAdapter = StandingsAdapter(
                     requireContext(),
                     viewModel.getTournamentStandings().value?.body()!![0].sortedStandingsRows,
