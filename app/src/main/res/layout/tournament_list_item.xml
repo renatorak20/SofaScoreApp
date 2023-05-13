@@ -5,7 +5,8 @@
     android:layout_height="56dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/surface_surface_1"
-    android:id="@+id/layout">
+    android:id="@+id/layout"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/tournamentIcon"

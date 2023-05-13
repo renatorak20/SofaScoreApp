@@ -1,5 +1,6 @@
 package com.example.sofascoreapp
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
@@ -13,7 +14,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import coil.load
 import com.example.sofascoreapp.databinding.ActivityTournamentBinding
+import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.SpecificTournamentViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class TournamentActivity : AppCompatActivity() {
 
@@ -30,8 +34,7 @@ class TournamentActivity : AppCompatActivity() {
         viewModel.setTournamentID(intent.getIntExtra("tournamentID", -1))
 
         viewModel.getTournamentID().observe(this) {
-            viewModel.getLatestTournamentStandings()
-            viewModel.getLatestTournamentInfo()
+            getInfo()
         }
 
         viewModel.getTournamentInfo().observe(this) {
@@ -67,4 +70,14 @@ class TournamentActivity : AppCompatActivity() {
         binding.navView.isItemActiveIndicatorEnabled = false
 
     }
+
+    fun getInfo() {
+        if (Utilities().isNetworkAvailable(this)) {
+            viewModel.getLatestTournamentStandings()
+            viewModel.getLatestTournamentInfo()
+        } else {
+            showNoInternetDialog(this) { getInfo() }
+        }
+    }
+
 }

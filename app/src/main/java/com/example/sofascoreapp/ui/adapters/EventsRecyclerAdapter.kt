@@ -40,7 +40,7 @@ class EventsRecyclerAdapter(
         return when (array[position]) {
             is Event -> VIEW_TYPE_MATCH
             is Tournament -> VIEW_TYPE_SECTION
-            else -> throw IllegalArgumentException("Invalid item type at position: $position")
+            else -> throw IllegalArgumentException()
         }
     }
 
@@ -82,7 +82,6 @@ class EventsRecyclerAdapter(
             is SectionViewHolder -> holder.bind(array[position] as Tournament)
         }
 
-
     }
 
     inner class MatchViewHolder(private val binding: MatchListItemBinding, val context: Context) :
@@ -90,10 +89,8 @@ class EventsRecyclerAdapter(
         fun bind(event: Event) {
             with(binding) {
 
-
                 homeTeamLayout.teamName.text = event.homeTeam.name
                 awayTeamLayout.teamName.text = event.awayTeam.name
-
 
                 when (event.status) {
                     EventStatusEnum.INPROGRESS -> {

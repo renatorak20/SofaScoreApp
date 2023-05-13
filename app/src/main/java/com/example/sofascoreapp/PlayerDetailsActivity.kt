@@ -18,6 +18,7 @@ import com.example.sofascoreapp.ui.adapters.EventsPagingAdapter
 import com.example.sofascoreapp.ui.adapters.LoadStateHeaderFooterAdapter
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.PlayerDetailsViewModel
 import com.example.sofascoreapp.viewmodel.SpecificTournamentViewModel
 import com.google.android.material.appbar.AppBarLayout
@@ -43,7 +44,7 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
 
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        viewModel.getPlayerInformation()
+        getInfo()
 
         viewModel.getPlayer().observe(this) { response ->
             if (response.isSuccessful) {
@@ -147,4 +148,13 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
 
         binding.playerImage.visibility = visibility
     }
+
+    fun getInfo() {
+        if (Utilities().isNetworkAvailable(this)) {
+            viewModel.getPlayerInformation()
+        } else {
+            showNoInternetDialog(this) { getInfo() }
+        }
+    }
+
 }

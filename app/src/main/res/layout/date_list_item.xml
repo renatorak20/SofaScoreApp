@@ -38,7 +38,7 @@
             android:layout_height="4dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:background="@color/surface_surface_0"
+            android:background="?attr/surface_surface_0"
             android:visibility="invisible" />
 
     </RelativeLayout>

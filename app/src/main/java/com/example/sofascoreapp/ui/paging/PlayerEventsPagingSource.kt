@@ -1,8 +1,10 @@
 package com.example.sofascoreapp.ui.paging
 
+import android.content.Context
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.sofascoreapp.data.networking.Network
+import com.example.sofascoreapp.utils.Utilities
 import kotlin.math.abs
 
 
@@ -32,6 +34,4 @@ class PlayerEventsPagingSource(private val playerID: Int) : PagingSource<Int, An
             nextKey = nextKey
         )
     }
-
-
 }

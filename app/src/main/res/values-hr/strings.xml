@@ -44,4 +44,12 @@
 
     <string name="round_no">Kolo %1$d</string>
 
+    <string name="no_internet_title">Nema interneta</string>
+    <string name="no_internet_description">Molimo spojite se na internet!</string>
+
+    <string name="no_data_title">Nema podataka</string>
+    <string name="no_data_description">Nismo vam mogli dati najnovije podatke</string>
+
+    <string name="retry">Pokušaj ponovno</string>
+
 </resources>

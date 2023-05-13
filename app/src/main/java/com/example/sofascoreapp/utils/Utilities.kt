@@ -3,6 +3,10 @@ package com.example.sofascoreapp.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
@@ -15,6 +19,10 @@ import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
 import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -154,5 +162,42 @@ class Utilities {
         textView.marqueeRepeatLimit = -1
         textView.ellipsize = TextUtils.TruncateAt.MARQUEE
     }
+
+    fun isNetworkAvailable(context: Context): Boolean {
+        val conManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo: NetworkInfo? = conManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected
+    }
+
+    companion object {
+        private var isNoInternetDialogShown = false
+
+        fun showNoInternetDialog(context: Context, method: () -> Unit) {
+            if (!isNoInternetDialogShown) {
+                isNoInternetDialogShown = true
+
+                /*
+                Can't create handler inside thread Thread[DefaultDispatcher-worker-1,5,main] that has not called Looper.prepare()
+                Dobivao sam ovaj error
+                        */
+
+                Handler(Looper.getMainLooper()).post {
+                    MaterialAlertDialogBuilder(context)
+                        .setTitle(context.getString(R.string.no_internet_title))
+                        .setMessage(context.getString(R.string.no_internet_description))
+                        .setPositiveButton(context.getString(R.string.retry)) { _, _ ->
+                            isNoInternetDialogShown = false
+                            GlobalScope.launch {
+                                delay(2000)
+                                method.invoke()
+                            }
+                        }
+                        .show()
+                }
+            }
+        }
+    }
+
 
 }

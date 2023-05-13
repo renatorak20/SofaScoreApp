@@ -14,6 +14,8 @@ import coil.load
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.databinding.FragmentTeamStandingsBinding
 import com.example.sofascoreapp.ui.adapters.StandingsAdapter
+import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.TeamDetailsViewModel
 
 
@@ -38,7 +40,7 @@ class TeamStandingsFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[TeamDetailsViewModel::class.java]
 
-        viewModel.getTeamTournamentStandings()
+        getInfo()
 
         viewModel.getTeamTournaments().observe(viewLifecycleOwner) {
             val arrayAdapter = ArrayAdapter(
@@ -113,6 +115,14 @@ class TeamStandingsFragment : Fragment() {
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = recyclerAdapter
+    }
+
+    fun getInfo() {
+        if (Utilities().isNetworkAvailable(requireContext())) {
+            viewModel.getTeamTournamentStandings()
+        } else {
+            showNoInternetDialog(requireContext()) { getInfo() }
+        }
     }
 
 }

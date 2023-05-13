@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.sofascoreapp.databinding.SharedActivityLayoutBinding
+import com.example.sofascoreapp.utils.Utilities
 
 class TournamentsActivity : AppCompatActivity() {
 
@@ -54,5 +55,4 @@ class TournamentsActivity : AppCompatActivity() {
         binding.navViewTournaments.visibility = View.VISIBLE
         binding.toolbarTournaments.layout.visibility = View.VISIBLE
     }
-
 }

@@ -115,7 +115,7 @@ class TeamDetailsViewModel : ViewModel() {
             setTeamDetails(teamDetails.getCompleted())
             setTeamPlayers(teamPlayers.getCompleted())
             setTeamTournaments(teamTournaments.getCompleted())
-            setSport(teamEvents.getCompleted().body()!![0].tournament.sport.name)
+            setSport(teamEvents.getCompleted().body()?.get(0)?.tournament?.sport?.name!!)
             setNextMatch(teamEvents.getCompleted())
         }
     }

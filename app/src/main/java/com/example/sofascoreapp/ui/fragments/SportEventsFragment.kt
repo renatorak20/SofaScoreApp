@@ -1,5 +1,6 @@
 package com.example.sofascoreapp.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.example.sofascoreapp.ui.adapters.DatesAdapter
 import com.example.sofascoreapp.ui.adapters.EventsRecyclerAdapter
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.MainViewModel
 import java.time.LocalDate
 
@@ -58,7 +60,8 @@ abstract class SportEventsFragment : Fragment() {
             binding.recyclerView.visibility = View.GONE
             binding.indicator.visibility = View.VISIBLE
 
-            mainViewModel.getNewestEvents(getSportType(), it)
+            getInfo()
+
         }
 
         mainViewModel.getEvents().observe(viewLifecycleOwner) {
@@ -106,5 +109,13 @@ abstract class SportEventsFragment : Fragment() {
 
     fun setInitialDate() {
         mainViewModel.setDate(Utilities().getTodaysDate())
+    }
+
+    fun getInfo() {
+        if (Utilities().isNetworkAvailable(requireContext())) {
+            mainViewModel.getNewestEvents(getSportType(), mainViewModel.getDate().value!!)
+        } else {
+            showNoInternetDialog(requireContext()) { getInfo() }
+        }
     }
 }

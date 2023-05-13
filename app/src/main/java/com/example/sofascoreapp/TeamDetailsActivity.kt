@@ -12,6 +12,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import coil.load
 import com.example.sofascoreapp.databinding.ActivityTeamDetailsBinding
+import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.TeamDetailsViewModel
 
 class TeamDetailsActivity : AppCompatActivity() {
@@ -51,7 +53,7 @@ class TeamDetailsActivity : AppCompatActivity() {
         teamDetailsViewModel.setTeamID(intent.getIntExtra("teamID", 0))
 
         teamDetailsViewModel.getTeamID().observe(this) {
-            teamDetailsViewModel.getLatestTeamDetails()
+            getInfo()
         }
 
         teamDetailsViewModel.getTeamDetails().observe(this) { response ->
@@ -66,6 +68,14 @@ class TeamDetailsActivity : AppCompatActivity() {
                 )
             }
         }
-
     }
+
+    fun getInfo() {
+        if (Utilities().isNetworkAvailable(this)) {
+            teamDetailsViewModel.getLatestTeamDetails()
+        } else {
+            showNoInternetDialog(this) { getInfo() }
+        }
+    }
+
 }

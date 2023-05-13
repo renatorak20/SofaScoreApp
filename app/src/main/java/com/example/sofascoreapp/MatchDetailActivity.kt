@@ -17,6 +17,7 @@ import com.example.sofascoreapp.databinding.ActivityMatchDetailBinding
 import com.example.sofascoreapp.ui.adapters.MatchIncidentsAdapter
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.MatchDetailViewModel
 import java.util.ArrayList
 
@@ -38,13 +39,13 @@ class MatchDetailActivity : AppCompatActivity() {
 
         matchViewModel.matchID = intent.getIntExtra("matchID", 0)
 
-        matchViewModel.getAllEventInfo()
+        getInfo()
 
         matchViewModel.getIncidents().observe(this) {
-            if (it.isSuccessful && it.body()!!.isNotEmpty()) {
+            if (it.isSuccessful && it.body()?.isNotEmpty()!!) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-                val reversedList = it.body()!!.reversed() as ArrayList<Incident>
+                val reversedList = it.body()?.reversed() as ArrayList<Incident>
 
                 val sportType =
                     when (matchViewModel.getEvent().value?.body()!!.tournament.sport.name) {
@@ -64,7 +65,7 @@ class MatchDetailActivity : AppCompatActivity() {
         matchViewModel.getEvent().observe(this) {
             if (it.isSuccessful && it.body() != null) {
 
-                if (it.body()!!.status == EventStatusEnum.NOTSTARTED) {
+                if (it.body()?.status == EventStatusEnum.NOTSTARTED) {
                     binding.noResultsLayout.layout.visibility = View.VISIBLE
                     binding.recyclerView.visibility = View.GONE
 
@@ -73,20 +74,20 @@ class MatchDetailActivity : AppCompatActivity() {
 
                     if (Preferences(this).getSavedDateFormat()) {
                         binding.matchHeader.notStartedLayout.date.text =
-                            Utilities().getDate(it.body()!!.startDate!!)
+                            Utilities().getDate(it.body()?.startDate!!)
                     } else {
                         binding.matchHeader.notStartedLayout.date.text =
-                            Utilities().getInvertedDate(it.body()!!.startDate!!)
+                            Utilities().getInvertedDate(it.body()?.startDate!!)
                     }
                     binding.matchHeader.notStartedLayout.hour.text =
-                        Utilities().getMatchHour(it.body()!!.startDate!!)
+                        Utilities().getMatchHour(it.body()?.startDate!!)
 
                 } else {
 
                     binding.matchHeader.scoreLayout.homeTeamScore.text =
-                        it.body()!!.homeScore.total.toString()
+                        it.body()?.homeScore?.total.toString()
                     binding.matchHeader.scoreLayout.awayTeamScore.text =
-                        it.body()!!.awayScore.total.toString()
+                        it.body()?.awayScore?.total.toString()
                     binding.matchHeader.scoreLayout.currentMinute.text =
                         getString(R.string.full_time)
 
@@ -98,7 +99,7 @@ class MatchDetailActivity : AppCompatActivity() {
                     );
                     val teamColor = ContextCompat.getColor(this, typedValue.resourceId)
 
-                    when (it.body()!!.winnerCode) {
+                    when (it.body()?.winnerCode) {
                         WinnerCode.HOME -> binding.matchHeader.scoreLayout.homeTeamScore.setTextColor(
                             teamColor
                         )
@@ -116,25 +117,25 @@ class MatchDetailActivity : AppCompatActivity() {
                 binding.toolbar.toolbarLeagueIcon.load(
                     getString(
                         R.string.tournament_icon_url,
-                        it.body()!!.tournament.id
+                        it.body()?.tournament?.id
                     )
                 )
 
                 binding.matchHeader.homeTeamLayout.teamIcon.load(
                     getString(
                         R.string.team_icon_url,
-                        it.body()!!.homeTeam.id
+                        it.body()?.homeTeam?.id
                     )
                 )
                 binding.matchHeader.awayTeamLayout.teamIcon.load(
                     getString(
                         R.string.team_icon_url,
-                        it.body()!!.awayTeam.id
+                        it.body()?.awayTeam?.id
                     )
                 )
 
-                binding.matchHeader.homeTeamLayout.teamTitle.text = it.body()!!.homeTeam.name
-                binding.matchHeader.awayTeamLayout.teamTitle.text = it.body()!!.awayTeam.name
+                binding.matchHeader.homeTeamLayout.teamTitle.text = it.body()?.homeTeam?.name
+                binding.matchHeader.awayTeamLayout.teamTitle.text = it.body()?.awayTeam?.name
 
                 binding.toolbar.toolbarLeagueTitle.text = getString(
                     R.string.match_toolbar_text,
@@ -153,7 +154,7 @@ class MatchDetailActivity : AppCompatActivity() {
                             TournamentActivity::class.java
                         ).putExtra(
                             "tournamentID",
-                            matchViewModel.getEvent().value?.body()!!.tournament.id
+                            matchViewModel.getEvent().value?.body()?.tournament?.id
                         )
                     )
                 }
@@ -163,7 +164,7 @@ class MatchDetailActivity : AppCompatActivity() {
                         Intent(
                             this,
                             TournamentActivity::class.java
-                        ).putExtra("tournamentID", it.body()!!.tournament.id)
+                        ).putExtra("tournamentID", it.body()?.tournament?.id)
                     )
                 }
 
@@ -172,13 +173,13 @@ class MatchDetailActivity : AppCompatActivity() {
 
         binding.matchHeader.homeTeamLayout.root.setOnClickListener {
             val intent = Intent(this, TeamDetailsActivity::class.java)
-            intent.putExtra("teamID", matchViewModel.getEvent().value?.body()!!.homeTeam.id)
+            intent.putExtra("teamID", matchViewModel.getEvent().value?.body()?.homeTeam?.id)
             startActivity(intent)
         }
 
         binding.matchHeader.awayTeamLayout.root.setOnClickListener {
             val intent = Intent(this, TeamDetailsActivity::class.java)
-            intent.putExtra("teamID", matchViewModel.getEvent().value?.body()!!.awayTeam.id)
+            intent.putExtra("teamID", matchViewModel.getEvent().value?.body()?.awayTeam?.id)
             startActivity(intent)
         }
 
@@ -187,4 +188,13 @@ class MatchDetailActivity : AppCompatActivity() {
         }
 
     }
+
+    fun getInfo() {
+        if (Utilities().isNetworkAvailable(this)) {
+            matchViewModel.getAllEventInfo()
+        } else {
+            showNoInternetDialog(this) { getInfo() }
+        }
+    }
+
 }

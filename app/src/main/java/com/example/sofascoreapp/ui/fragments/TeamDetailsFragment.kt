@@ -19,6 +19,7 @@ import com.example.sofascoreapp.databinding.TeamTournementItemBinding
 import com.example.sofascoreapp.databinding.TournamentListItemBinding
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.TeamDetailsViewModel
 
 class TeamDetailsFragment : Fragment() {
@@ -43,7 +44,7 @@ class TeamDetailsFragment : Fragment() {
             ViewModelProvider(requireActivity())[TeamDetailsViewModel::class.java]
 
         teamDetailsViewModel.getTeamID().observe(viewLifecycleOwner) {
-            teamDetailsViewModel.getLatestTeamDetails()
+            getInfo()
         }
 
 
@@ -164,4 +165,13 @@ class TeamDetailsFragment : Fragment() {
 
 
     }
+
+    fun getInfo() {
+        if (Utilities().isNetworkAvailable(requireContext())) {
+            teamDetailsViewModel.getLatestTeamDetails()
+        } else {
+            showNoInternetDialog(requireContext()) { getInfo() }
+        }
+    }
+
 }

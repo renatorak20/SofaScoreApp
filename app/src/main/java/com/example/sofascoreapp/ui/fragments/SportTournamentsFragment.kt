@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.databinding.FragmentSportTournamentsBinding
 import com.example.sofascoreapp.ui.adapters.TournamentsAdapter
+import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.TournamentsViewModel
 
 abstract class SportTournamentsFragment : Fragment() {
@@ -33,7 +35,7 @@ abstract class SportTournamentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tournamentsViewModel.getTournaments(getSportType())
+        getInfo()
 
         tournamentsViewModel.getTournaments().observe(viewLifecycleOwner) {
             if (it.isSuccessful && !it.body().isNullOrEmpty()) {
@@ -48,5 +50,13 @@ abstract class SportTournamentsFragment : Fragment() {
 
 
     protected abstract fun getSportType(): SportType
+
+    fun getInfo() {
+        if (Utilities().isNetworkAvailable(requireContext())) {
+            tournamentsViewModel.getTournaments(getSportType())
+        } else {
+            showNoInternetDialog(requireContext()) { getInfo() }
+        }
+    }
 
 }
