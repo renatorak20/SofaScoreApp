@@ -32,6 +32,7 @@ class TeamMatchesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         teamDetailsViewModel =
             ViewModelProvider(requireActivity())[TeamDetailsViewModel::class.java]
 

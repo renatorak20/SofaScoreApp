@@ -175,12 +175,8 @@ class Utilities {
 
         fun showNoInternetDialog(context: Context, method: () -> Unit) {
             if (!isNoInternetDialogShown) {
-                isNoInternetDialogShown = true
 
-                /*
-                Can't create handler inside thread Thread[DefaultDispatcher-worker-1,5,main] that has not called Looper.prepare()
-                Dobivao sam ovaj error
-                        */
+                isNoInternetDialogShown = true
 
                 Handler(Looper.getMainLooper()).post {
                     MaterialAlertDialogBuilder(context)

@@ -36,14 +36,17 @@ abstract class SportTournamentsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getInfo()
+        binding.indicator.show()
+
 
         tournamentsViewModel.getTournaments().observe(viewLifecycleOwner) {
             if (it.isSuccessful && !it.body().isNullOrEmpty()) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerAdapter = TournamentsAdapter(requireContext(), it.body()!!)
                 binding.recyclerView.adapter = recyclerAdapter
+                binding.indicator.hide()
+                binding.recyclerView.visibility = View.VISIBLE
             }
-
         }
 
     }

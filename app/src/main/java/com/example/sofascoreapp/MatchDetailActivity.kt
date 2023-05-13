@@ -72,13 +72,20 @@ class MatchDetailActivity : AppCompatActivity() {
                     binding.matchHeader.scoreLayout.layout.visibility = View.INVISIBLE
                     binding.matchHeader.notStartedLayout.layout.visibility = View.VISIBLE
 
-                    if (Preferences(this).getSavedDateFormat()) {
-                        binding.matchHeader.notStartedLayout.date.text =
-                            Utilities().getDate(it.body()?.startDate!!)
+                    val isToday = Utilities().isToday(it.body()?.startDate!!)
+
+                    if (isToday) {
+                        binding.matchHeader.notStartedLayout.date.text = getString(R.string.today)
                     } else {
-                        binding.matchHeader.notStartedLayout.date.text =
-                            Utilities().getInvertedDate(it.body()?.startDate!!)
+                        if (Preferences(this).getSavedDateFormat()) {
+                            binding.matchHeader.notStartedLayout.date.text =
+                                Utilities().getDate(it.body()?.startDate!!)
+                        } else {
+                            binding.matchHeader.notStartedLayout.date.text =
+                                Utilities().getInvertedDate(it.body()?.startDate!!)
+                        }
                     }
+                    
                     binding.matchHeader.notStartedLayout.hour.text =
                         Utilities().getMatchHour(it.body()?.startDate!!)
 

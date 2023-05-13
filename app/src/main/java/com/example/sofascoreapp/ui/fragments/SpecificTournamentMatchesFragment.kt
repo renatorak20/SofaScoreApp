@@ -33,6 +33,8 @@ class SpecificTournamentMatchesFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[SpecificTournamentViewModel::class.java]
 
+        binding.indicator.show()
+
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerAdapter = EventsPagingAdapter(requireActivity(), requireContext(), 1)
         binding.recyclerView.adapter = recyclerAdapter.withLoadStateHeaderAndFooter(
@@ -44,6 +46,8 @@ class SpecificTournamentMatchesFragment : Fragment() {
             lifecycleScope.launch {
                 recyclerAdapter.submitData(pagingData)
             }
+            binding.indicator.hide()
+            binding.recyclerView.visibility = View.VISIBLE
         }
 
     }
