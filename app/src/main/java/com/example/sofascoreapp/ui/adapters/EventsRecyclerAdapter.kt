@@ -107,14 +107,14 @@ class EventsRecyclerAdapter(
                             R.attr.on_surface_on_surface_lv_1,
                             typedValue,
                             true
-                        );
+                        )
                         val teamColor = ContextCompat.getColor(context, typedValue.resourceId)
 
                         context.theme.resolveAttribute(
                             R.attr.on_surface_on_surface_lv_1,
                             typedValue,
                             true
-                        );
+                        )
                         val scoreColor = ContextCompat.getColor(context, typedValue.resourceId)
 
                         when (event.winnerCode) {
@@ -133,7 +133,13 @@ class EventsRecyclerAdapter(
                         }
 
                         timeLayout.currentMinute.text = context.getString(R.string.ft)
-
+                        if (Preferences(activity).getSavedDateFormat()) {
+                            timeLayout.timeOfMatch.text =
+                                Utilities().getAvailableDateShort(event.startDate!!)
+                        } else {
+                            timeLayout.timeOfMatch.text =
+                                Utilities().getInvertedAvailableDateShort(event.startDate!!)
+                        }
                     }
 
                     else -> {
