@@ -1,5 +1,6 @@
 package com.example.sofascoreapp.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +14,9 @@ import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.databinding.FragmentSportEventsBinding
 import com.example.sofascoreapp.ui.adapters.DatesAdapter
 import com.example.sofascoreapp.ui.adapters.EventsRecyclerAdapter
+import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.MainViewModel
 import java.time.LocalDate
 
@@ -44,7 +47,8 @@ abstract class SportEventsFragment : Fragment() {
         mainViewModel.getAvailableDays().observe(viewLifecycleOwner) {
             binding.daysRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            datesAdapter = DatesAdapter(requireContext(), it, mainViewModel, getSportType())
+            datesAdapter =
+                DatesAdapter(requireActivity(), requireContext(), it, mainViewModel, getSportType())
             binding.daysRecyclerView.adapter = datesAdapter
             binding.daysRecyclerView.scrollToPosition(it.indexOf(it.find { it.isSelected }) - 2)
         }
@@ -56,7 +60,8 @@ abstract class SportEventsFragment : Fragment() {
             binding.recyclerView.visibility = View.GONE
             binding.indicator.visibility = View.VISIBLE
 
-            mainViewModel.getNewestEvents(getSportType(), it)
+            getInfo()
+
         }
 
         mainViewModel.getEvents().observe(viewLifecycleOwner) {
@@ -69,7 +74,11 @@ abstract class SportEventsFragment : Fragment() {
                 val groupedMatches =
                     it.body()!!.groupBy { it.tournament }.flatMap { listOf(it.key) + it.value }
                 recyclerAdapter =
-                    EventsRecyclerAdapter(requireContext(), groupedMatches as ArrayList<Any>)
+                    EventsRecyclerAdapter(
+                        requireActivity(),
+                        requireContext(),
+                        groupedMatches as ArrayList<Any>
+                    )
                 binding.recyclerView.adapter = recyclerAdapter
             } else {
                 binding.recyclerView.adapter = null
@@ -78,14 +87,20 @@ abstract class SportEventsFragment : Fragment() {
             if (mainViewModel.getDate().value == LocalDate.now().toString()) {
                 binding.info.date.text = getString(R.string.today)
             } else {
-                binding.info.date.text =
-                    Utilities().getLongDate(mainViewModel.getDate().value!!)
+                if (Preferences.getSavedDateFormat()) {
+                    binding.info.date.text =
+                        Utilities().getLongDate(mainViewModel.getDate().value!!)
+                } else {
+                    binding.info.date.text =
+                        Utilities().getInvertedLongDate(mainViewModel.getDate().value!!)
+                }
             }
 
             if (it.body()?.isNotEmpty() == true) {
                 binding.info.noOfEvents.text = getString(R.string.numberOfEvents, it.body()?.size)
             } else {
                 binding.info.noOfEvents.text = getString(R.string.noEventsToday)
+                Utilities().setRotatingText(binding.info.noOfEvents)
             }
         }
     }
@@ -94,5 +109,13 @@ abstract class SportEventsFragment : Fragment() {
 
     fun setInitialDate() {
         mainViewModel.setDate(Utilities().getTodaysDate())
+    }
+
+    fun getInfo() {
+        if (Utilities().isNetworkAvailable(requireContext())) {
+            mainViewModel.getNewestEvents(getSportType(), mainViewModel.getDate().value!!)
+        } else {
+            showNoInternetDialog(requireContext()) { getInfo() }
+        }
     }
 }

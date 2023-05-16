@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_tournament_matches">
+
+    <fragment
+        android:id="@+id/navigation_tournament_matches"
+        android:name="com.example.sofascoreapp.ui.fragments.SpecificTournamentMatchesFragment"
+        android:label="@string/matches"
+        tools:layout="@layout/fragment_tournament_matches" />
+    <fragment
+        android:id="@+id/navigation_tournament_standings"
+        android:name="com.example.sofascoreapp.ui.fragments.SpecificTournamentStandingsFragment"
+        android:label="@string/standings"
+        tools:layout="@layout/fragment_tournament_standings" />
+
+</navigation>

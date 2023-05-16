@@ -5,7 +5,8 @@
     android:layout_height="66dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/surface_surface_1"
-    android:id="@+id/layout">
+    android:id="@+id/layout"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <include
         android:id="@+id/timeLayout"
@@ -17,6 +18,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.533" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="?attr/on_surface_on_surface_lv_4"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintStart_toEndOf="@id/timeLayout" />
 
     <include
         android:id="@+id/homeTeamLayout"
@@ -65,7 +75,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@+id/homeScore"
-        app:layout_constraintGuide_end="50dp" />
+        app:layout_constraintGuide_percent="0.8783455" />
 
     <TextView
         android:id="@+id/awayScore"

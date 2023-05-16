@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SofaScoreApp</string>
+    <string name="football">Nogomet</string>
+    <string name="basketball">Košarka</string>
+    <string name="amer_football_short">Amer. Nogomet</string>
+    <string name="today">DANAS</string>
+    <string name="numberOfEvents">%1$d Događanja</string>
+    <string name="noEventsToday">Nema događaja za ovaj dan</string>
+    <string name="full_time">Kraj utakmice</string>
+    <string name="details">Detalji</string>
+    <string name="matches">Utakmice</string>
+    <string name="standings">Poredak</string>
+    <string name="squad">Tim</string>
+    <string name="title_activity_team_details">Detalji tima</string>
+    <string name="no_results_yet">Još nema rezultata</string>
+    <string name="view_tournament_details">Pogledajte pojedinosti o turniru</string>
+    <string name="teamInfo">Informacije o timu</string>
+    <string name="coachName">Trener: %1$s</string>
+    <string name="totalPlayers">Ukupni broj igrača</string>
+    <string name="foreignPlayers">Strani igrači</string>
+    <string name="tournaments">Turniri</string>
+    <string name="venue">Mjesto natjecanja</string>
+    <string name="stadium">Stadion</string>
+    <string name="nextMatch">Sljedeća utakmica</string>
+    <string name="tomorrow">Sutra</string>
+    <string name="match_toolbar_text">%1$s, %2$s, %3$s, Runda %4$d</string>
+    <string name="nationality">Nacionalnost</string>
+    <string name="position">Pozicija</string>
+    <string name="years">%1$d God</string>
+    <string name="action_settings">Postavke</string>
+    <string name="team">Tim</string>
+    <string name="period_full_time">Kraj (%1$d - %2$d)</string>
+    <string name="period_half_time">Poluvrijeme (%1$d - %2$d)</string>
+    <string name="language">Jezik</string>
+    <string name="theme">Tema</string>
+    <string name="light">Svijetla</string>
+    <string name="dark">Tamna</string>
+    <string name="date_format">Format datuma</string>
+    <string name="about">O nama</string>
+    <string name="about_description">Sofascore Android Akademija</string>
+    <string name="class_year">Razred 2023.</string>
+    <string name="app_name_text">Ime aplikacije</string>
+
+    <string name="round_no">Kolo %1$d</string>
+
+    <string name="no_internet_title">Nema interneta</string>
+    <string name="no_internet_description">Molimo spojite se na internet!</string>
+
+    <string name="no_data_title">Nema podataka</string>
+    <string name="no_data_description">Nismo vam mogli dati najnovije podatke</string>
+
+    <string name="retry">Pokušaj ponovno</string>
+
+</resources>

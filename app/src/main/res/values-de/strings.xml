@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SofaScoreApp</string>
+    <string name="football">Fußball</string>
+    <string name="basketball">Basketball</string>
+    <string name="amer_football_short">Am. Fußball</string>
+    <string name="today">HEUTE</string>
+    <string name="numberOfEvents">%1$d Veranstaltungen</string>
+    <string name="noEventsToday">Für diesen Tag gibt es keine Veranstaltungen</string>
+    <string name="full_time">Vollzeit</string>
+    <string name="details">Einzelheiten</string>
+    <string name="matches">Streichhölzer</string>
+    <string name="standings">Rangliste</string>
+    <string name="squad">Gruppe</string>
+    <string name="title_activity_team_details">Teamdetails</string>
+    <string name="no_results_yet">Noch keine Ergebnisse</string>
+    <string name="view_tournament_details">Turnierdetails anzeigen</string>
+    <string name="teamInfo">Teaminfo</string>
+    <string name="coachName">Trainer: %1$s</string>
+    <string name="totalPlayers">Gesamtzahl der Spieler</string>
+    <string name="foreignPlayers">Ausländische Spieler</string>
+    <string name="tournaments">Turniere</string>
+    <string name="venue">Veranstaltungsort</string>
+    <string name="stadium">Stadion</string>
+    <string name="nextMatch">Nächstes Spiel</string>
+    <string name="tomorrow">Morgen</string>
+    <string name="match_toolbar_text">%1$s, %2$s, %3$s, Runden %4$d</string>
+    <string name="nationality">Nationalität</string>
+    <string name="position">Position</string>
+    <string name="years">%1$d Yah</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="team">Team</string>
+    <string name="period_full_time">FT (%1$d - %2$d)</string>
+    <string name="period_half_time">HT (%1$d - %2$d)</string>
+    <string name="language">Sprache</string>
+    <string name="theme">Thema</string>
+    <string name="light">Licht</string>
+    <string name="dark">Dunkel</string>
+    <string name="date_format">Datumsformat</string>
+    <string name="about">Um</string>
+    <string name="about_description">Sofascore Android Academy</string>
+    <string name="class_year">Klasse 2023</string>
+    <string name="app_name_text">App Name</string>
+
+    <string name="round_no">Runde %1$d</string>
+
+    <string name="no_internet_title">Kein Internet</string>
+    <string name="no_internet_description">Bitte stellen Sie eine Internetverbindung her!</string>
+
+    <string name="no_data_title">Keine Daten</string>
+    <string name="no_data_description">Wir konnten Ihnen nicht die neuesten Daten zur Verfügung stellen</string>
+
+    <string name="retry">wiederholen</string>
+
+</resources>
