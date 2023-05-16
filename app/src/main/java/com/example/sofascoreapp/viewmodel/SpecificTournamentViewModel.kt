@@ -1,18 +1,23 @@
 package com.example.sofascoreapp.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.insertSeparators
 import androidx.paging.liveData
+import androidx.paging.map
 import com.example.sofascoreapp.data.model.Standing
 import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.data.networking.Network
 import com.example.sofascoreapp.ui.paging.TeamEventsPagingSource
 import com.example.sofascoreapp.ui.paging.TournamentEventsPagingSource
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -28,13 +33,13 @@ class SpecificTournamentViewModel : ViewModel() {
         return _tournamentID
     }
 
-    private val _tournamentStandings = MutableLiveData<Response<ArrayList<Standing>>>()
+    private val _tournamentStandings = MutableLiveData<Standing>()
 
-    fun setTournamentStandings(standings: Response<ArrayList<Standing>>) {
+    fun setTournamentStandings(standings: Standing) {
         _tournamentStandings.value = standings
     }
 
-    fun getTournamentStandings(): MutableLiveData<Response<ArrayList<Standing>>> {
+    fun getTournamentStandings(): LiveData<Standing> {
         return _tournamentStandings
     }
 
@@ -61,9 +66,14 @@ class SpecificTournamentViewModel : ViewModel() {
 
     fun getLatestTournamentStandings() {
         viewModelScope.launch {
-            setTournamentStandings(
-                Network().getService().getTournamentStandings(_tournamentID.value!!)
-            )
+            val response = Network().getService().getTournamentStandings(_tournamentID.value!!)
+            if (response.isSuccessful) {
+                when (_sport.value) {
+                    "Football" -> setTournamentStandings(response.body()!![2])
+                    else -> setTournamentStandings(response.body()!![0])
+                }
+
+            }
         }
     }
 

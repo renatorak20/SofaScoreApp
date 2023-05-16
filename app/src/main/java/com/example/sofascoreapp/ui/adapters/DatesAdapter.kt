@@ -57,7 +57,7 @@ class DatesAdapter(
             )
         }
 
-        if (Preferences(activity).getSavedDateFormat()) {
+        if (Preferences.getSavedDateFormat()) {
             holder.binding.date.text = Utilities().getAvailableDateShort(item.date)
         } else {
             holder.binding.date.text = Utilities().getInvertedAvailableDateShort(item.date)

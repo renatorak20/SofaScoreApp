@@ -55,9 +55,9 @@ class MainActivity : AppCompatActivity() {
             val settingIntent = Intent(this, SettingsActivity::class.java)
             startActivity(settingIntent)
         }
+        Preferences.initialize(this)
 
-        Preferences(this).loadPreferences()
-
+        Preferences.loadPreferences()
     }
 
 

@@ -77,7 +77,7 @@ class MatchDetailActivity : AppCompatActivity() {
                     if (isToday) {
                         binding.matchHeader.notStartedLayout.date.text = getString(R.string.today)
                     } else {
-                        if (Preferences(this).getSavedDateFormat()) {
+                        if (Preferences.getSavedDateFormat()) {
                             binding.matchHeader.notStartedLayout.date.text =
                                 Utilities().getDate(it.body()?.startDate!!)
                         } else {
@@ -155,24 +155,14 @@ class MatchDetailActivity : AppCompatActivity() {
                 Utilities().setRotatingText(binding.toolbar.toolbarLeagueTitle)
 
                 binding.toolbar.toolbarLeagueTitle.setOnClickListener {
-                    startActivity(
-                        Intent(
-                            this,
-                            TournamentActivity::class.java
-                        ).putExtra(
-                            "tournamentID",
-                            matchViewModel.getEvent().value?.body()?.tournament?.id
-                        )
+                    TournamentActivity.start(
+                        this,
+                        matchViewModel.getEvent().value?.body()?.tournament!!
                     )
                 }
 
                 binding.noResultsLayout.viewTournamentDetails.setOnClickListener { view ->
-                    startActivity(
-                        Intent(
-                            this,
-                            TournamentActivity::class.java
-                        ).putExtra("tournamentID", it.body()?.tournament?.id)
-                    )
+                    TournamentActivity.start(this, it.body()?.tournament!!)
                 }
 
             }

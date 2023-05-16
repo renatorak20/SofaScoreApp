@@ -1,6 +1,7 @@
 package com.example.sofascoreapp
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
@@ -13,6 +14,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import coil.load
+import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.databinding.ActivityTournamentBinding
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
@@ -77,6 +79,17 @@ class TournamentActivity : AppCompatActivity() {
             viewModel.getLatestTournamentInfo()
         } else {
             showNoInternetDialog(this) { getInfo() }
+        }
+    }
+
+    companion object {
+        fun start(context: Context, tournament: Tournament) {
+            context.startActivity(
+                Intent(context, TournamentActivity::class.java).putExtra(
+                    "tournamentID",
+                    tournament.id
+                )
+            )
         }
     }
 

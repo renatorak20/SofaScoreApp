@@ -87,7 +87,7 @@ class TeamStandingsFragment : Fragment() {
                 recyclerAdapter = StandingsAdapter(
                     requireContext(),
                     viewModel.getStandings().value!![tournamentIndex].sortedStandingsRows,
-                    0,
+                    "Football",
                     viewModel.getTeamID().value!!
                 )
                 binding.standings.layout.visibility = View.VISIBLE
@@ -97,7 +97,7 @@ class TeamStandingsFragment : Fragment() {
                 recyclerAdapter = StandingsAdapter(
                     requireContext(),
                     viewModel.getStandings().value!![tournamentIndex].sortedStandingsRows,
-                    1,
+                    "Basketball",
                     viewModel.getTeamID().value!!
                 )
                 binding.standingsBasketball.layout.visibility = View.VISIBLE
@@ -107,7 +107,7 @@ class TeamStandingsFragment : Fragment() {
                 recyclerAdapter = StandingsAdapter(
                     requireContext(),
                     viewModel.getStandings().value!![tournamentIndex].sortedStandingsRows,
-                    2,
+                    "Amer. Football",
                     viewModel.getTeamID().value!!
                 )
                 binding.standingsAmericanFootball.layout.visibility = View.VISIBLE

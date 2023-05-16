@@ -21,19 +21,19 @@ import com.example.sofascoreapp.utils.Utilities
 import java.text.DecimalFormat
 
 
-private const val TYPE_FOOTBALL = 0
-private const val TYPE_BASKETBALL = 1
+private const val TYPE_FOOTBALL = "Football"
+private const val TYPE_BASKETBALL = "Basketball"
 
 class StandingsAdapter(
     val context: Context,
     val array: ArrayList<StandingRow>,
-    val sport: Int,
+    val sport: String,
     val selectedTeamID: Int
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        TYPE_FOOTBALL -> {
+        0 -> {
             FootballViewHolder(
                 StandingsLayoutItemBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -43,7 +43,7 @@ class StandingsAdapter(
             )
         }
 
-        TYPE_BASKETBALL -> {
+        1 -> {
             BasketballViewHolder(
                 StandingsBasketballItemBinding.inflate(
                     LayoutInflater.from(parent.context),

@@ -87,7 +87,7 @@ abstract class SportEventsFragment : Fragment() {
             if (mainViewModel.getDate().value == LocalDate.now().toString()) {
                 binding.info.date.text = getString(R.string.today)
             } else {
-                if (Preferences(requireActivity()).getSavedDateFormat()) {
+                if (Preferences.getSavedDateFormat()) {
                     binding.info.date.text =
                         Utilities().getLongDate(mainViewModel.getDate().value!!)
                 } else {

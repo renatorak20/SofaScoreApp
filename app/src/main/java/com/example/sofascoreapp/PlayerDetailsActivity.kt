@@ -72,7 +72,7 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
                 binding.content.nationalityText.text = player.country?.name?.subSequence(0, 3)
                 binding.content.positionText.text = player.position
 
-                if (Preferences(this).getSavedDateFormat()) {
+                if (Preferences.getSavedDateFormat()) {
                     binding.content.dateText.text = player.dateOfBirth?.let {
                         Utilities().getDateOfBirth(
                             it
@@ -104,7 +104,7 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
         }
 
         binding.content.recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerAdapter = EventsPagingAdapter(this, this, 0)
+        recyclerAdapter = EventsPagingAdapter(this, 0)
         binding.content.recyclerView.adapter = recyclerAdapter.withLoadStateHeaderAndFooter(
             LoadStateHeaderFooterAdapter(),
             LoadStateHeaderFooterAdapter()

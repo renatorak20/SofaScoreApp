@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import com.example.sofascoreapp.databinding.ActivitySettingsBinding
 import com.example.sofascoreapp.utils.Preferences
+import com.example.sofascoreapp.utils.Utilities
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 
 class SettingsActivity : AppCompatActivity() {
@@ -25,11 +26,13 @@ class SettingsActivity : AppCompatActivity() {
         loadSpinner()
 
         binding.themeDate.themeRadioGroup.setOnCheckedChangeListener { radioGroup, i ->
-            Preferences(this).swapTheme()
+            Preferences.swapTheme()
+            Utilities().restartApp(this)
         }
 
         binding.themeDate.dateRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
-            Preferences(this).swapDateFormats()
+            Preferences.swapDateFormats()
+            Utilities().restartApp(this)
         }
 
         binding.languageSelector.setOnItemClickListener { parent, view, position, id ->
@@ -43,9 +46,8 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     fun loadSpinner() {
-        val preferences = Preferences(this)
-        val supportedLanguages = preferences.getSortedListOfAvailableLanguages()
-        val currentLanguage = preferences.getCurrentLanguage()
+        val supportedLanguages = Preferences.getSortedListOfAvailableLanguages()
+        val currentLanguage = Preferences.getCurrentLanguage()
 
         val arrayAdapter = ArrayAdapter(
             this,
@@ -62,19 +64,20 @@ class SettingsActivity : AppCompatActivity() {
 
 
     fun handleLanguageChange(position: Int) {
-        val supportedLanguages = Preferences(this).getSortedListOfAvailableLanguages()
-        if (Preferences(this).getCurrentLanguage() != supportedLanguages[position].first) {
-            Preferences(this).setLanguage(supportedLanguages[position].first)
+        val supportedLanguages = Preferences.getSortedListOfAvailableLanguages()
+        if (Preferences.getCurrentLanguage() != supportedLanguages[position].first) {
+            Preferences.setLanguage(supportedLanguages[position].first)
+            Utilities().restartApp(this)
         }
     }
 
     fun loadPreferences() {
-        when (Preferences(this).getCurrentTheme()) {
+        when (Preferences.getCurrentTheme()) {
             "Light" -> binding.themeDate.themeRadioGroup.check(R.id.lightButton)
             else -> binding.themeDate.themeRadioGroup.check(R.id.darkButton)
         }
 
-        when (Preferences(this).getCurrentDate()) {
+        when (Preferences.getCurrentDate()) {
             getString(R.string.first_format) -> binding.themeDate.dateRadioGroup.check((R.id.firstFormat))
             else -> binding.themeDate.dateRadioGroup.check((R.id.secondFormat))
         }

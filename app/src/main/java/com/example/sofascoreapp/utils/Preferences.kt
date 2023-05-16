@@ -1,31 +1,49 @@
 package com.example.sofascoreapp.utils
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.example.sofascoreapp.R
 import java.util.Locale
 
+@SuppressLint("StaticFieldLeak")
+object Preferences {
+    private lateinit var context: Context
 
-class Preferences(val activity: Activity) {
+    private val preferences by lazy {
+        context.getSharedPreferences(
+            context.resources.getString(R.string.package_name),
+            Context.MODE_PRIVATE
+        )
+    }
 
-    private val preferences = activity.applicationContext.getSharedPreferences(
-        activity.applicationContext.resources.getString(R.string.package_name),
-        Context.MODE_PRIVATE
-    )
-    private val extrasThemes = activity.applicationContext.resources.getStringArray(R.array.themes)
-    private val extrasDates =
-        activity.applicationContext.resources.getStringArray(R.array.dateFormats)
-    private val extrasLanguages =
-        activity.applicationContext.resources.getStringArray(R.array.languages)
-    private val resources = activity.applicationContext.resources
+    private val extrasThemes by lazy {
+        context.resources.getStringArray(R.array.themes)
+    }
+
+    private val extrasDates by lazy {
+        context.resources.getStringArray(R.array.dateFormats)
+    }
+
+    private val extrasLanguages by lazy {
+        context.resources.getStringArray(R.array.languages)
+    }
+
+    private val resources by lazy {
+        context.resources
+    }
+
+    fun initialize(context: Context) {
+        this.context = context.applicationContext
+    }
 
     fun getCurrentDate() = preferences.getString(extrasDates[0], extrasDates[1])
+
     fun getCurrentTheme() = preferences.getString(extrasThemes[0], extrasThemes[1])
+
     fun getCurrentLanguage() =
         preferences.getString(resources.getString(R.string.lang), extrasLanguages[0])
-
 
     fun getSavedDateFormat(): Boolean {
         return getCurrentDate() == extrasDates[1]
@@ -36,7 +54,6 @@ class Preferences(val activity: Activity) {
             extrasDates[1] -> preferences.edit().putString(extrasDates[0], extrasDates[2]).apply()
             else -> preferences.edit().putString(extrasDates[0], extrasDates[1]).apply()
         }
-        Utilities().restartApp(activity)
     }
 
     fun swapTheme() {
@@ -46,14 +63,12 @@ class Preferences(val activity: Activity) {
 
             else -> preferences.edit().putString(extrasThemes[0], extrasThemes[1]).apply()
         }
-        Utilities().restartApp(activity)
     }
 
     fun setLanguage(langCode: String) {
         preferences.edit().putString(resources.getString(R.string.lang), langCode).apply()
         val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(langCode)
         AppCompatDelegate.setApplicationLocales(appLocale)
-        Utilities().restartApp(activity)
     }
 
     private fun setAppLocale(language: String) {
@@ -82,8 +97,6 @@ class Preferences(val activity: Activity) {
             languagePairs.add(Pair(languageCode, displayLanguage))
         }
 
-        return (languagePairs.sortedBy { it.second })
+        return languagePairs.sortedBy { it.second }
     }
-
-
 }

@@ -40,12 +40,7 @@ class TournamentsAdapter(
         holder.binding.tournamentName.text = item.name
 
         holder.binding.layout.setOnClickListener {
-            context.startActivity(
-                Intent(
-                    context,
-                    TournamentActivity::class.java
-                ).putExtra("tournamentID", item.id)
-            )
+            TournamentActivity.start(context, item)
         }
 
     }

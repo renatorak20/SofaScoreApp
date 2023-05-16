@@ -21,6 +21,7 @@ import com.example.sofascoreapp.data.model.WinnerCode
 import com.example.sofascoreapp.databinding.MatchListItemBinding
 import com.example.sofascoreapp.databinding.MatchListLeagueSectionBinding
 import com.example.sofascoreapp.databinding.RoundSectionBinding
+import com.example.sofascoreapp.ui.custom.MatchViewHolder
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import java.lang.IllegalArgumentException
@@ -29,7 +30,6 @@ private const val VIEW_TYPE_SECTION = 0
 private const val VIEW_TYPE_MATCH = 1
 
 class EventsPagingAdapter(
-    val activity: Activity,
     val context: Context,
     private val sectionType: Int
 ) :
@@ -92,127 +92,6 @@ class EventsPagingAdapter(
         }
     }
 
-    inner class MatchViewHolder(private val binding: MatchListItemBinding, val context: Context) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(event: Event) {
-            with(binding) {
-                timeLayout.timeOfMatch.text =
-                    event.startDate?.let { Utilities().getMatchHour(it) }
-
-                homeTeamLayout.teamName.text = event.homeTeam.name
-                awayTeamLayout.teamName.text = event.awayTeam.name
-
-
-                when (event.status) {
-                    EventStatusEnum.INPROGRESS -> {
-                        homeScore.text = event.homeScore.total.toString()
-                        awayScore.text = event.awayScore.total.toString()
-                    }
-
-                    EventStatusEnum.FINISHED -> {
-                        homeScore.text = event.homeScore.total.toString()
-                        awayScore.text = event.awayScore.total.toString()
-
-                        val typedValue = TypedValue()
-                        context.theme.resolveAttribute(
-                            R.attr.on_surface_on_surface_lv_1,
-                            typedValue,
-                            true
-                        );
-                        val teamColor = ContextCompat.getColor(context, typedValue.resourceId)
-
-                        context.theme.resolveAttribute(
-                            R.attr.on_surface_on_surface_lv_1,
-                            typedValue,
-                            true
-                        );
-                        val scoreColor = ContextCompat.getColor(context, typedValue.resourceId)
-
-                        when (event.winnerCode) {
-                            WinnerCode.HOME -> {
-                                homeTeamLayout.teamName.setTextColor(teamColor)
-                                homeScore.setTextColor(scoreColor)
-                            }
-
-                            WinnerCode.AWAY -> {
-
-                                awayTeamLayout.teamName.setTextColor(teamColor)
-                                awayScore.setTextColor(scoreColor)
-                            }
-
-                            else -> {}
-                        }
-
-                        timeLayout.currentMinute.text = context.getString(R.string.ft)
-
-                    }
-
-                    else -> {
-                        if (Utilities().isTomorrow(event.startDate!!)) {
-
-                        } else if (Utilities().isToday(event.startDate)) {
-                            if (Preferences(activity).getSavedDateFormat()) {
-                            } else {
-                                timeLayout.timeOfMatch.text =
-                                    Utilities().getInvertedAvailableDateShort(event.startDate)
-                                timeLayout.currentMinute.text =
-                                    Utilities().getMatchHour(event.startDate)
-                            }
-                        }
-                        when (decideDate(event.startDate)) {
-                            0 -> {
-                                timeLayout.timeOfMatch.text = context.getString(R.string.today)
-                                timeLayout.currentMinute.text =
-                                    Utilities().getMatchHour(event.startDate)
-                            }
-
-                            1 -> {
-                                timeLayout.timeOfMatch.text = context.getString(R.string.tomorrow)
-                                timeLayout.currentMinute.text =
-                                    Utilities().getMatchHour(event.startDate)
-                            }
-
-                            else -> {
-                                if (Preferences(activity).getSavedDateFormat()) {
-                                    timeLayout.timeOfMatch.text =
-                                        Utilities().getAvailableDateShort(event.startDate)
-                                    timeLayout.currentMinute.text =
-                                        Utilities().getMatchHour(event.startDate)
-                                } else {
-                                    timeLayout.timeOfMatch.text =
-                                        Utilities().getInvertedAvailableDateShort(event.startDate)
-                                    timeLayout.currentMinute.text =
-                                        Utilities().getMatchHour(event.startDate)
-                                }
-                            }
-                        }
-                    }
-                }
-
-                homeTeamLayout.clubIcon.load(
-                    context.getString(
-                        R.string.team_icon_url,
-                        event.homeTeam.id
-                    )
-                )
-                awayTeamLayout.clubIcon.load(
-                    context.getString(
-                        R.string.team_icon_url,
-                        event.awayTeam.id
-                    )
-                )
-
-                layout.setOnClickListener {
-                    val intent = Intent(context, MatchDetailActivity::class.java)
-                    intent.putExtra("matchID", event.id)
-                    context.startActivity(intent)
-                }
-            }
-
-        }
-
-    }
-
     class SectionViewHolder(
         private val binding: MatchListLeagueSectionBinding,
         val context: Context
@@ -224,14 +103,8 @@ class EventsPagingAdapter(
                 leagueIcon.load(context.getString(R.string.tournament_icon_url, tournament.id))
 
                 layout.setOnClickListener {
-                    context.startActivity(
-                        Intent(
-                            context,
-                            TournamentActivity::class.java
-                        ).putExtra("tournamentID", tournament.id)
-                    )
+                    TournamentActivity.start(context, tournament)
                 }
-
             }
         }
     }

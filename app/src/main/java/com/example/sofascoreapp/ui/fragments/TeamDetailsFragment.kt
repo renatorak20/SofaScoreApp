@@ -88,12 +88,7 @@ class TeamDetailsFragment : Fragment() {
                         binding.tournamentGrid.addView(itemLayout.root.rootView)
 
                         binding.tournamentGrid.setOnClickListener {
-                            context?.startActivity(
-                                Intent(
-                                    context,
-                                    TournamentActivity::class.java
-                                ).putExtra("tournamentID", tournament.id)
-                            )
+                            TournamentActivity.start(requireContext(), tournament)
                         }
 
                     }
@@ -118,7 +113,7 @@ class TeamDetailsFragment : Fragment() {
                         Utilities().getMatchHour(response.body()!![0].startDate!!)
                     binding.nextMatch.timeLayout.currentMinute.text = "-"
                 } else {
-                    if (Preferences(requireActivity()).getSavedDateFormat()) {
+                    if (Preferences.getSavedDateFormat()) {
                         binding.nextMatch.timeLayout.timeOfMatch.text =
                             Utilities().getDate(response.body()!![0].startDate!!)
                         binding.nextMatch.timeLayout.currentMinute.text =

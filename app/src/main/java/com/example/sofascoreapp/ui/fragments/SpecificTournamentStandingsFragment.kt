@@ -38,39 +38,28 @@ class SpecificTournamentStandingsFragment : Fragment() {
         }
     }
 
-    fun populateRecyclerView() {
+    private fun populateRecyclerView() {
 
         when (viewModel.getSport().value) {
             "Football" -> {
-                recyclerAdapter = StandingsAdapter(
-                    requireContext(),
-                    viewModel.getTournamentStandings().value?.body()!![2].sortedStandingsRows,
-                    0,
-                    -1
-                )
                 binding.standings.layout.visibility = View.VISIBLE
             }
 
             "Basketball" -> {
-                recyclerAdapter = StandingsAdapter(
-                    requireContext(),
-                    viewModel.getTournamentStandings().value?.body()!![0].sortedStandingsRows,
-                    1,
-                    -1
-                )
                 binding.standingsBasketball.layout.visibility = View.VISIBLE
             }
 
             else -> {
-                recyclerAdapter = StandingsAdapter(
-                    requireContext(),
-                    viewModel.getTournamentStandings().value?.body()!![0].sortedStandingsRows,
-                    2,
-                    -1
-                )
                 binding.standingsAmericanFootball.layout.visibility = View.VISIBLE
             }
         }
+
+        recyclerAdapter = StandingsAdapter(
+            requireContext(),
+            viewModel.getTournamentStandings().value?.sortedStandingsRows!!,
+            viewModel.getSport().value!!,
+            -1
+        )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = recyclerAdapter
