@@ -6,6 +6,8 @@ import android.content.Intent
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -24,6 +26,7 @@ import com.example.sofascoreapp.databinding.RoundSectionBinding
 import com.example.sofascoreapp.ui.custom.MatchViewHolder
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.clear
 import java.lang.IllegalArgumentException
 
 private const val VIEW_TYPE_SECTION = 0
@@ -84,7 +87,6 @@ class EventsPagingAdapter(
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.setIsRecyclable(false)
         when (holder) {
             is MatchViewHolder -> holder.bind(getItem(position) as Event)
             is SectionViewHolder -> holder.bind(getItem(position) as Tournament)
@@ -97,6 +99,9 @@ class EventsPagingAdapter(
         val context: Context
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(tournament: Tournament) {
+
+            resetFields()
+
             with(binding) {
                 country.text = tournament.country.name
                 league.text = tournament.name
@@ -107,6 +112,15 @@ class EventsPagingAdapter(
                 }
             }
         }
+
+        fun resetFields() {
+            with(binding) {
+                country.clear()
+                league.clear()
+                leagueIcon.clear()
+            }
+        }
+
     }
 
     class RoundViewHolder(
@@ -134,16 +148,6 @@ class EventsPagingAdapter(
                 is String -> (oldItem as String) == (newItem as String)
                 else -> (oldItem as Int) == (newItem as Int)
             }
-        }
-    }
-
-    fun decideDate(date: String): Int {
-        return if (Utilities().isToday(date)) {
-            0
-        } else if (Utilities().isTomorrow(date)) {
-            1
-        } else {
-            2
         }
     }
 }

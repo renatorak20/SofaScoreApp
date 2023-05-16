@@ -18,6 +18,9 @@ import com.example.sofascoreapp.utils.Utilities
 class MatchViewHolder(private val binding: MatchListItemBinding, val context: Context) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(event: Event) {
+
+        resetFields(binding)
+
         with(binding) {
 
             homeTeamLayout.teamName.text = event.homeTeam.name
@@ -73,7 +76,7 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                     }
                 }
 
-                else -> {
+                EventStatusEnum.NOTSTARTED -> {
                     if (Utilities().isToday(event.startDate!!)) {
                         timeLayout.currentMinute.text = "-"
                         timeLayout.timeOfMatch.text =
@@ -117,6 +120,36 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                 context.startActivity(intent)
             }
         }
-
     }
+
+    fun resetFields(binding: MatchListItemBinding) {
+        with(binding) {
+            homeScore.text = ""
+            awayScore.text = ""
+            timeLayout.currentMinute.text = ""
+            timeLayout.timeOfMatch.text = ""
+
+            val typedValue = TypedValue()
+            context.theme.resolveAttribute(
+                R.attr.on_surface_on_surface_lv_2,
+                typedValue,
+                true
+            )
+            val teamColor = ContextCompat.getColor(context, typedValue.resourceId)
+
+            context.theme.resolveAttribute(
+                R.attr.on_surface_on_surface_lv_2,
+                typedValue,
+                true
+            )
+            val scoreColor = ContextCompat.getColor(context, typedValue.resourceId)
+
+            homeTeamLayout.teamName.setTextColor(teamColor)
+            homeScore.setTextColor(scoreColor)
+            awayTeamLayout.teamName.setTextColor(teamColor)
+            awayScore.setTextColor(scoreColor)
+
+        }
+    }
+
 }
