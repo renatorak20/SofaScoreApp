@@ -22,6 +22,38 @@ data class Tournament(
     val country: Country
 )
 
+sealed class UiModel {
+    data class Event(
+        val id: Int,
+        val slug: String,
+        val tournament: Tournament,
+        val homeTeam: Team2,
+        val awayTeam: Team2,
+        val status: EventStatusEnum,
+        val startDate: String?,
+        val homeScore: Score,
+        val awayScore: Score,
+        val winnerCode: WinnerCode?,
+        val round: Int
+    ) : UiModel() {
+        constructor(event: com.example.sofascoreapp.data.model.Event) : this(
+            event.id,
+            event.slug,
+            event.tournament,
+            event.homeTeam,
+            event.awayTeam,
+            event.status,
+            event.startDate,
+            event.homeScore,
+            event.awayScore,
+            event.winnerCode,
+            event.round
+        )
+    }
+
+    data class SeparatorItem(val description: String) : UiModel()
+}
+
 data class Sport(
     val id: Int,
     val name: String,

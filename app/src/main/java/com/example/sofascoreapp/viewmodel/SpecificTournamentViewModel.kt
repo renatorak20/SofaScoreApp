@@ -3,6 +3,7 @@ package com.example.sofascoreapp.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -11,10 +12,11 @@ import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.liveData
 import androidx.paging.map
+import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.Standing
 import com.example.sofascoreapp.data.model.Tournament
+import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.data.networking.Network
-import com.example.sofascoreapp.ui.paging.TeamEventsPagingSource
 import com.example.sofascoreapp.ui.paging.TournamentEventsPagingSource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.map
@@ -94,6 +96,25 @@ class SpecificTournamentViewModel : ViewModel() {
         ),
         0,
         pagingSourceFactory = { TournamentEventsPagingSource(_tournamentID.value!!) }
-    ).liveData.cachedIn(viewModelScope)
+    ).liveData.cachedIn(viewModelScope).map { value: PagingData<Event> ->
+        value.map { event ->
+            UiModel.Event(event)
+        }
+            .insertSeparators { before, after ->
+                val round = value.map { it.round }
+                when {
+                    shouldSeparate(before, after) -> UiModel.SeparatorItem(
+                        "Round $round"
+                    )
+
+                    else -> null
+                }
+            }
+    }
+
+    fun shouldSeparate(before: UiModel.Event?, after: UiModel.Event?): Boolean {
+        return before?.round != after?.round
+    }
+
 
 }

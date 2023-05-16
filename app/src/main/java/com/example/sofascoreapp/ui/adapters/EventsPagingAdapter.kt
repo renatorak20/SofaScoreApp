@@ -17,6 +17,7 @@ import com.example.sofascoreapp.TournamentActivity
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Tournament
+import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.data.model.WinnerCode
 import com.example.sofascoreapp.databinding.MatchListItemBinding
 import com.example.sofascoreapp.databinding.MatchListLeagueSectionBinding
@@ -33,7 +34,7 @@ class EventsPagingAdapter(
     val context: Context,
     private val sectionType: Int
 ) :
-    PagingDataAdapter<Any, RecyclerView.ViewHolder>(EventsDiffCallback()) {
+    PagingDataAdapter<UiModel, RecyclerView.ViewHolder>(UiModelComparator) {
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
@@ -119,24 +120,6 @@ class EventsPagingAdapter(
     }
 
 
-    class EventsDiffCallback : DiffUtil.ItemCallback<Any>() {
-        override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
-            return when (oldItem) {
-                is Event -> oldItem.id == (newItem as Event).id
-                is String -> (oldItem as String) == (newItem as String)
-                else -> (oldItem as Int) == (newItem as Int)
-            }
-        }
-
-        override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
-            return when (oldItem) {
-                is Event -> (oldItem as Event) == (newItem as Event)
-                is String -> (oldItem as String) == (newItem as String)
-                else -> (oldItem as Int) == (newItem as Int)
-            }
-        }
-    }
-
     fun decideDate(date: String): Int {
         return if (Utilities().isToday(date)) {
             0
@@ -145,5 +128,28 @@ class EventsPagingAdapter(
         } else {
             2
         }
+    }
+
+    object UiModelComparator : DiffUtil.ItemCallback<UiModel>() {
+        override fun areItemsTheSame(
+            oldItem: UiModel,
+            newItem: UiModel
+        ): Boolean {
+            val isSameRepoItem = oldItem is UiModel.Event
+                    && newItem is UiModel.Event
+                    && oldItem.id == newItem.id
+
+            val isSameSeparatorItem = oldItem is UiModel.SeparatorItem
+                    && newItem is UiModel.SeparatorItem
+                    && oldItem.description == newItem.description
+
+            return isSameRepoItem || isSameSeparatorItem
+        }
+
+        override fun areContentsTheSame(
+            oldItem: UiModel,
+            newItem: UiModel
+        ) = oldItem == newItem
+
     }
 }
