@@ -15,6 +15,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import coil.load
 import com.example.sofascoreapp.data.model.Tournament
+import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.databinding.ActivityTournamentBinding
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
@@ -91,6 +92,16 @@ class TournamentActivity : AppCompatActivity() {
                 )
             )
         }
+
+        fun start(context: Context, tournament: UiModel.SeparatorTournament) {
+            context.startActivity(
+                Intent(context, TournamentActivity::class.java).putExtra(
+                    "tournamentID",
+                    tournament.event.tournament.id
+                )
+            )
+        }
+
     }
 
 }

@@ -31,7 +31,6 @@ private const val VIEW_TYPE_SECTION = 0
 private const val VIEW_TYPE_MATCH = 1
 
 class EventsRecyclerAdapter(
-    val activity: Activity,
     val context: Context,
     val array: ArrayList<Any>
 ) :

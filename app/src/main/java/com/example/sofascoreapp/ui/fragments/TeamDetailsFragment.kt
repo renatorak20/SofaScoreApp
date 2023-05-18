@@ -1,5 +1,6 @@
 package com.example.sofascoreapp.ui.fragments
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.TeamDetailsViewModel
+import com.google.android.material.progressindicator.CircularProgressIndicator
 
 class TeamDetailsFragment : Fragment() {
 
@@ -66,8 +68,10 @@ class TeamDetailsFragment : Fragment() {
                 ).toString()
 
                 binding.stats.foreignPlayerNumber.text = foreignPlayers
-                binding.stats.statIndicator.progress =
+                animateIndicator(
+                    binding.stats.statIndicator,
                     ((foreignPlayers.toFloat() / response.body()?.size?.toFloat()!!) * 100).toInt()
+                )
             }
         }
 
@@ -167,6 +171,13 @@ class TeamDetailsFragment : Fragment() {
         } else {
             showNoInternetDialog(requireContext()) { getInfo() }
         }
+    }
+
+    fun animateIndicator(indicator: CircularProgressIndicator, value: Int) {
+        val duration = 500
+        val animator = ObjectAnimator.ofInt(indicator, "progress", value)
+        animator.duration = duration.toLong()
+        animator.start()
     }
 
 }

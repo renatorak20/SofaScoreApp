@@ -8,9 +8,11 @@ import android.net.NetworkInfo
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.sofascoreapp.MainActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.CardColorEnum
@@ -201,6 +203,34 @@ class Utilities {
             this.setImageDrawable(null)
         }
 
+    }
+
+    fun setWinningTint(context: Context, vararg texts: TextView) {
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(
+            R.attr.on_surface_on_surface_lv_1,
+            typedValue,
+            true
+        )
+        val color = ContextCompat.getColor(context, typedValue.resourceId)
+
+        for (item in texts) {
+            item.setTextColor(color)
+        }
+    }
+
+    fun setNeutralTint(context: Context, vararg texts: TextView) {
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(
+            R.attr.on_surface_on_surface_lv_2,
+            typedValue,
+            true
+        )
+        val color = ContextCompat.getColor(context, typedValue.resourceId)
+
+        for (item in texts) {
+            item.setTextColor(color)
+        }
     }
 
 

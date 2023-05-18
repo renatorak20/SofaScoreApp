@@ -75,7 +75,6 @@ abstract class SportEventsFragment : Fragment() {
                     it.body()!!.groupBy { it.tournament }.flatMap { listOf(it.key) + it.value }
                 recyclerAdapter =
                     EventsRecyclerAdapter(
-                        requireActivity(),
                         requireContext(),
                         groupedMatches as ArrayList<Any>
                     )
