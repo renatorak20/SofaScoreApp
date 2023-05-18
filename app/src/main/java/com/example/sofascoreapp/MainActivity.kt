@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         binding = SharedActivityLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Preferences.initialize(this)
+
         supportActionBar?.hide()
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
@@ -55,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             val settingIntent = Intent(this, SettingsActivity::class.java)
             startActivity(settingIntent)
         }
-        Preferences.initialize(this)
+
 
         Preferences.loadPreferences()
     }

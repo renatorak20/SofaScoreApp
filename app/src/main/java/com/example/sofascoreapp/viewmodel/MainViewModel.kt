@@ -22,11 +22,11 @@ class MainViewModel : ViewModel() {
         _availableDays.value = days
     }
 
-    fun getAvailableDays(): MutableLiveData<ArrayList<MatchDate>> {
+    fun getAvailableDays(): LiveData<ArrayList<MatchDate>> {
         return _availableDays
     }
 
-    fun getDate(): MutableLiveData<String> {
+    fun getDate(): LiveData<String> {
         return _date
     }
 
@@ -82,7 +82,7 @@ class MainViewModel : ViewModel() {
         _events.value = results
     }
 
-    fun getEvents(): MutableLiveData<Response<ArrayList<Event>>> {
+    fun getEvents(): LiveData<Response<ArrayList<Event>>> {
         return _events
     }
 

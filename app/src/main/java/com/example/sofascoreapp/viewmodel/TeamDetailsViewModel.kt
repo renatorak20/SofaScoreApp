@@ -1,17 +1,23 @@
 package com.example.sofascoreapp.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.insertSeparators
 import androidx.paging.liveData
+import androidx.paging.map
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.data.model.Standing
 import com.example.sofascoreapp.data.model.TeamDetails
 import com.example.sofascoreapp.data.model.Tournament
+import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.data.networking.Network
 import com.example.sofascoreapp.ui.paging.TeamEventsPagingSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +33,7 @@ class TeamDetailsViewModel : ViewModel() {
         _teamID.value = id
     }
 
-    fun getTeamID(): MutableLiveData<Int> {
+    fun getTeamID(): LiveData<Int> {
         return _teamID
     }
 
@@ -37,7 +43,7 @@ class TeamDetailsViewModel : ViewModel() {
         _sport.value = sport
     }
 
-    fun getSport(): MutableLiveData<String> {
+    fun getSport(): LiveData<String> {
         return _sport
     }
 
@@ -48,7 +54,7 @@ class TeamDetailsViewModel : ViewModel() {
         _teamDetails.value = details
     }
 
-    fun getTeamDetails(): MutableLiveData<Response<TeamDetails>> {
+    fun getTeamDetails(): LiveData<Response<TeamDetails>> {
         return _teamDetails
     }
 
@@ -58,7 +64,7 @@ class TeamDetailsViewModel : ViewModel() {
         _teamPlayers.value = players
     }
 
-    fun getTeamPlayers(): MutableLiveData<Response<ArrayList<Player>>> {
+    fun getTeamPlayers(): LiveData<Response<ArrayList<Player>>> {
         return _teamPlayers
     }
 
@@ -68,7 +74,7 @@ class TeamDetailsViewModel : ViewModel() {
         _teamTournaments.value = tournaments
     }
 
-    fun getTeamTournaments(): MutableLiveData<Response<ArrayList<Tournament>>> {
+    fun getTeamTournaments(): LiveData<Response<ArrayList<Tournament>>> {
         return _teamTournaments
     }
 
@@ -79,7 +85,29 @@ class TeamDetailsViewModel : ViewModel() {
         ),
         0,
         pagingSourceFactory = { TeamEventsPagingSource(_teamID.value!!) }
-    ).liveData.cachedIn(viewModelScope)
+    ).liveData.cachedIn(viewModelScope).map { value: PagingData<Event> ->
+        value.map { event ->
+            UiModel.Event(event)
+        }
+            .insertSeparators { before, after ->
+                val round = before?.round ?: after?.round
+                when {
+                    shouldSeparate(before, after) -> UiModel.SeparatorRound(
+                        "Round $round"
+                    )
+
+                    else -> null
+                }
+            }
+    }
+
+    fun shouldSeparate(before: UiModel.Event?, after: UiModel.Event?): Boolean {
+        if (before?.round == 1) return false
+        if (before == null) return true
+        if (after == null) return false
+        return before.round != after.round
+    }
+
 
     private val _standings = MutableLiveData<ArrayList<Standing>>()
 
@@ -87,7 +115,7 @@ class TeamDetailsViewModel : ViewModel() {
         _standings.value = rows
     }
 
-    fun getStandings(): MutableLiveData<ArrayList<Standing>> {
+    fun getStandings(): LiveData<ArrayList<Standing>> {
         return _standings
     }
 
@@ -151,7 +179,7 @@ class TeamDetailsViewModel : ViewModel() {
         _nextMatches.value = events
     }
 
-    fun getNextMatch(): MutableLiveData<Response<ArrayList<Event>>> {
+    fun getNextMatch(): LiveData<Response<ArrayList<Event>>> {
         return _nextMatches
     }
 

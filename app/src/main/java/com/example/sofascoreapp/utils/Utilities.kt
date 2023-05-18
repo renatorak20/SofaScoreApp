@@ -8,9 +8,11 @@ import android.net.NetworkInfo
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.sofascoreapp.MainActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.CardColorEnum
@@ -23,6 +25,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -191,6 +194,20 @@ class Utilities {
                         .show()
                 }
             }
+        }
+    }
+
+    fun setWinningTint(context: Context, vararg texts: TextView) {
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(
+            R.attr.on_surface_on_surface_lv_1,
+            typedValue,
+            true
+        )
+        val color = ContextCompat.getColor(context, typedValue.resourceId)
+
+        for (item in texts) {
+            item.setTextColor(color)
         }
     }
 

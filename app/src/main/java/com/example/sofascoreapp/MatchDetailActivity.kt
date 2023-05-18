@@ -33,6 +33,8 @@ class MatchDetailActivity : AppCompatActivity() {
         binding = ActivityMatchDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Preferences.initialize(this)
+
         matchViewModel = ViewModelProvider(this)[MatchDetailViewModel::class.java]
 
         supportActionBar?.hide()
@@ -98,26 +100,27 @@ class MatchDetailActivity : AppCompatActivity() {
                     binding.matchHeader.scoreLayout.currentMinute.text =
                         getString(R.string.full_time)
 
-                    val typedValue = TypedValue()
-                    theme.resolveAttribute(
-                        R.attr.on_surface_on_surface_lv_1,
-                        typedValue,
-                        true
-                    );
-                    val teamColor = ContextCompat.getColor(this, typedValue.resourceId)
 
                     when (it.body()?.winnerCode) {
-                        WinnerCode.HOME -> binding.matchHeader.scoreLayout.homeTeamScore.setTextColor(
-                            teamColor
+                        WinnerCode.HOME -> Utilities().setWinningTint(
+                            this,
+                            binding.matchHeader.scoreLayout.homeTeamScore
                         )
 
+
                         WinnerCode.DRAW -> {
-                            binding.matchHeader.scoreLayout.homeTeamScore.setTextColor(teamColor)
-                            binding.matchHeader.scoreLayout.awayTeamScore.setTextColor(teamColor)
-                            binding.matchHeader.scoreLayout.minus.setTextColor(teamColor)
+                            Utilities().setWinningTint(
+                                this,
+                                binding.matchHeader.scoreLayout.homeTeamScore,
+                                binding.matchHeader.scoreLayout.awayTeamScore,
+                                binding.matchHeader.scoreLayout.minus
+                            )
                         }
 
-                        else -> binding.matchHeader.scoreLayout.awayTeamScore.setTextColor(teamColor)
+                        else -> Utilities().setWinningTint(
+                            this,
+                            binding.matchHeader.scoreLayout.awayTeamScore
+                        )
                     }
                 }
 

@@ -21,7 +21,6 @@ class TournamentEventsPagingSource(private val tournamentID: Int) : PagingSource
         val response = Network().getService().getTournamentEventsPage(tournamentID, span, abs(key))
         val allEvents = response.body() ?: emptyList()
 
-        //val groupedMatches = allEvents.groupBy { it.round }.flatMap { listOf(it.key) + it.value }
         val sortedMatches = allEvents.sortedBy { it.round }
 
         val prevKey = if (allEvents.isNotEmpty()) key - 1 else null

@@ -26,7 +26,7 @@ sealed class UiModel {
     data class Event(
         val id: Int,
         val slug: String,
-        val tournament: Tournament,
+        val tournament: com.example.sofascoreapp.data.model.Tournament,
         val homeTeam: Team2,
         val awayTeam: Team2,
         val status: EventStatusEnum,
@@ -51,7 +51,25 @@ sealed class UiModel {
         )
     }
 
-    data class SeparatorItem(val description: String) : UiModel()
+    data class Tournament(
+        val id: Int,
+        val name: String,
+        val slug: String,
+        val sport: Sport,
+        val country: Country
+    ) : UiModel() {
+        constructor(tournament: com.example.sofascoreapp.data.model.Tournament) : this(
+            tournament.id,
+            tournament.name,
+            tournament.slug,
+            tournament.sport,
+            tournament.country
+        )
+    }
+
+    data class SeparatorRound(val description: String) : UiModel()
+
+    data class SeparatorTournament(val event: Event) : UiModel()
 }
 
 data class Sport(

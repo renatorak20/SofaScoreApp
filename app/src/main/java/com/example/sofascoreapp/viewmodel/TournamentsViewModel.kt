@@ -1,5 +1,6 @@
 package com.example.sofascoreapp.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +18,7 @@ class TournamentsViewModel : ViewModel() {
         _tournaments.value = results
     }
 
-    fun getTournaments(): MutableLiveData<Response<ArrayList<Tournament>>> {
+    fun getTournaments(): LiveData<Response<ArrayList<Tournament>>> {
         return _tournaments
     }
 

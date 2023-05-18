@@ -19,7 +19,6 @@ import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.data.networking.Network
 import com.example.sofascoreapp.ui.paging.TournamentEventsPagingSource
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -31,7 +30,7 @@ class SpecificTournamentViewModel : ViewModel() {
         _tournamentID.value = id
     }
 
-    fun getTournamentID(): MutableLiveData<Int> {
+    fun getTournamentID(): LiveData<Int> {
         return _tournamentID
     }
 
@@ -51,7 +50,7 @@ class SpecificTournamentViewModel : ViewModel() {
         _tournamentInfo.value = tournament
     }
 
-    fun getTournamentInfo(): MutableLiveData<Response<Tournament>> {
+    fun getTournamentInfo(): LiveData<Response<Tournament>> {
         return _tournamentInfo
     }
 
@@ -85,7 +84,7 @@ class SpecificTournamentViewModel : ViewModel() {
         _sport.value = sport
     }
 
-    fun getSport(): MutableLiveData<String> {
+    fun getSport(): LiveData<String> {
         return _sport
     }
 
@@ -101,9 +100,9 @@ class SpecificTournamentViewModel : ViewModel() {
             UiModel.Event(event)
         }
             .insertSeparators { before, after ->
-                val round = value.map { it.round }
+                val round = before?.round ?: after?.round
                 when {
-                    shouldSeparate(before, after) -> UiModel.SeparatorItem(
+                    shouldSeparate(before, after) -> UiModel.SeparatorRound(
                         "Round $round"
                     )
 
@@ -113,7 +112,9 @@ class SpecificTournamentViewModel : ViewModel() {
     }
 
     fun shouldSeparate(before: UiModel.Event?, after: UiModel.Event?): Boolean {
-        return before?.round != after?.round
+        if (before?.round == 1) return false
+        if (after == null) return false
+        return before?.round != after.round
     }
 
 
