@@ -195,6 +195,15 @@ class Utilities {
                 }
             }
         }
+
+        fun TextView.clear() {
+            this.text = ""
+        }
+
+        fun ImageView.clear() {
+            this.setImageDrawable(null)
+        }
+
     }
 
     fun setWinningTint(context: Context, vararg texts: TextView) {

@@ -37,7 +37,7 @@ class TeamMatchesFragment : Fragment() {
             ViewModelProvider(requireActivity())[TeamDetailsViewModel::class.java]
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerAdapter = EventsPagingAdapter(requireContext(), 1)
+        recyclerAdapter = EventsPagingAdapter(requireContext(), 0)
         binding.recyclerView.adapter = recyclerAdapter.withLoadStateHeaderAndFooter(
             LoadStateHeaderFooterAdapter(),
             LoadStateHeaderFooterAdapter()

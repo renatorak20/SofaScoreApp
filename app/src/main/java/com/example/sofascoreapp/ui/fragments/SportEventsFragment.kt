@@ -42,7 +42,7 @@ abstract class SportEventsFragment : Fragment() {
 
         binding.indicator.show()
 
-        mainViewModel.initializeAvailableDays(30)
+        mainViewModel.initializeAvailableDays(50)
 
         mainViewModel.getAvailableDays().observe(viewLifecycleOwner) {
             binding.daysRecyclerView.layoutManager =

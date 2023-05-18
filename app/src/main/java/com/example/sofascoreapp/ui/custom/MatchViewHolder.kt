@@ -21,6 +21,7 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
     fun bind(event: UiModel.Event) {
 
         Preferences.initialize(context)
+        resetFields(binding)
 
         with(binding) {
 
@@ -108,6 +109,10 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
     }
 
     fun bind(event: Event) {
+
+        Preferences.initialize(context)
+        resetFields(binding)
+
         with(binding) {
 
             homeTeamLayout.teamName.text = event.homeTeam.name
@@ -189,6 +194,36 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                 context.startActivity(intent)
             }
         }
-
     }
+
+    fun resetFields(binding: MatchListItemBinding) {
+        with(binding) {
+            homeScore.text = ""
+            awayScore.text = ""
+            timeLayout.currentMinute.text = ""
+            timeLayout.timeOfMatch.text = ""
+
+            val typedValue = TypedValue()
+            context.theme.resolveAttribute(
+                R.attr.on_surface_on_surface_lv_2,
+                typedValue,
+                true
+            )
+            val teamColor = ContextCompat.getColor(context, typedValue.resourceId)
+
+            context.theme.resolveAttribute(
+                R.attr.on_surface_on_surface_lv_2,
+                typedValue,
+                true
+            )
+            val scoreColor = ContextCompat.getColor(context, typedValue.resourceId)
+
+            homeTeamLayout.teamName.setTextColor(teamColor)
+            homeScore.setTextColor(scoreColor)
+            awayTeamLayout.teamName.setTextColor(teamColor)
+            awayScore.setTextColor(scoreColor)
+
+        }
+    }
+
 }

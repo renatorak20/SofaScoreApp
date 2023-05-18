@@ -19,12 +19,12 @@ class TeamEventsPagingSource(private val teamID: Int) : PagingSource<Int, Event>
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Event> {
         val key = params.key ?: 0
-        val span = if (key > 0) "next" else "last"
+        var span = if (key > 0) "next" else "last"
 
         val response = Network().getService().getTeamEventsPage(teamID, span, abs(key))
         val allEvents = response.body() ?: emptyList()
 
-        val sortedMatches = allEvents.sortedBy { it.round }
+        val sortedMatches = allEvents.sortedBy { it.tournament.name }
 
         val prevKey = if (allEvents.isNotEmpty()) key - 1 else null
         val nextKey = if (allEvents.isNotEmpty()) key + 1 else null

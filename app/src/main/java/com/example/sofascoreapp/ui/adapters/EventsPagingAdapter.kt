@@ -14,8 +14,8 @@ import com.example.sofascoreapp.databinding.MatchListItemBinding
 import com.example.sofascoreapp.databinding.MatchListLeagueSectionBinding
 import com.example.sofascoreapp.databinding.RoundSectionBinding
 import com.example.sofascoreapp.ui.custom.MatchViewHolder
+import com.example.sofascoreapp.utils.Utilities.Companion.clear
 import java.lang.IllegalArgumentException
-
 
 
 class EventsPagingAdapter(
@@ -30,7 +30,6 @@ class EventsPagingAdapter(
             is UiModel.Event -> R.layout.match_list_item
             is UiModel.SeparatorRound -> R.layout.match_list_league_section
             is UiModel.SeparatorTournament -> R.layout.match_list_league_section
-            null -> throw IllegalStateException("Unknown view")
             else -> throw IllegalStateException("Unknown view")
         }
     }
@@ -75,7 +74,6 @@ class EventsPagingAdapter(
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.setIsRecyclable(false)
         when (holder) {
             is MatchViewHolder -> holder.bind(getItem(position) as UiModel.Event)
             is SectionViewHolder -> holder.bind(getItem(position) as UiModel.SeparatorTournament)
@@ -88,6 +86,9 @@ class EventsPagingAdapter(
         val context: Context
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(tournament: UiModel.SeparatorTournament) {
+
+            resetFields()
+
             with(binding) {
                 country.text = tournament.event.tournament.country.name
                 league.text = tournament.event.tournament.name
@@ -103,6 +104,15 @@ class EventsPagingAdapter(
                 }
             }
         }
+
+        fun resetFields() {
+            with(binding) {
+                country.clear()
+                league.clear()
+                leagueIcon.clear()
+            }
+        }
+
     }
 
     class RoundViewHolder(
