@@ -21,6 +21,8 @@ import com.example.sofascoreapp.data.networking.Network
 import com.example.sofascoreapp.ui.paging.TeamEventsPagingSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -56,6 +58,7 @@ class TeamDetailsViewModel : ViewModel() {
     fun getTeamDetails(): MutableLiveData<Response<TeamDetails>> {
         return _teamDetails
     }
+
 
     private val _teamPlayers = MutableLiveData<Response<ArrayList<Player>>>()
 

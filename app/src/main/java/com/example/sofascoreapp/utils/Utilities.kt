@@ -142,11 +142,9 @@ class Utilities {
         return period.years
     }
 
-    fun makeTeamMembersList(coach: Player, players: ArrayList<Player>): ArrayList<Any> {
-        val teamMembersList = ArrayList<Any>()
-        teamMembersList.add("Coach")
+    fun makeTeamMembersList(coach: Player, players: ArrayList<Player>): ArrayList<Player> {
+        val teamMembersList = ArrayList<Player>()
         teamMembersList.add(coach)
-        teamMembersList.add("Players")
         teamMembersList.addAll(players)
         return teamMembersList
     }

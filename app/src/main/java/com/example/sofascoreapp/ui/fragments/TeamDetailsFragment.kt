@@ -91,7 +91,7 @@ class TeamDetailsFragment : Fragment() {
 
                         binding.tournamentGrid.addView(itemLayout.root.rootView)
 
-                        binding.tournamentGrid.setOnClickListener {
+                        itemLayout.root.setOnClickListener {
                             TournamentActivity.start(requireContext(), tournament)
                         }
 

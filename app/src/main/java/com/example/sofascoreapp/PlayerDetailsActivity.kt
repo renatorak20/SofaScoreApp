@@ -1,9 +1,9 @@
 package com.example.sofascoreapp
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -12,7 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.example.sofascoreapp.data.model.Event
+import com.example.sofascoreapp.data.model.Player
+import com.example.sofascoreapp.data.model.Tournament
+import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.databinding.ActivityPlayerDetailsBinding
 import com.example.sofascoreapp.ui.adapters.EventsPagingAdapter
 import com.example.sofascoreapp.ui.adapters.LoadStateHeaderFooterAdapter
@@ -20,7 +22,6 @@ import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.PlayerDetailsViewModel
-import com.example.sofascoreapp.viewmodel.SpecificTournamentViewModel
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -154,6 +155,17 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
             viewModel.getPlayerInformation()
         } else {
             showNoInternetDialog(this) { getInfo() }
+        }
+    }
+
+    companion object {
+        fun start(context: Context, playerID: Int) {
+            context.startActivity(
+                Intent(context, PlayerDetailsActivity::class.java).putExtra(
+                    "playerID",
+                    playerID
+                )
+            )
         }
     }
 

@@ -25,6 +25,9 @@
     <!--TeamDetails-->
     <string name="teamInfo">Team Info</string>
     <string name="coachName">Coach: %1$s</string>
+    <string name="coach">Coach</string>
+    <string name="players">Players</string>
+    <string name="player">Player</string>
     <string name="totalPlayers">Total Players</string>
     <string name="foreignPlayers">Foreign Players</string>
     <string name="tournaments">Tournaments</string>

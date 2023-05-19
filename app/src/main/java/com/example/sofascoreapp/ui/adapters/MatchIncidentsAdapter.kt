@@ -145,9 +145,7 @@ class MatchIncidentsAdapter(
                 }
 
                 layout.setOnClickListener {
-                    val intent = Intent(context, PlayerDetailsActivity::class.java)
-                    intent.putExtra("playerID", incident.player?.id)
-                    context.startActivity(intent)
+                    PlayerDetailsActivity.start(context, incident.player?.id!!)
                 }
             }
         }
@@ -192,9 +190,7 @@ class MatchIncidentsAdapter(
                 }
 
                 layout.setOnClickListener {
-                    val intent = Intent(context, PlayerDetailsActivity::class.java)
-                    intent.putExtra("playerID", incident.player?.id)
-                    context.startActivity(intent)
+                    PlayerDetailsActivity.start(context, incident.player?.id!!)
                 }
             }
         }
@@ -235,9 +231,7 @@ class MatchIncidentsAdapter(
                 }
 
                 layout.setOnClickListener {
-                    val intent = Intent(context, PlayerDetailsActivity::class.java)
-                    intent.putExtra("playerID", incident.player?.id)
-                    context.startActivity(intent)
+                    PlayerDetailsActivity.start(context, incident.player?.id!!)
                 }
             }
         }

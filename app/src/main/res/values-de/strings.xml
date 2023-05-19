@@ -17,6 +17,7 @@
     <string name="view_tournament_details">Turnierdetails anzeigen</string>
     <string name="teamInfo">Teaminfo</string>
     <string name="coachName">Trainer: %1$s</string>
+    <string name="coach">Trainer</string>
     <string name="totalPlayers">Gesamtzahl der Spieler</string>
     <string name="foreignPlayers">Ausländische Spieler</string>
     <string name="tournaments">Turniere</string>
@@ -51,5 +52,7 @@
     <string name="no_data_description">Wir konnten Ihnen nicht die neuesten Daten zur Verfügung stellen</string>
 
     <string name="retry">wiederholen</string>
+    <string name="players">Spieler</string>
+    <string name="player">Spieler</string>
 
 </resources>

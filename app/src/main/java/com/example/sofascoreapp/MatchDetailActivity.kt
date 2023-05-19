@@ -33,6 +33,8 @@ class MatchDetailActivity : AppCompatActivity() {
         binding = ActivityMatchDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Preferences.initialize(this)
+
         matchViewModel = ViewModelProvider(this)[MatchDetailViewModel::class.java]
 
         supportActionBar?.hide()
