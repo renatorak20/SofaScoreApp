@@ -21,7 +21,8 @@ class TeamEventsPagingSource(private val teamID: Int) : PagingSource<Int, Event>
         val key = params.key ?: 0
         var span = if (key > 0) "next" else "last"
 
-        val response = Network().getService().getTeamEventsPage(teamID, span, abs(key))
+        val response = Network().getService()
+            .getTeamEventsPage(teamID, span, if (span == "next") abs(key - 1) else abs(key))
         val allEvents = response.body() ?: emptyList()
 
         val sortedMatches = allEvents.sortedBy { it.tournament.name }

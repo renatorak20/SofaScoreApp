@@ -20,7 +20,8 @@ class PlayerEventsPagingSource(private val playerID: Int) : PagingSource<Int, Ev
         val key = params.key ?: 0
         val span = if (key > 0) "next" else "last"
 
-        val response = Network().getService().getPlayerEventsPage(playerID, span, abs(key))
+        val response = Network().getService()
+            .getPlayerEventsPage(playerID, span, if (span == "next") abs(key - 1) else abs(key))
 
         val allEvents = response.body() ?: emptyList()
 
