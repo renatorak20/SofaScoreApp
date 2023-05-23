@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.SportType
@@ -17,6 +18,7 @@ import com.example.sofascoreapp.databinding.ActivityMatchDetailBinding
 import com.example.sofascoreapp.ui.adapters.MatchIncidentsAdapter
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.MatchDetailViewModel
 import java.util.ArrayList
@@ -123,24 +125,20 @@ class MatchDetailActivity : AppCompatActivity() {
                     }
                 }
 
-                binding.toolbar.toolbarLeagueIcon.load(
-                    getString(
-                        R.string.tournament_icon_url,
-                        it.body()?.tournament?.id
-                    )
+                binding.toolbar.toolbarLeagueIcon.loadImage(
+                    this,
+                    DataType.TOURNAMENT,
+                    it.body()?.tournament?.id!!
                 )
-
-                binding.matchHeader.homeTeamLayout.teamIcon.load(
-                    getString(
-                        R.string.team_icon_url,
-                        it.body()?.homeTeam?.id
-                    )
+                binding.matchHeader.homeTeamLayout.teamIcon.loadImage(
+                    this,
+                    DataType.TEAM,
+                    it.body()?.homeTeam?.id!!
                 )
-                binding.matchHeader.awayTeamLayout.teamIcon.load(
-                    getString(
-                        R.string.team_icon_url,
-                        it.body()?.awayTeam?.id
-                    )
+                binding.matchHeader.awayTeamLayout.teamIcon.loadImage(
+                    this,
+                    DataType.TEAM,
+                    it.body()?.awayTeam?.id!!
                 )
 
                 binding.matchHeader.homeTeamLayout.teamTitle.text = it.body()?.homeTeam?.name

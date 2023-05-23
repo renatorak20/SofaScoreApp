@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.UiModel
@@ -15,6 +16,7 @@ import com.example.sofascoreapp.data.model.WinnerCode
 import com.example.sofascoreapp.databinding.MatchListItemBinding
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 
 class MatchViewHolder(private val binding: MatchListItemBinding, val context: Context) :
     RecyclerView.ViewHolder(binding.root) {
@@ -39,11 +41,21 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
 
                     when (event.winnerCode) {
                         WinnerCode.HOME -> {
-                            Utilities().setWinningTint(context, homeTeamLayout.teamName, homeScore)
+                            Utilities().setMatchTint(
+                                context,
+                                true,
+                                homeTeamLayout.teamName,
+                                homeScore
+                            )
                         }
 
                         WinnerCode.AWAY -> {
-                            Utilities().setWinningTint(context, awayTeamLayout.teamName, awayScore)
+                            Utilities().setMatchTint(
+                                context,
+                                true,
+                                awayTeamLayout.teamName,
+                                awayScore
+                            )
                         }
 
                         else -> {}
@@ -84,18 +96,8 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                 }
             }
 
-            homeTeamLayout.clubIcon.load(
-                context.getString(
-                    R.string.team_icon_url,
-                    event.homeTeam.id
-                )
-            )
-            awayTeamLayout.clubIcon.load(
-                context.getString(
-                    R.string.team_icon_url,
-                    event.awayTeam.id
-                )
-            )
+            homeTeamLayout.clubIcon.loadImage(context, DataType.TEAM, event.homeTeam.id)
+            awayTeamLayout.clubIcon.loadImage(context, DataType.TEAM, event.awayTeam.id)
 
             layout.setOnClickListener {
                 val intent = Intent(context, MatchDetailActivity::class.java)
@@ -127,14 +129,40 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
 
                     when (event.winnerCode) {
                         WinnerCode.HOME -> {
-                            Utilities().setWinningTint(context, homeTeamLayout.teamName, homeScore)
+                            Utilities().setMatchTint(
+                                context,
+                                true,
+                                homeTeamLayout.teamName,
+                                homeScore
+                            )
                         }
 
                         WinnerCode.AWAY -> {
-                            Utilities().setWinningTint(context, awayTeamLayout.teamName, awayScore)
+                            Utilities().setMatchTint(
+                                context,
+                                true,
+                                awayTeamLayout.teamName,
+                                awayScore
+                            )
                         }
 
-                        else -> {}
+                        else -> {
+                            if (event.homeScore.total!! > event.awayScore.total!!) {
+                                Utilities().setMatchTint(
+                                    context,
+                                    true,
+                                    homeTeamLayout.teamName,
+                                    homeScore
+                                )
+                            } else if (event.awayScore.total > event.homeScore.total) {
+                                Utilities().setMatchTint(
+                                    context,
+                                    true,
+                                    awayTeamLayout.teamName,
+                                    awayScore
+                                )
+                            }
+                        }
                     }
 
                     timeLayout.currentMinute.text = context.getString(R.string.ft)
@@ -172,18 +200,8 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                 }
             }
 
-            homeTeamLayout.clubIcon.load(
-                context.getString(
-                    R.string.team_icon_url,
-                    event.homeTeam.id
-                )
-            )
-            awayTeamLayout.clubIcon.load(
-                context.getString(
-                    R.string.team_icon_url,
-                    event.awayTeam.id
-                )
-            )
+            homeTeamLayout.clubIcon.loadImage(context, DataType.TEAM, event.homeTeam.id)
+            awayTeamLayout.clubIcon.loadImage(context, DataType.TEAM, event.awayTeam.id)
 
             layout.setOnClickListener {
                 val intent = Intent(context, MatchDetailActivity::class.java)
@@ -201,8 +219,9 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
             timeLayout.currentMinute.text = ""
             timeLayout.timeOfMatch.text = ""
 
-            Utilities().setNeutralTint(
+            Utilities().setMatchTint(
                 context,
+                false,
                 homeTeamLayout.teamName,
                 homeScore,
                 awayTeamLayout.teamName,

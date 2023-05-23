@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.TournamentActivity
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.databinding.TournamentListItemBinding
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 
 
 class TournamentsAdapter(
@@ -36,7 +38,7 @@ class TournamentsAdapter(
 
         val item = array[position]
 
-        holder.binding.tournamentIcon.load(context.getString(R.string.tournament_icon_url, item.id))
+        holder.binding.tournamentIcon.loadImage(context, DataType.TOURNAMENT, item.id)
         holder.binding.tournamentName.text = item.name
 
         holder.binding.layout.setOnClickListener {

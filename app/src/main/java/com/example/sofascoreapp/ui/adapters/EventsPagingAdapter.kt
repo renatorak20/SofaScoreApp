@@ -16,6 +16,7 @@ import coil.load
 import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.TournamentActivity
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Tournament
@@ -28,6 +29,7 @@ import com.example.sofascoreapp.ui.custom.MatchViewHolder
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.clear
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import java.lang.IllegalArgumentException
 
 class EventsPagingAdapter(
@@ -103,12 +105,7 @@ class EventsPagingAdapter(
             with(binding) {
                 country.text = tournament.event.tournament.country.name
                 league.text = tournament.event.tournament.name
-                leagueIcon.load(
-                    context.getString(
-                        R.string.tournament_icon_url,
-                        tournament.event.tournament.id
-                    )
-                )
+                leagueIcon.loadImage(context, DataType.TOURNAMENT, tournament.event.tournament.id)
 
                 layout.setOnClickListener {
                     TournamentActivity.start(context, tournament)

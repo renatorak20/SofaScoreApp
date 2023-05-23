@@ -12,9 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.sofascoreapp.R
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.databinding.FragmentTeamStandingsBinding
 import com.example.sofascoreapp.ui.adapters.StandingsAdapter
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.TeamDetailsViewModel
 
@@ -75,11 +77,10 @@ class TeamStandingsFragment : Fragment() {
 
     fun populateRecyclerView(tournamentIndex: Int) {
 
-        binding.teamTournamentHeader.tournamentIcon.load(
-            getString(
-                R.string.tournament_icon_url,
-                viewModel.getTeamTournaments().value?.body()!![tournamentIndex].id
-            )
+        binding.teamTournamentHeader.tournamentIcon.loadImage(
+            requireContext(),
+            DataType.TOURNAMENT,
+            viewModel.getTeamTournaments().value?.body()!![tournamentIndex].id
         )
 
         when (viewModel.getSport().value) {

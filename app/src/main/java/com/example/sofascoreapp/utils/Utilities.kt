@@ -13,9 +13,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.sofascoreapp.MainActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.CardColorEnum
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.GoalTypeEnum
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.Player
@@ -201,29 +204,39 @@ class Utilities {
             this.setImageDrawable(null)
         }
 
-    }
+        fun ImageView.loadImage(context: Context, type: DataType, id: Int) {
 
-    fun setWinningTint(context: Context, vararg texts: TextView) {
-        val typedValue = TypedValue()
-        context.theme.resolveAttribute(
-            R.attr.on_surface_on_surface_lv_1,
-            typedValue,
-            true
-        )
-        val color = ContextCompat.getColor(context, typedValue.resourceId)
+            val url = when (type) {
+                DataType.TEAM -> context.getString(R.string.team_icon_url, id)
+                DataType.TOURNAMENT -> context.getString(R.string.tournament_icon_url, id)
+                else -> context.getString(R.string.player_image_url, id)
+            }
 
-        for (item in texts) {
-            item.setTextColor(color)
+            this.load(url) {
+                transformations(CircleCropTransformation())
+            }
         }
+
     }
 
-    fun setNeutralTint(context: Context, vararg texts: TextView) {
+    fun setMatchTint(context: Context, isWinning: Boolean, vararg texts: TextView) {
+
         val typedValue = TypedValue()
-        context.theme.resolveAttribute(
-            R.attr.on_surface_on_surface_lv_2,
-            typedValue,
-            true
-        )
+
+        if (isWinning) {
+            context.theme.resolveAttribute(
+                R.attr.on_surface_on_surface_lv_1,
+                typedValue,
+                true
+            )
+        } else {
+            context.theme.resolveAttribute(
+                R.attr.on_surface_on_surface_lv_2,
+                typedValue,
+                true
+            )
+        }
+
         val color = ContextCompat.getColor(context, typedValue.resourceId)
 
         for (item in texts) {

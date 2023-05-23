@@ -13,6 +13,7 @@ import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.TournamentActivity
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Player
@@ -25,6 +26,7 @@ import com.example.sofascoreapp.databinding.TeamMemberSectionBinding
 import com.example.sofascoreapp.ui.custom.MatchViewHolder
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import java.lang.IllegalArgumentException
 
 private const val VIEW_TYPE_SECTION = 0
@@ -92,7 +94,8 @@ class EventsRecyclerAdapter(
             with(binding) {
                 country.text = tournament.country.name
                 league.text = tournament.name
-                leagueIcon.load(context.getString(R.string.tournament_icon_url, tournament.id))
+
+                leagueIcon.loadImage(context, DataType.TOURNAMENT, tournament.id)
 
                 layout.setOnClickListener {
                     TournamentActivity.start(context, tournament)

@@ -15,11 +15,13 @@ import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.TournamentActivity
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.databinding.FragmentTeamDetailsBinding
 import com.example.sofascoreapp.databinding.TeamTournementItemBinding
 import com.example.sofascoreapp.databinding.TournamentListItemBinding
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.TeamDetailsViewModel
 import com.google.android.material.progressindicator.CircularProgressIndicator
@@ -82,11 +84,10 @@ class TeamDetailsFragment : Fragment() {
 
                         val itemLayout = TeamTournementItemBinding.inflate(layoutInflater)
                         itemLayout.tournamentName.text = tournament.name
-                        itemLayout.tournamentIcon.load(
-                            getString(
-                                R.string.tournament_icon_url,
-                                tournament.id
-                            )
+                        itemLayout.tournamentIcon.loadImage(
+                            requireContext(),
+                            DataType.TOURNAMENT,
+                            tournament.id
                         )
 
                         binding.tournamentGrid.addView(itemLayout.root.rootView)
@@ -130,28 +131,24 @@ class TeamDetailsFragment : Fragment() {
                     }
                 }
 
-                binding.nextMatch.homeTeamLayout.clubIcon.load(
-                    getString(
-                        R.string.team_icon_url,
-                        response.body()!![0].homeTeam.id
-                    )
+                binding.nextMatch.homeTeamLayout.clubIcon.loadImage(
+                    requireContext(),
+                    DataType.TEAM,
+                    response.body()!![0].homeTeam.id
                 )
-                binding.nextMatch.awayTeamLayout.clubIcon.load(
-                    getString(
-                        R.string.team_icon_url,
-                        response.body()!![0].awayTeam.id
-                    )
+                binding.nextMatch.awayTeamLayout.clubIcon.loadImage(
+                    requireContext(),
+                    DataType.TEAM,
+                    response.body()!![0].awayTeam.id
                 )
 
                 binding.nextMatchHeader.league.text = response.body()!![0].tournament.name
                 binding.nextMatchHeader.country.text = response.body()!![0].tournament.country.name
-                binding.nextMatchHeader.leagueIcon.load(
-                    getString(
-                        R.string.tournament_icon_url,
-                        response.body()!![0].tournament.id
-                    )
+                binding.nextMatchHeader.leagueIcon.loadImage(
+                    requireContext(),
+                    DataType.TOURNAMENT,
+                    response.body()!![0].tournament.id
                 )
-
 
             }
         }

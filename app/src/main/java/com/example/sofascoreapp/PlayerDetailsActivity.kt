@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.data.model.UiModel
@@ -20,6 +21,7 @@ import com.example.sofascoreapp.ui.adapters.EventsPagingAdapter
 import com.example.sofascoreapp.ui.adapters.LoadStateHeaderFooterAdapter
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.PlayerDetailsViewModel
 import com.google.android.material.appbar.AppBarLayout
@@ -52,23 +54,19 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
 
                 val player = response.body()!!
                 binding.collapsingToolbar.title = player.name
-                binding.playerImage.load(
-                    getString(
-                        R.string.player_image_url,
-                        viewModel.getPlayerID().value
-                    )
-                ) {
-                    transformations(CircleCropTransformation())
-                    error(AppCompatResources.getDrawable(applicationContext, R.drawable.ic_person))
-                }
 
-                binding.content.playerClubLayout.clubIcon.load(
-                    getString(
-                        R.string.team_icon_url,
-                        player.team?.id
-                    )
+                binding.playerImage.loadImage(
+                    this,
+                    DataType.PLAYER,
+                    viewModel.getPlayerID().value!!
                 )
-                binding.content.playerClubLayout.clubName.text = player.team?.name
+
+                binding.content.playerClubLayout.clubIcon.loadImage(
+                    this,
+                    DataType.TEAM,
+                    player.team?.id!!
+                )
+                binding.content.playerClubLayout.clubName.text = player.team.name
 
                 binding.content.nationalityText.text = player.country?.name?.subSequence(0, 3)
                 binding.content.positionText.text = player.position
@@ -150,7 +148,7 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
         binding.playerImage.visibility = visibility
     }
 
-    fun getInfo() {
+    private fun getInfo() {
         if (Utilities().isNetworkAvailable(this)) {
             viewModel.getPlayerInformation()
         } else {
