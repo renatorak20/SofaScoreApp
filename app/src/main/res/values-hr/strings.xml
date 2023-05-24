@@ -8,6 +8,7 @@
     <string name="numberOfEvents">%1$d Događanja</string>
     <string name="noEventsToday">Nema događaja za ovaj dan</string>
     <string name="full_time">Kraj utakmice</string>
+    <string name="in_progress">U tijeku</string>
     <string name="details">Detalji</string>
     <string name="matches">Utakmice</string>
     <string name="standings">Poredak</string>
@@ -54,5 +55,7 @@
     <string name="retry">Pokušaj ponovno</string>
     <string name="players">Igrači</string>
     <string name="player">Igrač</string>
+    <string name="football_first_half">Prvo poluvrijeme (%1$d - %2$d)</string>
+    <string name="football_second_half">Drugo poluvrijeme (%1$d - %2$d)</string>
 
 </resources>

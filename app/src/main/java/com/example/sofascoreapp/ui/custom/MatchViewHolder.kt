@@ -17,6 +17,7 @@ import com.example.sofascoreapp.databinding.MatchListItemBinding
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
+import kotlin.random.Random
 
 class MatchViewHolder(private val binding: MatchListItemBinding, val context: Context) :
     RecyclerView.ViewHolder(binding.root) {
@@ -33,6 +34,18 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                 EventStatusEnum.INPROGRESS -> {
                     homeScore.text = event.homeScore.total.toString()
                     awayScore.text = event.awayScore.total.toString()
+
+                    timeLayout.currentMinute.text =
+                        context.getString(R.string.minute, Random(1000).nextInt(1, 30))
+                    timeLayout.timeOfMatch.text =
+                        event.startDate.let { Utilities().getMatchHour(it!!) }
+                    Utilities().setMatchTint(
+                        context,
+                        2,
+                        homeScore,
+                        awayScore,
+                        timeLayout.currentMinute
+                    )
                 }
 
                 EventStatusEnum.FINISHED -> {
@@ -43,7 +56,7 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                         WinnerCode.HOME -> {
                             Utilities().setMatchTint(
                                 context,
-                                true,
+                                1,
                                 homeTeamLayout.teamName,
                                 homeScore
                             )
@@ -52,7 +65,7 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                         WinnerCode.AWAY -> {
                             Utilities().setMatchTint(
                                 context,
-                                true,
+                                1,
                                 awayTeamLayout.teamName,
                                 awayScore
                             )
@@ -121,6 +134,18 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                 EventStatusEnum.INPROGRESS -> {
                     homeScore.text = event.homeScore.total.toString()
                     awayScore.text = event.awayScore.total.toString()
+
+                    timeLayout.currentMinute.text =
+                        context.getString(R.string.minute, Random(1000).nextInt(1, 30))
+                    timeLayout.timeOfMatch.text =
+                        event.startDate.let { Utilities().getMatchHour(it!!) }
+                    Utilities().setMatchTint(
+                        context,
+                        2,
+                        homeScore,
+                        awayScore,
+                        timeLayout.currentMinute
+                    )
                 }
 
                 EventStatusEnum.FINISHED -> {
@@ -131,7 +156,7 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                         WinnerCode.HOME -> {
                             Utilities().setMatchTint(
                                 context,
-                                true,
+                                1,
                                 homeTeamLayout.teamName,
                                 homeScore
                             )
@@ -140,7 +165,7 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                         WinnerCode.AWAY -> {
                             Utilities().setMatchTint(
                                 context,
-                                true,
+                                1,
                                 awayTeamLayout.teamName,
                                 awayScore
                             )
@@ -150,14 +175,14 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                             if (event.homeScore.total!! > event.awayScore.total!!) {
                                 Utilities().setMatchTint(
                                     context,
-                                    true,
+                                    1,
                                     homeTeamLayout.teamName,
                                     homeScore
                                 )
                             } else if (event.awayScore.total > event.homeScore.total) {
                                 Utilities().setMatchTint(
                                     context,
-                                    true,
+                                    1,
                                     awayTeamLayout.teamName,
                                     awayScore
                                 )
@@ -221,7 +246,7 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
 
             Utilities().setMatchTint(
                 context,
-                false,
+                0,
                 homeTeamLayout.teamName,
                 homeScore,
                 awayTeamLayout.teamName,

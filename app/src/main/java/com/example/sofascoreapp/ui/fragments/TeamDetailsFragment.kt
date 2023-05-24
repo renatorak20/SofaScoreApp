@@ -16,6 +16,7 @@ import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.TournamentActivity
 import com.example.sofascoreapp.data.model.DataType
+import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.databinding.FragmentTeamDetailsBinding
 import com.example.sofascoreapp.databinding.TeamTournementItemBinding
 import com.example.sofascoreapp.databinding.TournamentListItemBinding
@@ -25,6 +26,7 @@ import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.TeamDetailsViewModel
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import kotlin.random.Random
 
 class TeamDetailsFragment : Fragment() {
 
@@ -105,6 +107,26 @@ class TeamDetailsFragment : Fragment() {
         teamDetailsViewModel.getNextMatch().observe(requireActivity()) { response ->
             if (response.isSuccessful) {
 
+                with(binding) {
+
+                    if (response.body()!![0].status == EventStatusEnum.INPROGRESS) {
+                        nextMatch.timeLayout.currentMinute.text =
+                            requireContext().getString(R.string.minute, Random(1000).nextInt(1, 30))
+                        Utilities().setMatchTint(
+                            requireContext(),
+                            2,
+                            nextMatch.timeLayout.currentMinute,
+                            nextMatch.homeScore,
+                            nextMatch.awayScore
+                        )
+
+                        nextMatch.homeScore.text = response.body()!![0].homeScore.total.toString()
+                        nextMatch.awayScore.text = response.body()!![0].awayScore.total.toString()
+                    } else {
+                        binding.nextMatch.timeLayout.currentMinute.text = "-"
+                    }
+                }
+
                 binding.nextMatch.homeTeamLayout.teamName.text = response.body()!![0].homeTeam.name
                 binding.nextMatch.awayTeamLayout.teamName.text = response.body()!![0].awayTeam.name
 
@@ -116,7 +138,6 @@ class TeamDetailsFragment : Fragment() {
                 } else if (Utilities().isToday(response.body()!![0].startDate!!)) {
                     binding.nextMatch.timeLayout.timeOfMatch.text =
                         Utilities().getMatchHour(response.body()!![0].startDate!!)
-                    binding.nextMatch.timeLayout.currentMinute.text = "-"
                 } else {
                     if (Preferences.getSavedDateFormat()) {
                         binding.nextMatch.timeLayout.timeOfMatch.text =

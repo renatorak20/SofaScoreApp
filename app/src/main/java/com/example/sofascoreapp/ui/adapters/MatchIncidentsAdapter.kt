@@ -21,6 +21,7 @@ import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
 import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
 import com.example.sofascoreapp.databinding.MatchHoopItemBinding
 import com.example.sofascoreapp.databinding.PeriodLayoutBinding
+import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.clear
 
 class MatchIncidentsAdapter(
@@ -116,6 +117,7 @@ class MatchIncidentsAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(incident: Incident) {
             binding.periodText.text = incident.text
+            Utilities().setMatchTint(context, 2, binding.periodText)
         }
     }
 

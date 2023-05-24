@@ -1,5 +1,6 @@
 package com.example.sofascoreapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -72,6 +73,17 @@ class TeamDetailsActivity : AppCompatActivity() {
             teamDetailsViewModel.getLatestTeamDetails()
         } else {
             showNoInternetDialog(this) { getInfo() }
+        }
+    }
+
+    companion object {
+        fun start(context: Context, teamID: Int) {
+            context.startActivity(
+                Intent(context, TeamDetailsActivity::class.java).putExtra(
+                    "teamID",
+                    teamID
+                )
+            )
         }
     }
 

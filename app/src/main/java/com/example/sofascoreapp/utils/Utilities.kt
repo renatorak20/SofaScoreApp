@@ -21,7 +21,9 @@ import com.example.sofascoreapp.data.model.CardColorEnum
 import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.GoalTypeEnum
 import com.example.sofascoreapp.data.model.Incident
+import com.example.sofascoreapp.data.model.IncidentEnum
 import com.example.sofascoreapp.data.model.Player
+import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
 import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -219,22 +221,34 @@ class Utilities {
 
     }
 
-    fun setMatchTint(context: Context, isWinning: Boolean, vararg texts: TextView) {
+    fun setMatchTint(context: Context, type: Int, vararg texts: TextView) {
 
         val typedValue = TypedValue()
 
-        if (isWinning) {
-            context.theme.resolveAttribute(
-                R.attr.on_surface_on_surface_lv_1,
-                typedValue,
-                true
-            )
-        } else {
-            context.theme.resolveAttribute(
-                R.attr.on_surface_on_surface_lv_2,
-                typedValue,
-                true
-            )
+        when (type) {
+            0 -> {
+                context.theme.resolveAttribute(
+                    R.attr.on_surface_on_surface_lv_2,
+                    typedValue,
+                    true
+                )
+            }
+
+            1 -> {
+                context.theme.resolveAttribute(
+                    R.attr.on_surface_on_surface_lv_1,
+                    typedValue,
+                    true
+                )
+            }
+
+            2 -> {
+                context.theme.resolveAttribute(
+                    R.attr.specific_live,
+                    typedValue,
+                    true
+                )
+            }
         }
 
         val color = ContextCompat.getColor(context, typedValue.resourceId)
@@ -242,6 +256,126 @@ class Utilities {
         for (item in texts) {
             item.setTextColor(color)
         }
+    }
+
+    fun decideLastPeriod(
+        incidents: ArrayList<Incident>,
+        sportType: String,
+        context: Context
+    ): ArrayList<Incident> {
+
+        val homeScore = incidents[incidents.size - 1].homeScore
+        val awayScore = incidents[incidents.size - 1].awayScore
+
+        when (sportType) {
+            "Football" -> {
+                var lastPeriod: Int? = null
+                for (item in incidents) {
+                    if (item.type == IncidentEnum.PERIOD) {
+                        lastPeriod = if (item.text!!.contains("HT")) {
+                            2
+                        } else {
+                            1
+                        }
+                    }
+                }
+                if (lastPeriod != null) {
+                    val text = when (lastPeriod) {
+                        1 -> context.getString(R.string.football_first_half, homeScore, awayScore)
+                        else -> context.getString(
+                            R.string.football_second_half,
+                            homeScore,
+                            awayScore
+                        )
+                    }
+
+                    incidents.add(
+                        Incident(
+                            null,
+                            null,
+                            null,
+                            homeScore,
+                            awayScore,
+                            null,
+                            -1,
+                            -1,
+                            IncidentEnum.PERIOD,
+                            text,
+                            null
+                        )
+                    )
+
+                }
+            }
+
+            else -> {
+                var lastPeriod: Int? = null
+                for (item in incidents) {
+                    if (item.type == IncidentEnum.PERIOD) {
+                        lastPeriod = if (item.text!!.contains("Q1")) {
+                            2
+                        } else if (item.text.contains("Q2")) {
+                            3
+                        } else if (item.text.contains("Q3")) {
+                            4
+                        } else {
+                            1
+                        }
+                    }
+                }
+                if (lastPeriod != null) {
+                    val text = when (lastPeriod) {
+                        1 -> context.getString(
+                            R.string.period_basketball_a_football,
+                            1,
+                            homeScore,
+                            awayScore
+                        )
+
+                        2 -> context.getString(
+                            R.string.period_basketball_a_football,
+                            2,
+                            homeScore,
+                            awayScore
+                        )
+
+                        3 -> context.getString(
+                            R.string.period_basketball_a_football,
+                            3,
+                            homeScore,
+                            awayScore
+                        )
+
+                        else -> context.getString(
+                            R.string.period_basketball_a_football,
+                            4,
+                            homeScore,
+                            awayScore
+                        )
+                    }
+
+                    incidents.add(
+                        Incident(
+                            null,
+                            null,
+                            null,
+                            homeScore,
+                            awayScore,
+                            null,
+                            -1,
+                            -1,
+                            IncidentEnum.PERIOD,
+                            text,
+                            null
+                        )
+                    )
+
+                }
+            }
+        }
+
+        return incidents
+
     }
 
 
