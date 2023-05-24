@@ -22,7 +22,7 @@ import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.MatchDetailViewModel
-import java.util.ArrayList
+import kotlin.collections.ArrayList
 
 class MatchDetailActivity : AppCompatActivity() {
 
@@ -50,12 +50,17 @@ class MatchDetailActivity : AppCompatActivity() {
             if (it.isSuccessful && it.body()?.isNotEmpty()!!) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-                Utilities().decideLastPeriod(
-                    it.body()!!,
-                    matchViewModel.getEvent().value?.body()?.tournament?.sport?.name!!,
-                    this
-                )
-                var reversedList = it.body()?.reversed() as ArrayList<Incident>
+                var reversedList = it.body()
+                var pair: Pair<Int?, ArrayList<Incident>>? = null
+
+                if (matchViewModel.getEvent().value?.body()!!.status == EventStatusEnum.INPROGRESS) {
+                    pair = Utilities().decideLastPeriod(
+                        it.body()!!,
+                        matchViewModel.getEvent().value?.body()?.tournament?.sport?.name!!,
+                        this
+                    )
+                    reversedList = pair.second.reversed() as ArrayList<Incident>
+                }
 
                 val sportType =
                     when (matchViewModel.getEvent().value?.body()!!.tournament.sport.name) {
@@ -65,8 +70,10 @@ class MatchDetailActivity : AppCompatActivity() {
                     }
                 recyclerAdapter = MatchIncidentsAdapter(
                     this,
-                    reversedList,
-                    sportType
+                    reversedList!!,
+                    sportType,
+                    matchViewModel.getEvent().value?.body()!!.status == EventStatusEnum.INPROGRESS,
+                    pair?.first
                 )
                 binding.recyclerView.adapter = recyclerAdapter
             }

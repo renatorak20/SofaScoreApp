@@ -262,14 +262,13 @@ class Utilities {
         incidents: ArrayList<Incident>,
         sportType: String,
         context: Context
-    ): ArrayList<Incident> {
+    ): Pair<Int?, ArrayList<Incident>> {
 
         val homeScore = incidents[incidents.size - 1].homeScore
         val awayScore = incidents[incidents.size - 1].awayScore
-
+        var lastPeriod: Int? = null
         when (sportType) {
             "Football" -> {
-                var lastPeriod: Int? = null
                 for (item in incidents) {
                     if (item.type == IncidentEnum.PERIOD) {
                         lastPeriod = if (item.text!!.contains("HT")) {
@@ -309,7 +308,6 @@ class Utilities {
             }
 
             else -> {
-                var lastPeriod: Int? = null
                 for (item in incidents) {
                     if (item.type == IncidentEnum.PERIOD) {
                         lastPeriod = if (item.text!!.contains("Q1")) {
@@ -374,7 +372,7 @@ class Utilities {
             }
         }
 
-        return incidents
+        return Pair(lastPeriod, incidents)
 
     }
 

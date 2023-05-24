@@ -27,7 +27,9 @@ import com.example.sofascoreapp.utils.Utilities.Companion.clear
 class MatchIncidentsAdapter(
     val context: Context,
     val array: ArrayList<Incident>,
-    val sport: SportType
+    val sport: SportType,
+    val inProgress: Boolean,
+    val period: Int?
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -117,7 +119,33 @@ class MatchIncidentsAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(incident: Incident) {
             binding.periodText.text = incident.text
-            Utilities().setMatchTint(context, 2, binding.periodText)
+            if (inProgress && period != null) {
+                when (sport) {
+                    SportType.FOOTBALL -> {
+                        if ((period == 1 && incident.text?.contains("HT")!!) || (period == 2 && incident.text?.equals(
+                                context.getString(
+                                    R.string.football_second_half,
+                                    incident.homeScore,
+                                    incident.awayScore
+                                )
+                            ) == true)
+                        ) {
+                            Utilities().setMatchTint(context, 2, binding.periodText)
+                        } else {
+                            Utilities().setMatchTint(context, 1, binding.periodText)
+                        }
+                    }
+
+                    else -> {
+                        if (incident.text?.substring(0, 2)?.contains("Q${period}") == true) {
+                            Utilities().setMatchTint(context, 2, binding.periodText)
+                        } else {
+                            Utilities().setMatchTint(context, 1, binding.periodText)
+                        }
+                    }
+                }
+            }
+
         }
     }
 
