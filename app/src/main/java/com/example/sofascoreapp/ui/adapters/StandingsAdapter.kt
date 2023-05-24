@@ -119,12 +119,7 @@ class StandingsAdapter(
             }
 
             binding.layout.setOnClickListener {
-                context.startActivity(
-                    Intent(
-                        context,
-                        TeamDetailsActivity::class.java
-                    ).putExtra("teamID", row.team.id)
-                )
+                TeamDetailsActivity.start(context, row.team.id)
             }
         }
     }
@@ -165,12 +160,7 @@ class StandingsAdapter(
             }
 
             binding.layout.setOnClickListener {
-                context.startActivity(
-                    Intent(
-                        context,
-                        TeamDetailsActivity::class.java
-                    ).putExtra("teamID", row.team.id)
-                )
+                TeamDetailsActivity.start(context, row.team.id)
             }
 
         }
@@ -214,12 +204,7 @@ class StandingsAdapter(
             }
 
             binding.layout.setOnClickListener {
-                context.startActivity(
-                    Intent(
-                        context,
-                        TeamDetailsActivity::class.java
-                    ).putExtra("teamID", row.team.id)
-                )
+                TeamDetailsActivity.start(context, row.team.id)
             }
 
         }

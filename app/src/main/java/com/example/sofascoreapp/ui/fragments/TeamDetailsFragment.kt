@@ -175,9 +175,10 @@ class TeamDetailsFragment : Fragment() {
         }
 
         binding.nextMatch.layout.setOnClickListener {
-            val intent = Intent(requireContext(), MatchDetailActivity::class.java)
-            intent.putExtra("matchID", teamDetailsViewModel.getNextMatch().value?.body()!![0].id)
-            startActivity(intent)
+            MatchDetailActivity.start(
+                requireContext(),
+                teamDetailsViewModel.getNextMatch().value?.body()!![0].id
+            )
         }
 
 

@@ -93,9 +93,7 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
         binding.appbar.addOnOffsetChangedListener(this)
 
         binding.content.playerClubLayout.layout.setOnClickListener {
-            val intent = Intent(this, TeamDetailsActivity::class.java)
-            intent.putExtra("teamID", viewModel.getPlayer().value?.body()!!.team?.id)
-            startActivity(intent)
+            TeamDetailsActivity.start(this, viewModel.getPlayer().value?.body()!!.team?.id!!)
         }
 
         binding.back.setOnClickListener {

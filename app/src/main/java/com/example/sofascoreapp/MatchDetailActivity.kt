@@ -1,5 +1,6 @@
 package com.example.sofascoreapp
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -227,6 +228,17 @@ class MatchDetailActivity : AppCompatActivity() {
             matchViewModel.getAllEventInfo()
         } else {
             showNoInternetDialog(this) { getInfo() }
+        }
+    }
+
+    companion object {
+        fun start(context: Context, teamID: Int) {
+            context.startActivity(
+                Intent(context, MatchDetailActivity::class.java).putExtra(
+                    "matchID",
+                    teamID
+                )
+            )
         }
     }
 

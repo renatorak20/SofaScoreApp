@@ -113,9 +113,7 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
             awayTeamLayout.clubIcon.loadImage(context, DataType.TEAM, event.awayTeam.id)
 
             layout.setOnClickListener {
-                val intent = Intent(context, MatchDetailActivity::class.java)
-                intent.putExtra("matchID", event.id)
-                context.startActivity(intent)
+                MatchDetailActivity.start(context, event.id)
             }
         }
     }
@@ -229,9 +227,7 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
             awayTeamLayout.clubIcon.loadImage(context, DataType.TEAM, event.awayTeam.id)
 
             layout.setOnClickListener {
-                val intent = Intent(context, MatchDetailActivity::class.java)
-                intent.putExtra("matchID", event.id)
-                context.startActivity(intent)
+                MatchDetailActivity.start(context, event.id)
             }
         }
     }
