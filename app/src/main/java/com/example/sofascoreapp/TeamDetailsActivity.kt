@@ -1,5 +1,6 @@
 package com.example.sofascoreapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +12,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import coil.load
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.databinding.ActivityTeamDetailsBinding
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.TeamDetailsViewModel
 
@@ -60,12 +63,7 @@ class TeamDetailsActivity : AppCompatActivity() {
             if (response.isSuccessful) {
                 binding.teamToolbar.name.text = response.body()!!.name
                 binding.teamToolbar.country.text = response.body()!!.country.name
-                binding.teamToolbar.logo.load(
-                    getString(
-                        R.string.team_icon_url,
-                        response.body()!!.id
-                    )
-                )
+                binding.teamToolbar.logo.loadImage(this, DataType.TEAM, response.body()!!.id)
             }
         }
     }
@@ -75,6 +73,17 @@ class TeamDetailsActivity : AppCompatActivity() {
             teamDetailsViewModel.getLatestTeamDetails()
         } else {
             showNoInternetDialog(this) { getInfo() }
+        }
+    }
+
+    companion object {
+        fun start(context: Context, teamID: Int) {
+            context.startActivity(
+                Intent(context, TeamDetailsActivity::class.java).putExtra(
+                    "teamID",
+                    teamID
+                )
+            )
         }
     }
 

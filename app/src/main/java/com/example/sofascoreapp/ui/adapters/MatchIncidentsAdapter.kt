@@ -21,6 +21,7 @@ import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
 import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
 import com.example.sofascoreapp.databinding.MatchHoopItemBinding
 import com.example.sofascoreapp.databinding.PeriodLayoutBinding
+import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.clear
 
 class MatchIncidentsAdapter(
@@ -116,6 +117,7 @@ class MatchIncidentsAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(incident: Incident) {
             binding.periodText.text = incident.text
+            Utilities().setMatchTint(context, 2, binding.periodText)
         }
     }
 
@@ -145,9 +147,7 @@ class MatchIncidentsAdapter(
                 }
 
                 layout.setOnClickListener {
-                    val intent = Intent(context, PlayerDetailsActivity::class.java)
-                    intent.putExtra("playerID", incident.player?.id)
-                    context.startActivity(intent)
+                    PlayerDetailsActivity.start(context, incident.player?.id!!)
                 }
             }
         }
@@ -192,9 +192,7 @@ class MatchIncidentsAdapter(
                 }
 
                 layout.setOnClickListener {
-                    val intent = Intent(context, PlayerDetailsActivity::class.java)
-                    intent.putExtra("playerID", incident.player?.id)
-                    context.startActivity(intent)
+                    PlayerDetailsActivity.start(context, incident.player?.id!!)
                 }
             }
         }
@@ -235,9 +233,7 @@ class MatchIncidentsAdapter(
                 }
 
                 layout.setOnClickListener {
-                    val intent = Intent(context, PlayerDetailsActivity::class.java)
-                    intent.putExtra("playerID", incident.player?.id)
-                    context.startActivity(intent)
+                    PlayerDetailsActivity.start(context, incident.player?.id!!)
                 }
             }
         }

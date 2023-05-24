@@ -8,6 +8,7 @@
     <string name="numberOfEvents">%1$d Događanja</string>
     <string name="noEventsToday">Nema događaja za ovaj dan</string>
     <string name="full_time">Kraj utakmice</string>
+    <string name="in_progress">U tijeku</string>
     <string name="details">Detalji</string>
     <string name="matches">Utakmice</string>
     <string name="standings">Poredak</string>
@@ -17,6 +18,7 @@
     <string name="view_tournament_details">Pogledajte pojedinosti o turniru</string>
     <string name="teamInfo">Informacije o timu</string>
     <string name="coachName">Trener: %1$s</string>
+    <string name="coach">Trener</string>
     <string name="totalPlayers">Ukupni broj igrača</string>
     <string name="foreignPlayers">Strani igrači</string>
     <string name="tournaments">Turniri</string>
@@ -51,5 +53,9 @@
     <string name="no_data_description">Nismo vam mogli dati najnovije podatke</string>
 
     <string name="retry">Pokušaj ponovno</string>
+    <string name="players">Igrači</string>
+    <string name="player">Igrač</string>
+    <string name="football_first_half">Prvo poluvrijeme (%1$d - %2$d)</string>
+    <string name="football_second_half">Drugo poluvrijeme (%1$d - %2$d)</string>
 
 </resources>

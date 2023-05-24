@@ -13,6 +13,7 @@
     <string name="noEventsToday">No events for this day</string>
     <string name="ft" translatable="false">FT</string>
     <string name="full_time">Full Time</string>
+    <string name="in_progress">In progress</string>
     <string name="details">Details</string>
     <string name="matches">Matches</string>
     <string name="standings">Standings</string>
@@ -25,6 +26,9 @@
     <!--TeamDetails-->
     <string name="teamInfo">Team Info</string>
     <string name="coachName">Coach: %1$s</string>
+    <string name="coach">Coach</string>
+    <string name="players">Players</string>
+    <string name="player">Player</string>
     <string name="totalPlayers">Total Players</string>
     <string name="foreignPlayers">Foreign Players</string>
     <string name="tournaments">Tournaments</string>
@@ -59,7 +63,9 @@
 
     <string name="period_full_time">FT (%1$d - %2$d)</string>
     <string name="period_half_time">HT (%1$d - %2$d)</string>
-    <string name="period_basketball_a_football" translatable="false">%1$dQ (%2$d-%3$d)</string>
+    <string name="football_first_half">First Half (%1$d - %2$d)</string>
+    <string name="football_second_half">Second Half (%1$d - %2$d)</string>
+    <string name="period_basketball_a_football" translatable="false">Q%1$d (%2$d-%3$d)</string>
     <string name="result" translatable="false">%1$d - %2$d</string>
     <string name="minute" translatable="false">%1$d\'</string>
 

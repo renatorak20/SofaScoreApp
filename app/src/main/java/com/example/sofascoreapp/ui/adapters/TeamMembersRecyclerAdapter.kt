@@ -69,9 +69,7 @@ class TeamMembersRecyclerAdapter(
 
                 if (player.id != -1) {
                     layout.setOnClickListener {
-                        val intent = Intent(context, PlayerDetailsActivity::class.java)
-                        intent.putExtra("playerID", player.id)
-                        context.startActivity(intent)
+                        PlayerDetailsActivity.start(context, player.id)
                     }
                 }
             }

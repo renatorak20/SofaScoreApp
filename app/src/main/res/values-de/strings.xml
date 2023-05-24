@@ -8,6 +8,7 @@
     <string name="numberOfEvents">%1$d Veranstaltungen</string>
     <string name="noEventsToday">Für diesen Tag gibt es keine Veranstaltungen</string>
     <string name="full_time">Vollzeit</string>
+    <string name="in_progress">Im Gange</string>
     <string name="details">Einzelheiten</string>
     <string name="matches">Streichhölzer</string>
     <string name="standings">Rangliste</string>
@@ -17,6 +18,7 @@
     <string name="view_tournament_details">Turnierdetails anzeigen</string>
     <string name="teamInfo">Teaminfo</string>
     <string name="coachName">Trainer: %1$s</string>
+    <string name="coach">Trainer</string>
     <string name="totalPlayers">Gesamtzahl der Spieler</string>
     <string name="foreignPlayers">Ausländische Spieler</string>
     <string name="tournaments">Turniere</string>
@@ -51,5 +53,9 @@
     <string name="no_data_description">Wir konnten Ihnen nicht die neuesten Daten zur Verfügung stellen</string>
 
     <string name="retry">wiederholen</string>
+    <string name="players">Spieler</string>
+    <string name="player">Spieler</string>
+    <string name="football_first_half">Erste Hälfte (%1$d - %2$d)</string>
+    <string name="football_second_half">Zweite Hälfte (%1$d - %2$d)</string>
 
 </resources>

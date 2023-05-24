@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.bumptech.glide.util.Util
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.SportType
@@ -17,6 +19,7 @@ import com.example.sofascoreapp.databinding.ActivityMatchDetailBinding
 import com.example.sofascoreapp.ui.adapters.MatchIncidentsAdapter
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.MatchDetailViewModel
 import java.util.ArrayList
@@ -33,6 +36,8 @@ class MatchDetailActivity : AppCompatActivity() {
         binding = ActivityMatchDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Preferences.initialize(this)
+
         matchViewModel = ViewModelProvider(this)[MatchDetailViewModel::class.java]
 
         supportActionBar?.hide()
@@ -45,7 +50,12 @@ class MatchDetailActivity : AppCompatActivity() {
             if (it.isSuccessful && it.body()?.isNotEmpty()!!) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-                val reversedList = it.body()?.reversed() as ArrayList<Incident>
+                Utilities().decideLastPeriod(
+                    it.body()!!,
+                    matchViewModel.getEvent().value?.body()?.tournament?.sport?.name!!,
+                    this
+                )
+                var reversedList = it.body()?.reversed() as ArrayList<Incident>
 
                 val sportType =
                     when (matchViewModel.getEvent().value?.body()!!.tournament.sport.name) {
@@ -65,80 +75,103 @@ class MatchDetailActivity : AppCompatActivity() {
         matchViewModel.getEvent().observe(this) {
             if (it.isSuccessful && it.body() != null) {
 
-                if (it.body()?.status == EventStatusEnum.NOTSTARTED) {
-                    binding.noResultsLayout.layout.visibility = View.VISIBLE
-                    binding.recyclerView.visibility = View.GONE
+                when (it.body()?.status) {
+                    EventStatusEnum.NOTSTARTED -> {
+                        binding.noResultsLayout.layout.visibility = View.VISIBLE
+                        binding.recyclerView.visibility = View.GONE
 
-                    binding.matchHeader.scoreLayout.layout.visibility = View.INVISIBLE
-                    binding.matchHeader.notStartedLayout.layout.visibility = View.VISIBLE
+                        binding.matchHeader.scoreLayout.layout.visibility = View.INVISIBLE
+                        binding.matchHeader.notStartedLayout.layout.visibility = View.VISIBLE
 
-                    val isToday = Utilities().isToday(it.body()?.startDate!!)
+                        val isToday = Utilities().isToday(it.body()?.startDate!!)
 
-                    if (isToday) {
-                        binding.matchHeader.notStartedLayout.date.text = getString(R.string.today)
-                    } else {
-                        if (Preferences.getSavedDateFormat()) {
+                        if (isToday) {
                             binding.matchHeader.notStartedLayout.date.text =
-                                Utilities().getDate(it.body()?.startDate!!)
+                                getString(R.string.today)
                         } else {
-                            binding.matchHeader.notStartedLayout.date.text =
-                                Utilities().getInvertedDate(it.body()?.startDate!!)
+                            if (Preferences.getSavedDateFormat()) {
+                                binding.matchHeader.notStartedLayout.date.text =
+                                    Utilities().getDate(it.body()?.startDate!!)
+                            } else {
+                                binding.matchHeader.notStartedLayout.date.text =
+                                    Utilities().getInvertedDate(it.body()?.startDate!!)
+                            }
+                        }
+
+                        binding.matchHeader.notStartedLayout.hour.text =
+                            Utilities().getMatchHour(it.body()?.startDate!!)
+                    }
+
+                    EventStatusEnum.FINISHED -> {
+                        binding.matchHeader.scoreLayout.homeTeamScore.text =
+                            it.body()?.homeScore?.total.toString()
+                        binding.matchHeader.scoreLayout.awayTeamScore.text =
+                            it.body()?.awayScore?.total.toString()
+                        binding.matchHeader.scoreLayout.currentMinute.text =
+                            getString(R.string.full_time)
+
+                        when (it.body()?.winnerCode) {
+                            WinnerCode.HOME -> {
+                                Utilities().setMatchTint(
+                                    this,
+                                    1,
+                                    binding.matchHeader.scoreLayout.homeTeamScore
+                                )
+                            }
+
+                            WinnerCode.DRAW -> {
+                                Utilities().setMatchTint(
+                                    this,
+                                    1,
+                                    binding.matchHeader.scoreLayout.homeTeamScore,
+                                    binding.matchHeader.scoreLayout.awayTeamScore,
+                                    binding.matchHeader.scoreLayout.minus
+                                )
+                            }
+
+                            else -> {
+                                Utilities().setMatchTint(
+                                    this,
+                                    1,
+                                    binding.matchHeader.scoreLayout.awayTeamScore
+                                )
+                            }
                         }
                     }
-                    
-                    binding.matchHeader.notStartedLayout.hour.text =
-                        Utilities().getMatchHour(it.body()?.startDate!!)
 
-                } else {
+                    else -> {
+                        binding.matchHeader.scoreLayout.homeTeamScore.text =
+                            it.body()?.homeScore?.total.toString()
+                        binding.matchHeader.scoreLayout.awayTeamScore.text =
+                            it.body()?.awayScore?.total.toString()
+                        binding.matchHeader.scoreLayout.currentMinute.text =
+                            getString(R.string.in_progress)
 
-                    binding.matchHeader.scoreLayout.homeTeamScore.text =
-                        it.body()?.homeScore?.total.toString()
-                    binding.matchHeader.scoreLayout.awayTeamScore.text =
-                        it.body()?.awayScore?.total.toString()
-                    binding.matchHeader.scoreLayout.currentMinute.text =
-                        getString(R.string.full_time)
-
-                    val typedValue = TypedValue()
-                    theme.resolveAttribute(
-                        R.attr.on_surface_on_surface_lv_1,
-                        typedValue,
-                        true
-                    );
-                    val teamColor = ContextCompat.getColor(this, typedValue.resourceId)
-
-                    when (it.body()?.winnerCode) {
-                        WinnerCode.HOME -> binding.matchHeader.scoreLayout.homeTeamScore.setTextColor(
-                            teamColor
+                        Utilities().setMatchTint(
+                            this,
+                            2,
+                            binding.matchHeader.scoreLayout.homeTeamScore,
+                            binding.matchHeader.scoreLayout.awayTeamScore,
+                            binding.matchHeader.scoreLayout.minus,
+                            binding.matchHeader.scoreLayout.currentMinute
                         )
-
-                        WinnerCode.DRAW -> {
-                            binding.matchHeader.scoreLayout.homeTeamScore.setTextColor(teamColor)
-                            binding.matchHeader.scoreLayout.awayTeamScore.setTextColor(teamColor)
-                            binding.matchHeader.scoreLayout.minus.setTextColor(teamColor)
-                        }
-
-                        else -> binding.matchHeader.scoreLayout.awayTeamScore.setTextColor(teamColor)
                     }
                 }
 
-                binding.toolbar.toolbarLeagueIcon.load(
-                    getString(
-                        R.string.tournament_icon_url,
-                        it.body()?.tournament?.id
-                    )
+                binding.toolbar.toolbarLeagueIcon.loadImage(
+                    this,
+                    DataType.TOURNAMENT,
+                    it.body()?.tournament?.id!!
                 )
-
-                binding.matchHeader.homeTeamLayout.teamIcon.load(
-                    getString(
-                        R.string.team_icon_url,
-                        it.body()?.homeTeam?.id
-                    )
+                binding.matchHeader.homeTeamLayout.teamIcon.loadImage(
+                    this,
+                    DataType.TEAM,
+                    it.body()?.homeTeam?.id!!
                 )
-                binding.matchHeader.awayTeamLayout.teamIcon.load(
-                    getString(
-                        R.string.team_icon_url,
-                        it.body()?.awayTeam?.id
-                    )
+                binding.matchHeader.awayTeamLayout.teamIcon.loadImage(
+                    this,
+                    DataType.TEAM,
+                    it.body()?.awayTeam?.id!!
                 )
 
                 binding.matchHeader.homeTeamLayout.teamTitle.text = it.body()?.homeTeam?.name
@@ -169,15 +202,11 @@ class MatchDetailActivity : AppCompatActivity() {
         }
 
         binding.matchHeader.homeTeamLayout.root.setOnClickListener {
-            val intent = Intent(this, TeamDetailsActivity::class.java)
-            intent.putExtra("teamID", matchViewModel.getEvent().value?.body()?.homeTeam?.id)
-            startActivity(intent)
+            TeamDetailsActivity.start(this, matchViewModel.getEvent().value?.body()?.homeTeam?.id!!)
         }
 
         binding.matchHeader.awayTeamLayout.root.setOnClickListener {
-            val intent = Intent(this, TeamDetailsActivity::class.java)
-            intent.putExtra("teamID", matchViewModel.getEvent().value?.body()?.awayTeam?.id)
-            startActivity(intent)
+            TeamDetailsActivity.start(this, matchViewModel.getEvent().value?.body()?.awayTeam?.id!!)
         }
 
         binding.toolbar.back.setOnClickListener {
@@ -186,7 +215,7 @@ class MatchDetailActivity : AppCompatActivity() {
 
     }
 
-    fun getInfo() {
+    private fun getInfo() {
         if (Utilities().isNetworkAvailable(this)) {
             matchViewModel.getAllEventInfo()
         } else {

@@ -8,15 +8,22 @@ import android.net.NetworkInfo
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.sofascoreapp.MainActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.CardColorEnum
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.GoalTypeEnum
 import com.example.sofascoreapp.data.model.Incident
+import com.example.sofascoreapp.data.model.IncidentEnum
 import com.example.sofascoreapp.data.model.Player
+import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
 import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -140,11 +147,9 @@ class Utilities {
         return period.years
     }
 
-    fun makeTeamMembersList(coach: Player, players: ArrayList<Player>): ArrayList<Any> {
-        val teamMembersList = ArrayList<Any>()
-        teamMembersList.add("Coach")
+    fun makeTeamMembersList(coach: Player, players: ArrayList<Player>): ArrayList<Player> {
+        val teamMembersList = ArrayList<Player>()
         teamMembersList.add(coach)
-        teamMembersList.add("Players")
         teamMembersList.addAll(players)
         return teamMembersList
     }
@@ -200,6 +205,176 @@ class Utilities {
         fun ImageView.clear() {
             this.setImageDrawable(null)
         }
+
+        fun ImageView.loadImage(context: Context, type: DataType, id: Int) {
+
+            val url = when (type) {
+                DataType.TEAM -> context.getString(R.string.team_icon_url, id)
+                DataType.TOURNAMENT -> context.getString(R.string.tournament_icon_url, id)
+                else -> context.getString(R.string.player_image_url, id)
+            }
+
+            this.load(url) {
+                transformations(CircleCropTransformation())
+            }
+        }
+
+    }
+
+    fun setMatchTint(context: Context, type: Int, vararg texts: TextView) {
+
+        val typedValue = TypedValue()
+
+        when (type) {
+            0 -> {
+                context.theme.resolveAttribute(
+                    R.attr.on_surface_on_surface_lv_2,
+                    typedValue,
+                    true
+                )
+            }
+
+            1 -> {
+                context.theme.resolveAttribute(
+                    R.attr.on_surface_on_surface_lv_1,
+                    typedValue,
+                    true
+                )
+            }
+
+            2 -> {
+                context.theme.resolveAttribute(
+                    R.attr.specific_live,
+                    typedValue,
+                    true
+                )
+            }
+        }
+
+        val color = ContextCompat.getColor(context, typedValue.resourceId)
+
+        for (item in texts) {
+            item.setTextColor(color)
+        }
+    }
+
+    fun decideLastPeriod(
+        incidents: ArrayList<Incident>,
+        sportType: String,
+        context: Context
+    ): ArrayList<Incident> {
+
+        val homeScore = incidents[incidents.size - 1].homeScore
+        val awayScore = incidents[incidents.size - 1].awayScore
+
+        when (sportType) {
+            "Football" -> {
+                var lastPeriod: Int? = null
+                for (item in incidents) {
+                    if (item.type == IncidentEnum.PERIOD) {
+                        lastPeriod = if (item.text!!.contains("HT")) {
+                            2
+                        } else {
+                            1
+                        }
+                    }
+                }
+                if (lastPeriod != null) {
+                    val text = when (lastPeriod) {
+                        1 -> context.getString(R.string.football_first_half, homeScore, awayScore)
+                        else -> context.getString(
+                            R.string.football_second_half,
+                            homeScore,
+                            awayScore
+                        )
+                    }
+
+                    incidents.add(
+                        Incident(
+                            null,
+                            null,
+                            null,
+                            homeScore,
+                            awayScore,
+                            null,
+                            -1,
+                            -1,
+                            IncidentEnum.PERIOD,
+                            text,
+                            null
+                        )
+                    )
+
+                }
+            }
+
+            else -> {
+                var lastPeriod: Int? = null
+                for (item in incidents) {
+                    if (item.type == IncidentEnum.PERIOD) {
+                        lastPeriod = if (item.text!!.contains("Q1")) {
+                            2
+                        } else if (item.text.contains("Q2")) {
+                            3
+                        } else if (item.text.contains("Q3")) {
+                            4
+                        } else {
+                            1
+                        }
+                    }
+                }
+                if (lastPeriod != null) {
+                    val text = when (lastPeriod) {
+                        1 -> context.getString(
+                            R.string.period_basketball_a_football,
+                            1,
+                            homeScore,
+                            awayScore
+                        )
+
+                        2 -> context.getString(
+                            R.string.period_basketball_a_football,
+                            2,
+                            homeScore,
+                            awayScore
+                        )
+
+                        3 -> context.getString(
+                            R.string.period_basketball_a_football,
+                            3,
+                            homeScore,
+                            awayScore
+                        )
+
+                        else -> context.getString(
+                            R.string.period_basketball_a_football,
+                            4,
+                            homeScore,
+                            awayScore
+                        )
+                    }
+
+                    incidents.add(
+                        Incident(
+                            null,
+                            null,
+                            null,
+                            homeScore,
+                            awayScore,
+                            null,
+                            -1,
+                            -1,
+                            IncidentEnum.PERIOD,
+                            text,
+                            null
+                        )
+                    )
+
+                }
+            }
+        }
+
+        return incidents
 
     }
 

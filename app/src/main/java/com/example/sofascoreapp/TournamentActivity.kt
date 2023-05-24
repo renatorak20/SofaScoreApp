@@ -14,9 +14,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import coil.load
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.Tournament
+import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.databinding.ActivityTournamentBinding
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.SpecificTournamentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -41,12 +44,7 @@ class TournamentActivity : AppCompatActivity() {
 
         viewModel.getTournamentInfo().observe(this) {
             if (it.isSuccessful) {
-                binding.tournamentToolbar.logo.load(
-                    getString(
-                        R.string.tournament_icon_url,
-                        it.body()!!.id
-                    )
-                )
+                binding.tournamentToolbar.logo.loadImage(this, DataType.TOURNAMENT, it.body()!!.id)
                 binding.tournamentToolbar.name.text = it.body()!!.name
                 binding.tournamentToolbar.country.text = it.body()!!.country.name
             }
@@ -91,6 +89,16 @@ class TournamentActivity : AppCompatActivity() {
                 )
             )
         }
+
+        fun start(context: Context, tournament: UiModel.SeparatorTournament) {
+            context.startActivity(
+                Intent(context, TournamentActivity::class.java).putExtra(
+                    "tournamentID",
+                    tournament.event.tournament.id
+                )
+            )
+        }
+
     }
 
 }

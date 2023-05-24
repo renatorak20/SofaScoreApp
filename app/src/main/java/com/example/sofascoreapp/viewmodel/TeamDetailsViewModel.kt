@@ -2,20 +2,27 @@ package com.example.sofascoreapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.insertSeparators
 import androidx.paging.liveData
+import androidx.paging.map
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.data.model.Standing
 import com.example.sofascoreapp.data.model.TeamDetails
 import com.example.sofascoreapp.data.model.Tournament
+import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.data.networking.Network
 import com.example.sofascoreapp.ui.paging.TeamEventsPagingSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -52,6 +59,7 @@ class TeamDetailsViewModel : ViewModel() {
         return _teamDetails
     }
 
+
     private val _teamPlayers = MutableLiveData<Response<ArrayList<Player>>>()
 
     fun setTeamPlayers(players: Response<ArrayList<Player>>) {
@@ -79,7 +87,31 @@ class TeamDetailsViewModel : ViewModel() {
         ),
         0,
         pagingSourceFactory = { TeamEventsPagingSource(_teamID.value!!) }
-    ).liveData.cachedIn(viewModelScope)
+    ).liveData.cachedIn(viewModelScope).map { value: PagingData<Event> ->
+        value.map { event ->
+            UiModel.Event(event)
+        }
+            .insertSeparators { before, after ->
+                val event = before ?: after
+                when {
+                    shouldSeparate(before?.tournament, after?.tournament) -> event?.let {
+                        UiModel.SeparatorTournament(
+                            it
+                        )
+                    }
+
+                    else -> null
+                }
+            }
+    }
+
+    fun shouldSeparate(before: Tournament?, after: Tournament?): Boolean {
+        if (after == null) {
+            return false
+        }
+        return before?.id != after.id
+    }
+
 
     private val _standings = MutableLiveData<ArrayList<Standing>>()
 
