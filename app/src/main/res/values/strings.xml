@@ -102,4 +102,6 @@
 
     <string name="retry">Retry</string>
 
+
+    <string name="search_hint">Search something...</string>
 </resources>
