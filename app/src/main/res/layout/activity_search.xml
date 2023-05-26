@@ -22,7 +22,7 @@
             android:layout_height="wrap_content">
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteCity"
+                android:id="@+id/autoComplete"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginEnd="10dp"
@@ -36,7 +36,7 @@
                 android:id="@+id/clear_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/autoCompleteCity"
+                android:layout_alignEnd="@+id/autoComplete"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="15dp"
                 android:src="@drawable/ic_close"

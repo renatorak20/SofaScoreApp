@@ -63,7 +63,12 @@ class TeamDetailsActivity : AppCompatActivity() {
             if (response.isSuccessful) {
                 binding.teamToolbar.name.text = response.body()!!.name
                 binding.teamToolbar.country.text = response.body()!!.country.name
-                binding.teamToolbar.logo.loadImage(this, DataType.TEAM, response.body()!!.id)
+                binding.teamToolbar.logo.load(
+                    getString(
+                        R.string.team_icon_url,
+                        response.body()!!.id
+                    )
+                )
             }
         }
     }

@@ -55,6 +55,11 @@ class MainActivity : AppCompatActivity() {
             val settingIntent = Intent(this, SettingsActivity::class.java)
             startActivity(settingIntent)
         }
+
+        binding.toolbarMain.searchIcon.setOnClickListener {
+            startActivity(Intent(this, SearchActivity::class.java))
+        }
+
         Preferences.initialize(this)
 
         Preferences.loadPreferences()

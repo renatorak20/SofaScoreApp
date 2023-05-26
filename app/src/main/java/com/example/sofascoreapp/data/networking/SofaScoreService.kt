@@ -69,9 +69,9 @@ interface SofaScoreService {
     suspend fun getTournamentDetails(@Path("id") id: Int): Response<Tournament>
 
     @GET("/search/team/{query}")
-    suspend fun getTeamAutocomplete(@Path("query") team: String): Response<TeamAutocomplete>
+    suspend fun getTeamAutocomplete(@Path("query") team: String): Response<ArrayList<TeamAutocomplete>>
 
     @GET("/search/player/{query}")
-    suspend fun getPlayerAutocomplete(@Path("query") team: String): Response<PlayerAutocomplete>
+    suspend fun getPlayerAutocomplete(@Path("query") team: String): Response<ArrayList<PlayerAutocomplete>>
 
 }

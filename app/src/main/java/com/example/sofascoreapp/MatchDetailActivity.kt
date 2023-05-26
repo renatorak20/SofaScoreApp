@@ -171,15 +171,18 @@ class MatchDetailActivity : AppCompatActivity() {
                     DataType.TOURNAMENT,
                     it.body()?.tournament?.id!!
                 )
-                binding.matchHeader.homeTeamLayout.teamIcon.loadImage(
-                    this,
-                    DataType.TEAM,
-                    it.body()?.homeTeam?.id!!
+
+                binding.matchHeader.homeTeamLayout.teamIcon.load(
+                    getString(
+                        R.string.team_icon_url,
+                        it.body()?.homeTeam?.id!!
+                    )
                 )
-                binding.matchHeader.awayTeamLayout.teamIcon.loadImage(
-                    this,
-                    DataType.TEAM,
-                    it.body()?.awayTeam?.id!!
+                binding.matchHeader.awayTeamLayout.teamIcon.load(
+                    getString(
+                        R.string.team_icon_url,
+                        it.body()?.awayTeam?.id!!
+                    )
                 )
 
                 binding.matchHeader.homeTeamLayout.teamTitle.text = it.body()?.homeTeam?.name
