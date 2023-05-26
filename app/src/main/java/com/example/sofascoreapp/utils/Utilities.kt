@@ -23,7 +23,10 @@ import com.example.sofascoreapp.data.model.GoalTypeEnum
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.IncidentEnum
 import com.example.sofascoreapp.data.model.Player
+import com.example.sofascoreapp.data.model.PlayerAutocomplete
+import com.example.sofascoreapp.data.model.RecentSearch
 import com.example.sofascoreapp.data.model.SportType
+import com.example.sofascoreapp.data.model.TeamAutocomplete
 import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
 import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -373,7 +376,14 @@ class Utilities {
         }
 
         return Pair(lastPeriod, incidents)
+    }
 
+    fun playerToRecent(player: PlayerAutocomplete): RecentSearch {
+        return RecentSearch(player.id, player.name, DataType.PLAYER)
+    }
+
+    fun teamToRecent(team: TeamAutocomplete): RecentSearch {
+        return RecentSearch(team.id, team.name, DataType.TEAM)
     }
 
 

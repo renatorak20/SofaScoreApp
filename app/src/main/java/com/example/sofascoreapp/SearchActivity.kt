@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sofascoreapp.adapters.RecentSearchAdapter
 import com.example.sofascoreapp.data.model.PlayerAutocomplete
 import com.example.sofascoreapp.data.model.TeamAutocomplete
 import com.example.sofascoreapp.databinding.ActivitySearchBinding
@@ -25,7 +27,6 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
     private lateinit var sharedViewModel: SearchActivityViewModel
-    private lateinit var autocompleteAdapter: ArrayAdapter<Any>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +62,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s?.length!! == 3 && Utilities().isNetworkAvailable(applicationContext)) {
+                if (s?.length!! >= 3 && Utilities().isNetworkAvailable(applicationContext)) {
                     sharedViewModel.getAllAutocompletes(s.toString())
                 } else if (s.isEmpty()) {
                     binding.autoComplete.setAdapter(null)
@@ -69,52 +70,24 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
+        sharedViewModel.getRecentSearches(this)
+        sharedViewModel.recentsList.observe(this) {
+            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+            binding.recyclerView.adapter =
+                RecentSearchAdapter(this, it as ArrayList<Any>, sharedViewModel)
+        }
+
         sharedViewModel.autocompleteList.observe(this) { list ->
-            val autocompleteAdapter = object : ArrayAdapter<Any>(
-                this,
-                R.layout.autocomplete_result_item
-            ) {
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                    val view = convertView ?: LayoutInflater.from(context)
-                        .inflate(R.layout.autocomplete_result_item, parent, false)
 
-                    val name = when (val item = getItem(position)) {
-                        is TeamAutocomplete -> item.name
-                        is PlayerAutocomplete -> item.name
-                        else -> ""
-                    }
+            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+            binding.recyclerView.adapter = RecentSearchAdapter(this, list, sharedViewModel)
 
-                    val nameTextView: TextView = view.findViewById(R.id.textView)
-                    nameTextView.text = name
-
-                    return view
-                }
-            }
-
-            autocompleteAdapter.addAll(list)
-            binding.autoComplete.setAdapter(autocompleteAdapter)
-            binding.autoComplete.showDropDown()
         }
 
 
         binding.clearIcon.setOnClickListener {
             binding.autoComplete.clear()
         }
-
-        binding.autoComplete.setOnItemClickListener { _, _, position, _ ->
-            if (sharedViewModel.autocompleteList.value?.get(position) is TeamAutocomplete) {
-                TeamDetailsActivity.start(
-                    this,
-                    (sharedViewModel.autocompleteList.value!![position] as TeamAutocomplete).id
-                )
-            } else {
-                PlayerDetailsActivity.start(
-                    this,
-                    (sharedViewModel.autocompleteList.value!![position] as PlayerAutocomplete).id
-                )
-            }
-        }
-
     }
 
 

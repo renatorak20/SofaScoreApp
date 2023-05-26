@@ -5,11 +5,7 @@ data class TeamAutocomplete(
     val name: String,
     val sport: Sport,
     val country: Country
-) {
-    override fun toString(): String {
-        return name
-    }
-}
+)
 
 data class PlayerAutocomplete(
     val id: Int,
@@ -18,8 +14,4 @@ data class PlayerAutocomplete(
     val sport: Sport,
     val country: Country,
     val position: String
-) {
-    override fun toString(): String {
-        return name
-    }
-}
+)

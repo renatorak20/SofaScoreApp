@@ -104,4 +104,5 @@
 
 
     <string name="search_hint">Search something...</string>
+    <string name="recent">Recent</string>
 </resources>

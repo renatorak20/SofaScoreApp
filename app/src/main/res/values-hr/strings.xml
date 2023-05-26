@@ -58,5 +58,6 @@
     <string name="football_first_half">Prvo poluvrijeme (%1$d - %2$d)</string>
     <string name="football_second_half">Drugo poluvrijeme (%1$d - %2$d)</string>
     <string name="search_hint">Pretraži nešto...</string>
+    <string name="recent">Nedavno</string>
 
 </resources>

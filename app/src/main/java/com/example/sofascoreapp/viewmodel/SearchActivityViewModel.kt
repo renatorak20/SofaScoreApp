@@ -1,15 +1,15 @@
 package com.example.sofascoreapp.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sofascoreapp.data.model.PlayerAutocomplete
-import com.example.sofascoreapp.data.model.TeamAutocomplete
+import com.example.sofascoreapp.data.model.RecentSearch
 import com.example.sofascoreapp.data.networking.Network
+import com.example.sofascoreapp.database.SofascoreApiDatabase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class SearchActivityViewModel : ViewModel() {
 
@@ -42,6 +42,36 @@ class SearchActivityViewModel : ViewModel() {
             }
 
             setAutocompleteList(list)
+        }
+    }
+
+    private val _recentsList = MutableLiveData<List<RecentSearch>>()
+    val recentsList: LiveData<List<RecentSearch>> = _recentsList
+
+    fun setRecentsList(list: List<RecentSearch>) {
+        _recentsList.value = list
+    }
+
+
+    fun getRecentSearches(context: Context) {
+        viewModelScope.launch {
+            val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
+            val recents = databaseDao?.getAllRecents()
+            recents?.let { setRecentsList(it) }
+        }
+    }
+
+    fun addNewRecentSearch(context: Context, recentItem: RecentSearch) {
+        viewModelScope.launch {
+            val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
+            databaseDao?.insertRecent(recentItem)
+        }
+    }
+
+    fun removeFromRecentSearch(context: Context, id: Int) {
+        viewModelScope.launch {
+            val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
+            databaseDao?.deleteRecent(id)
         }
     }
 
