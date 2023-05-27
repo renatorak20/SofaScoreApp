@@ -4,7 +4,7 @@
     <item
         android:id="@+id/menu_item_favourite"
         android:icon="@drawable/ic_star_outline"
-        app:iconTint="@color/white"
+        app:iconTint="?attr/color_white"
         app:showAsAction="always"
         android:title="@string/player" />
 

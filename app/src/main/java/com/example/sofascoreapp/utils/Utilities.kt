@@ -29,6 +29,7 @@ import com.example.sofascoreapp.data.model.RecentSearch
 import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.data.model.Team2
 import com.example.sofascoreapp.data.model.TeamAutocomplete
+import com.example.sofascoreapp.data.model.TeamDetails
 import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
 import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -392,7 +393,7 @@ class Utilities {
         return Favourite(player.id, player.name, DataType.PLAYER)
     }
 
-    fun teamToFavourite(team: Team2): Favourite {
+    fun teamToFavourite(team: TeamDetails): Favourite {
         return Favourite(team.id, team.name, DataType.TEAM)
     }
 

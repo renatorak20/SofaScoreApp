@@ -105,4 +105,9 @@
 
     <string name="search_hint">Search something...</string>
     <string name="recent">Recent</string>
+
+    <string name="favourites">Favourites</string>
+    <string name="all">All</string>
+    <string name="teams">Teams</string>
+
 </resources>

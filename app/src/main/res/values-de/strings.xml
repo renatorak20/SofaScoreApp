@@ -59,5 +59,8 @@
     <string name="football_second_half">Zweite Hälfte (%1$d - %2$d)</string>
     <string name="search_hint">Suche etwas...</string>
     <string name="recent">Jüngste</string>
+    <string name="favourites">Favoriten</string>
+    <string name="all">Alle</string>
+    <string name="teams">Mannschaften</string>
 
 </resources>

@@ -52,12 +52,15 @@ class MainActivity : AppCompatActivity() {
             }
 
         binding.toolbarMain.settingsIcon.setOnClickListener {
-            val settingIntent = Intent(this, SettingsActivity::class.java)
-            startActivity(settingIntent)
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         binding.toolbarMain.searchIcon.setOnClickListener {
             startActivity(Intent(this, SearchActivity::class.java))
+        }
+
+        binding.toolbarMain.favouritesIcon.setOnClickListener {
+            startActivity(Intent(this, FavouritesActivity::class.java))
         }
 
         Preferences.initialize(this)

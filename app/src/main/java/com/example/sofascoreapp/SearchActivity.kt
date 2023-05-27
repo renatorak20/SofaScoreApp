@@ -6,19 +6,12 @@ import android.os.Bundle
 import android.os.IBinder
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.sofascoreapp.adapters.RecentSearchAdapter
-import com.example.sofascoreapp.data.model.PlayerAutocomplete
-import com.example.sofascoreapp.data.model.TeamAutocomplete
+import com.example.sofascoreapp.adapters.RecentFavouriteAdapter
 import com.example.sofascoreapp.databinding.ActivitySearchBinding
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.viewmodel.SearchActivityViewModel
@@ -64,19 +57,23 @@ class SearchActivity : AppCompatActivity() {
         sharedViewModel.recentsList.observe(this) {
             binding.recyclerView.layoutManager = LinearLayoutManager(this)
             binding.recyclerView.adapter =
-                RecentSearchAdapter(this, it as ArrayList<Any>, sharedViewModel)
+                RecentFavouriteAdapter(this, it as ArrayList<Any>, sharedViewModel)
         }
 
         sharedViewModel.autocompleteList.observe(this) { list ->
 
             binding.recyclerView.layoutManager = LinearLayoutManager(this)
-            binding.recyclerView.adapter = RecentSearchAdapter(this, list, sharedViewModel)
+            binding.recyclerView.adapter = RecentFavouriteAdapter(this, list, sharedViewModel)
 
         }
 
 
         binding.clearIcon.setOnClickListener {
             binding.autoComplete.clear()
+        }
+
+        binding.back.setOnClickListener {
+            finish()
         }
     }
 

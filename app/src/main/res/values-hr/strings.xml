@@ -59,5 +59,8 @@
     <string name="football_second_half">Drugo poluvrijeme (%1$d - %2$d)</string>
     <string name="search_hint">Pretraži nešto...</string>
     <string name="recent">Nedavno</string>
+    <string name="favourites">Favoriti</string>
+    <string name="all">Sve</string>
+    <string name="teams">Timovi</string>
 
 </resources>

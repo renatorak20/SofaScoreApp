@@ -25,6 +25,7 @@ import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.data.networking.Network
 import com.example.sofascoreapp.database.SofascoreApiDatabase
 import com.example.sofascoreapp.ui.paging.TeamEventsPagingSource
+import com.example.sofascoreapp.utils.Utilities
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -211,7 +212,7 @@ class TeamDetailsViewModel : ViewModel() {
         viewModelScope.launch {
             val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
             val team = getTeamDetails().value?.body()!!
-            databaseDao?.insertFavourite(Favourite(team.id, team.name, DataType.TEAM))
+            databaseDao?.insertFavourite(Utilities().teamToFavourite(team))
         }
     }
 

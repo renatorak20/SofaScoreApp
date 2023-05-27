@@ -25,4 +25,11 @@ class FavouritesViewModel : ViewModel() {
         }
     }
 
+    fun removeFromFavourites(context: Context, id: Int) {
+        viewModelScope.launch {
+            val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
+            databaseDao?.deleteFavourite(id)
+        }
+    }
+
 }
