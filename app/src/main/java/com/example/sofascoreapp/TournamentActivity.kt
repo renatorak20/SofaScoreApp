@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -51,7 +52,7 @@ class TournamentActivity : AppCompatActivity() {
         }
 
         supportActionBar?.hide()
-
+        binding.tournamentToolbar.favouriteIcon.visibility = View.INVISIBLE
 
         val navController = findNavController(R.id.nav_host_fragment_activity_specific_tournament)
         val appBarConfiguration = AppBarConfiguration(

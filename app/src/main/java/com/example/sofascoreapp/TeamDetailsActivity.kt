@@ -23,6 +23,7 @@ class TeamDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTeamDetailsBinding
     private lateinit var teamDetailsViewModel: TeamDetailsViewModel
+    var isFavourite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +71,29 @@ class TeamDetailsActivity : AppCompatActivity() {
                     )
                 )
             }
+        }
+
+        teamDetailsViewModel.getFavourites(this)
+
+        teamDetailsViewModel.favourites.observe(this) {
+            if (it.map { favourite -> favourite.id }
+                    .contains(teamDetailsViewModel.getTeamID().value)) {
+                isFavourite = true
+                binding.teamToolbar.favouriteIcon.setImageDrawable(getDrawable(R.drawable.ic_star_fill))
+            }
+            teamDetailsViewModel.favourites.value?.forEach { Log.i("FAV", it.toString()) }
+        }
+
+        binding.teamToolbar.favouriteIcon.setOnClickListener {
+            if (isFavourite) {
+                teamDetailsViewModel.removeFromFavourites(this)
+                binding.teamToolbar.favouriteIcon.setImageDrawable(getDrawable(R.drawable.ic_star_outline))
+            } else {
+                teamDetailsViewModel.addToFavourite(this)
+                binding.teamToolbar.favouriteIcon.setImageDrawable(getDrawable(R.drawable.ic_star_fill))
+            }
+
+            isFavourite = !isFavourite
         }
     }
 

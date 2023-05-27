@@ -1,5 +1,7 @@
 package com.example.sofascoreapp.viewmodel
 
+import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
@@ -11,13 +13,15 @@ import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.liveData
 import androidx.paging.map
+import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.Event
+import com.example.sofascoreapp.data.model.Favourite
 import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.data.networking.Network
+import com.example.sofascoreapp.database.SofascoreApiDatabase
 import com.example.sofascoreapp.ui.paging.PlayerEventsPagingSource
-import com.example.sofascoreapp.ui.paging.TournamentEventsPagingSource
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -81,6 +85,35 @@ class PlayerDetailsViewModel : ViewModel() {
             return false
         }
         return before?.id != after.id
+    }
+
+    private val _favourites = MutableLiveData<List<Favourite>>()
+    var favourites: LiveData<List<Favourite>> = _favourites
+
+    fun setFavourites(list: List<Favourite>) {
+        _favourites.value = list
+    }
+
+    fun getFavourites(context: Context) {
+        viewModelScope.launch {
+            val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
+            databaseDao?.getAllFavourites()?.let { setFavourites(it) }
+        }
+    }
+
+    fun addToFavourite(context: Context) {
+        viewModelScope.launch {
+            val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
+            val player = _player.value?.body()!!
+            databaseDao?.insertFavourite(Favourite(player.id, player.name, DataType.TEAM))
+        }
+    }
+
+    fun removeFromFavourites(context: Context) {
+        viewModelScope.launch {
+            val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
+            databaseDao?.deleteFavourite(_player.value?.body()!!.id)
+        }
     }
 
 }

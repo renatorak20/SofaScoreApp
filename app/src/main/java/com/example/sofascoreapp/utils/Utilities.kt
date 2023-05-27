@@ -19,6 +19,7 @@ import com.example.sofascoreapp.MainActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.CardColorEnum
 import com.example.sofascoreapp.data.model.DataType
+import com.example.sofascoreapp.data.model.Favourite
 import com.example.sofascoreapp.data.model.GoalTypeEnum
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.IncidentEnum
@@ -26,6 +27,7 @@ import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.data.model.PlayerAutocomplete
 import com.example.sofascoreapp.data.model.RecentSearch
 import com.example.sofascoreapp.data.model.SportType
+import com.example.sofascoreapp.data.model.Team2
 import com.example.sofascoreapp.data.model.TeamAutocomplete
 import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
 import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
@@ -384,6 +386,14 @@ class Utilities {
 
     fun teamToRecent(team: TeamAutocomplete): RecentSearch {
         return RecentSearch(team.id, team.name, DataType.TEAM)
+    }
+
+    fun playerToFavourite(player: Player): Favourite {
+        return Favourite(player.id, player.name, DataType.PLAYER)
+    }
+
+    fun teamToFavourite(team: Team2): Favourite {
+        return Favourite(team.id, team.name, DataType.TEAM)
     }
 
 

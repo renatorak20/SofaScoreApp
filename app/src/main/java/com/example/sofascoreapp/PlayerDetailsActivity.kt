@@ -4,9 +4,12 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,12 +37,18 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
     private lateinit var viewModel: PlayerDetailsViewModel
     private lateinit var recyclerAdapter: EventsPagingAdapter
     private var isExpanded = true
+    private lateinit var toolbar: Toolbar
+    private lateinit var toolbarItem: MenuItem
+    private var isFavourite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityPlayerDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
+        toolbar = binding.toolbar
 
         viewModel = ViewModelProvider(this)[PlayerDetailsViewModel::class.java]
 
@@ -152,6 +161,43 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
         } else {
             showNoInternetDialog(this) { getInfo() }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.player_menu, menu)
+        toolbarItem = menu!!.findItem(R.id.menu_item_favourite)
+
+        viewModel.getFavourites(this)
+
+        viewModel.favourites.observe(this) { players ->
+            isFavourite =
+                if (players.map { it.id }.toList().contains(viewModel.getPlayerID().value)) {
+                    toolbarItem.setIcon(R.drawable.ic_star_fill)
+                    true
+                } else {
+                    toolbarItem.setIcon(R.drawable.ic_star_outline)
+                    false
+                }
+        }
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == R.id.menu_item_favourite) {
+            if (isFavourite) {
+                item.setIcon(R.drawable.ic_star_outline)
+                viewModel.removeFromFavourites(this)
+            } else {
+                item.setIcon(R.drawable.ic_star_fill)
+                viewModel.addToFavourite(
+                    this
+                )
+            }
+            isFavourite = !isFavourite
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

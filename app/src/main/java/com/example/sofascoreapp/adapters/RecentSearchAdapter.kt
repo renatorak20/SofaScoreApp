@@ -80,7 +80,10 @@ class RecentSearchAdapter(
                         }
 
                         else -> {
-                            image.load(context.getString(R.string.team_icon_url, item.id))
+                            image.load(context.getString(R.string.team_icon_url, item.id)) {
+                                error(context.getDrawable(R.drawable.ic_person))
+                                placeholder(context.getDrawable(R.drawable.ic_person))
+                            }
                             layout.setOnClickListener {
                                 TeamDetailsActivity.start(context, item.id)
                             }

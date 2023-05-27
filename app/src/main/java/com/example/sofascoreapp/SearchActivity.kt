@@ -38,34 +38,24 @@ class SearchActivity : AppCompatActivity() {
 
         sharedViewModel = ViewModelProvider(this)[SearchActivityViewModel::class.java]
 
-        binding.autoComplete.threshold = 2
+        binding.autoComplete.threshold = 3
         binding.autoComplete.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun afterTextChanged(text: Editable?) {
-                binding.autoComplete.setOnKeyListener { view, code, keyEvent ->
-                    run {
-                        if (code == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_DOWN && Utilities().isNetworkAvailable(
-                                applicationContext
-                            ) && !binding.autoComplete.text.equals(
-                                ""
-                            )
-                        ) {
-                            dismissKeyboard(view.windowToken)
-                            //startCityDetailActivity()
-                        }
-                    }
-                    false
-                }
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s?.length!! >= 3 && Utilities().isNetworkAvailable(applicationContext)) {
                     sharedViewModel.getAllAutocompletes(s.toString())
+                    binding.recentTitle.visibility = View.GONE
                 } else if (s.isEmpty()) {
                     binding.autoComplete.setAdapter(null)
+                    binding.recentTitle.visibility = View.VISIBLE
+                    sharedViewModel.getRecentSearches(applicationContext)
                 }
             }
         })
