@@ -30,8 +30,6 @@ import com.example.sofascoreapp.data.model.SportType
 import com.example.sofascoreapp.data.model.Team2
 import com.example.sofascoreapp.data.model.TeamAutocomplete
 import com.example.sofascoreapp.data.model.TeamDetails
-import com.example.sofascoreapp.databinding.MatchCardIncidentBinding
-import com.example.sofascoreapp.databinding.MatchGoalIncidentHomeBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -225,6 +223,14 @@ class Utilities {
             }
         }
 
+        fun ImageView.setSportIcon(context: Context, sport: String) {
+            when (sport) {
+                "Football" -> this.setImageDrawable(context.getDrawable(R.drawable.icon_football))
+                "Basketball" -> this.setImageDrawable(context.getDrawable(R.drawable.icon_basketball))
+                else -> this.setImageDrawable(context.getDrawable(R.drawable.icon_american_football))
+            }
+        }
+
     }
 
     fun setMatchTint(context: Context, type: Int, vararg texts: TextView) {
@@ -382,11 +388,11 @@ class Utilities {
     }
 
     fun playerToRecent(player: PlayerAutocomplete): RecentSearch {
-        return RecentSearch(player.id, player.name, DataType.PLAYER)
+        return RecentSearch(player.id, player.name, DataType.PLAYER, player.sport.name)
     }
 
     fun teamToRecent(team: TeamAutocomplete): RecentSearch {
-        return RecentSearch(team.id, team.name, DataType.TEAM)
+        return RecentSearch(team.id, team.name, DataType.TEAM, team.sport.name)
     }
 
     fun playerToFavourite(player: Player): Favourite {

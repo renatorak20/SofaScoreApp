@@ -13,5 +13,7 @@ data class RecentSearch(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "type")
-    val type: DataType
+    val type: DataType,
+    @ColumnInfo(name = "sport")
+    val sport: String
 )

@@ -21,11 +21,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginBottom="14dp"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@id/image"
         app:layout_constraintStart_toEndOf="@id/image"
         app:layout_constraintTop_toTopOf="@id/image"
         tools:text="Luka Modric" />
+
+    <ImageView
+        android:id="@+id/sportImage"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_margin="2dp"
+        app:tint="?attr/color_black"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+
+    <TextView
+        android:id="@+id/sport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginStart="4dp"
+        android:textColor="?attr/on_surface_on_surface_lv_2"
+        app:layout_constraintBottom_toBottomOf="@+id/sportImage"
+        app:layout_constraintStart_toEndOf="@+id/sportImage"
+        app:layout_constraintTop_toTopOf="@+id/sportImage"
+        tools:text="Football" />
 
     <ImageView
         android:id="@+id/deleteIcon"

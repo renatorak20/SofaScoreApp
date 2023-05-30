@@ -9,7 +9,7 @@ import com.example.sofascoreapp.data.model.RecentSearch
 
 @Database(
     entities = [RecentSearch::class, Favourite::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class SofascoreApiDatabase : RoomDatabase() {

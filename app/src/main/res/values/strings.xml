@@ -110,4 +110,7 @@
     <string name="all">All</string>
     <string name="teams">Teams</string>
 
+    <string name="favourites_desc">Tap the Star icon next to the team or player to add it to favourites.</string>
+    <string name="search_empty">Your search history is empty.</string>
+
 </resources>

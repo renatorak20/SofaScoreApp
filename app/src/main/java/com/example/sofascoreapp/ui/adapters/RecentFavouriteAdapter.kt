@@ -1,4 +1,4 @@
-package com.example.sofascoreapp.adapters
+package com.example.sofascoreapp.ui.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,6 +19,7 @@ import com.example.sofascoreapp.data.model.TeamAutocomplete
 import com.example.sofascoreapp.databinding.RecentSearchItemBinding
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
+import com.example.sofascoreapp.utils.Utilities.Companion.setSportIcon
 import com.example.sofascoreapp.viewmodel.FavouritesViewModel
 import com.example.sofascoreapp.viewmodel.SearchActivityViewModel
 
@@ -48,6 +49,8 @@ class RecentFavouriteAdapter(
             when (item) {
                 is PlayerAutocomplete -> {
                     image.loadImage(context, DataType.PLAYER, item.id)
+                    sport.text = item.sport.name
+                    sportImage.setSportIcon(context, item.sport.name)
                     layout.setOnClickListener {
                         (viewModel as SearchActivityViewModel).addNewRecentSearch(
                             context,
@@ -61,6 +64,8 @@ class RecentFavouriteAdapter(
 
                 is TeamAutocomplete -> {
                     image.load(context.getString(R.string.team_icon_url, item.id))
+                    sport.text = item.sport.name
+                    sportImage.setSportIcon(context, item.sport.name)
                     layout.setOnClickListener {
                         (viewModel as SearchActivityViewModel).addNewRecentSearch(
                             context,
@@ -76,6 +81,8 @@ class RecentFavouriteAdapter(
                     name.text = item.name
                     deleteIcon.visibility = View.VISIBLE
                     deleteIcon.setImageDrawable(context.getDrawable(R.drawable.ic_close))
+                    sport.text = item.sport
+                    sportImage.setSportIcon(context, item.sport)
                     when (item.type) {
                         DataType.PLAYER -> {
                             image.loadImage(context, DataType.PLAYER, item.id)
@@ -139,6 +146,10 @@ class RecentFavouriteAdapter(
         array.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, itemCount)
+        when (viewModel) {
+            is FavouritesViewModel -> viewModel.getFavourites(context)
+            is SearchActivityViewModel -> viewModel.getRecentSearches(context)
+        }
     }
 
     override fun getItemCount() = array.size

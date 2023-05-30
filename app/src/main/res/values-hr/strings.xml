@@ -62,5 +62,7 @@
     <string name="favourites">Favoriti</string>
     <string name="all">Sve</string>
     <string name="teams">Timovi</string>
+    <string name="favourites_desc">Dodirnite ikonu zvijezde pored tima ili igrača da bi ste ih dodali u favorite.</string>
+    <string name="search_empty">Vaša povijest pretraživanja je prazna.</string>
 
 </resources>

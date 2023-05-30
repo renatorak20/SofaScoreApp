@@ -1,17 +1,14 @@
 package com.example.sofascoreapp
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.IBinder
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.AutoCompleteTextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.sofascoreapp.adapters.RecentFavouriteAdapter
+import com.example.sofascoreapp.ui.adapters.RecentFavouriteAdapter
 import com.example.sofascoreapp.databinding.ActivitySearchBinding
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.viewmodel.SearchActivityViewModel
@@ -42,12 +39,11 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s?.length!! >= 3 && Utilities().isNetworkAvailable(applicationContext)) {
-                    sharedViewModel.getAllAutocompletes(s.toString())
-                    binding.recentTitle.visibility = View.GONE
+                if (s?.length!! >= 3) {
+                    getInfo(s.toString())
+                    hideIndicator()
                 } else if (s.isEmpty()) {
                     binding.autoComplete.setAdapter(null)
-                    binding.recentTitle.visibility = View.VISIBLE
                     sharedViewModel.getRecentSearches(applicationContext)
                 }
             }
@@ -55,6 +51,11 @@ class SearchActivity : AppCompatActivity() {
 
         sharedViewModel.getRecentSearches(this)
         sharedViewModel.recentsList.observe(this) {
+
+            if (it.isEmpty()) {
+                showIndicator()
+            }
+
             binding.recyclerView.layoutManager = LinearLayoutManager(this)
             binding.recyclerView.adapter =
                 RecentFavouriteAdapter(this, it as ArrayList<Any>, sharedViewModel)
@@ -77,15 +78,26 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun dismissKeyboard(windowToken: IBinder) {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        imm?.hideSoftInputFromWindow(windowToken, 0)
+    fun getInfo(query: String) {
+        if (Utilities().isNetworkAvailable(this)) {
+            sharedViewModel.getAllAutocompletes(query)
+        } else {
+            Utilities.showNoInternetDialog(this) { getInfo(query) }
+        }
     }
-
 
     fun AutoCompleteTextView.clear() {
         this.text.clear()
+    }
+
+    fun hideIndicator() {
+        binding.recentTitle.visibility = View.VISIBLE
+        binding.description.visibility = View.INVISIBLE
+    }
+
+    fun showIndicator() {
+        binding.recentTitle.visibility = View.INVISIBLE
+        binding.description.visibility = View.VISIBLE
     }
 
 }

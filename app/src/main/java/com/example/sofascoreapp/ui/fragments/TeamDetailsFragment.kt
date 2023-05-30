@@ -170,6 +170,9 @@ class TeamDetailsFragment : Fragment() {
                     DataType.TOURNAMENT,
                     response.body()!![0].tournament.id
                 )
+                binding.nextMatchHeader.layout.setOnClickListener {
+                    TournamentActivity.start(requireContext(), response.body()!![0].tournament)
+                }
 
             }
         }

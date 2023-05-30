@@ -49,6 +49,7 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
 
         setSupportActionBar(binding.toolbar)
         toolbar = binding.toolbar
+        toolbar.title = ""
 
         viewModel = ViewModelProvider(this)[PlayerDetailsViewModel::class.java]
 
