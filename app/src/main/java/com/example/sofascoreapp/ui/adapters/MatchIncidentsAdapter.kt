@@ -324,11 +324,13 @@ class MatchIncidentsAdapter(
             newResult.visibility = View.VISIBLE
             minute.visibility = View.VISIBLE
             goalIcon.visibility = View.VISIBLE
+            separatorHome.visibility = View.VISIBLE
 
             playerNameAway.visibility = View.GONE
             newResultAway.visibility = View.GONE
             minuteAway.visibility = View.GONE
             goalIconAway.visibility = View.GONE
+            separatorAway.visibility = View.GONE
         }
     }
 
@@ -338,11 +340,13 @@ class MatchIncidentsAdapter(
             newResult.visibility = View.GONE
             minute.visibility = View.GONE
             goalIcon.visibility = View.GONE
+            separatorHome.visibility = View.GONE
 
             playerNameAway.visibility = View.VISIBLE
             newResultAway.visibility = View.VISIBLE
             minuteAway.visibility = View.VISIBLE
             goalIconAway.visibility = View.VISIBLE
+            separatorAway.visibility = View.VISIBLE
         }
     }
 
@@ -352,11 +356,13 @@ class MatchIncidentsAdapter(
             cardIcon.visibility = View.VISIBLE
             minute.visibility = View.VISIBLE
             reason.visibility = View.VISIBLE
+            separatorHome.visibility = View.VISIBLE
 
             playerNameAway.visibility = View.GONE
             cardIconAway.visibility = View.GONE
             minuteAway.visibility = View.GONE
             reasonAway.visibility = View.GONE
+            separatorAway.visibility = View.GONE
         }
     }
 
@@ -366,11 +372,13 @@ class MatchIncidentsAdapter(
             cardIcon.visibility = View.GONE
             minute.visibility = View.GONE
             reason.visibility = View.GONE
+            separatorHome.visibility = View.GONE
 
             playerNameAway.visibility = View.VISIBLE
             cardIconAway.visibility = View.VISIBLE
             minuteAway.visibility = View.VISIBLE
             reasonAway.visibility = View.VISIBLE
+            separatorAway.visibility = View.VISIBLE
         }
     }
 
@@ -378,9 +386,11 @@ class MatchIncidentsAdapter(
         with(binding) {
             goalIcon.visibility = View.VISIBLE
             newResult.visibility = View.VISIBLE
+            separatorHome.visibility = View.VISIBLE
 
             goalIconAway.visibility = View.GONE
             newResultAway.visibility = View.GONE
+            separatorAway.visibility = View.GONE
         }
     }
 
@@ -388,9 +398,11 @@ class MatchIncidentsAdapter(
         with(binding) {
             goalIconAway.visibility = View.VISIBLE
             newResultAway.visibility = View.VISIBLE
+            separatorAway.visibility = View.VISIBLE
 
             goalIcon.visibility = View.GONE
             newResult.visibility = View.GONE
+            separatorHome.visibility = View.GONE
         }
     }
 

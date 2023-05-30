@@ -31,6 +31,17 @@
         app:layout_constraintTop_toBottomOf="@+id/cardIcon"
         tools:text="87" />
 
+    <View
+        android:id="@+id/separatorHome"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="?attr/on_surface_on_surface_lv_4"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintStart_toEndOf="@id/cardIcon" />
+
+
     <TextView
         android:id="@+id/playerName"
         style="@style/Body"
@@ -53,6 +64,16 @@
         app:layout_constraintStart_toStartOf="@+id/playerName"
         app:layout_constraintTop_toBottomOf="@+id/playerName"
         tools:text="Foul" />
+
+    <View
+        android:id="@+id/separatorAway"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="?attr/on_surface_on_surface_lv_4"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toStartOf="@id/cardIconAway" />
 
 
     <ImageView
