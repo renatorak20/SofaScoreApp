@@ -28,7 +28,4 @@ interface SofascoreDao {
 
     @Query("DELETE FROM favouritesTable WHERE id = :id")
     suspend fun deleteFavourite(id: Int)
-
-    @Query("DELETE FROM recentsTable")
-    suspend fun nukeRecents()
 }

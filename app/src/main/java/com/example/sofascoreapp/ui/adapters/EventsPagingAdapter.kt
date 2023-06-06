@@ -1,33 +1,19 @@
 package com.example.sofascoreapp.ui.adapters
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.TournamentActivity
 import com.example.sofascoreapp.data.model.DataType
-import com.example.sofascoreapp.data.model.Event
-import com.example.sofascoreapp.data.model.EventStatusEnum
-import com.example.sofascoreapp.data.model.Tournament
 import com.example.sofascoreapp.data.model.UiModel
-import com.example.sofascoreapp.data.model.WinnerCode
 import com.example.sofascoreapp.databinding.MatchListItemBinding
 import com.example.sofascoreapp.databinding.MatchListLeagueSectionBinding
 import com.example.sofascoreapp.databinding.RoundSectionBinding
 import com.example.sofascoreapp.ui.custom.MatchViewHolder
-import com.example.sofascoreapp.utils.Preferences
-import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.clear
 import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import java.lang.IllegalArgumentException
@@ -44,7 +30,7 @@ class EventsPagingAdapter(
             is UiModel.Event -> R.layout.match_list_item
             is UiModel.SeparatorRound -> R.layout.match_list_league_section
             is UiModel.SeparatorTournament -> R.layout.match_list_league_section
-            else -> throw IllegalStateException("Unknown view")
+            else -> throw IllegalStateException()
         }
     }
 
@@ -113,7 +99,7 @@ class EventsPagingAdapter(
             }
         }
 
-        fun resetFields() {
+        private fun resetFields() {
             with(binding) {
                 country.clear()
                 league.clear()

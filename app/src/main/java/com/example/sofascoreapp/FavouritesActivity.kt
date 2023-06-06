@@ -18,7 +18,7 @@ class FavouritesActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFavouritesBinding
     private lateinit var viewModel: FavouritesViewModel
-    var recyclerViewVisible = true
+    var tabSelected = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +32,22 @@ class FavouritesActivity : AppCompatActivity() {
 
         viewModel.getFavourites(this)
 
-        viewModel.favourites.observe(this) {
+        viewModel.favourites.observe(this) { favouritesList ->
 
-            toggleAnimation(it)
+            toggleAnimation(favouritesList)
 
-            if (it.isEmpty()) {
+            if (favouritesList.isEmpty()) {
                 binding.toggleButton.visibility = View.INVISIBLE
             }
 
             binding.recyclerView.layoutManager = LinearLayoutManager(this)
+            val list = when (tabSelected) {
+                0 -> favouritesList as ArrayList<Any>
+                1 -> favouritesList.filter { it.type == DataType.TEAM } as ArrayList<Any>
+                else -> favouritesList.filter { it.type == DataType.PLAYER } as ArrayList<Any>
+            }
             binding.recyclerView.adapter =
-                RecentFavouriteAdapter(this, it as ArrayList<Any>, viewModel)
+                RecentFavouriteAdapter(this, list, viewModel)
         }
 
         binding.toolbar.title.text = getString(R.string.favourites)
@@ -59,6 +64,7 @@ class FavouritesActivity : AppCompatActivity() {
                             viewModel.favourites.value as ArrayList<Any>,
                             viewModel
                         )
+                        tabSelected = 0
                     }
 
                     TEAMS -> {
@@ -67,6 +73,7 @@ class FavouritesActivity : AppCompatActivity() {
                             this,
                             viewModel.favourites.value?.filter { it.type == DataType.TEAM } as ArrayList<Any>,
                             viewModel)
+                        tabSelected = 1
                     }
 
                     PLAYERS -> {
@@ -75,6 +82,7 @@ class FavouritesActivity : AppCompatActivity() {
                             this,
                             viewModel.favourites.value?.filter { it.type == DataType.PLAYER } as ArrayList<Any>,
                             viewModel)
+                        tabSelected = 2
                     }
                 }
             }

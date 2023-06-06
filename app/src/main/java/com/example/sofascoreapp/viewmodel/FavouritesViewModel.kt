@@ -14,7 +14,7 @@ class FavouritesViewModel : ViewModel() {
     private val _favourites = MutableLiveData<List<Favourite>>()
     var favourites: LiveData<List<Favourite>> = _favourites
 
-    fun setFavourites(list: List<Favourite>) {
+    private fun setFavourites(list: List<Favourite>) {
         _favourites.value = list
     }
 
@@ -29,6 +29,7 @@ class FavouritesViewModel : ViewModel() {
         viewModelScope.launch {
             val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
             databaseDao?.deleteFavourite(id)
+            getFavourites(context)
         }
     }
 

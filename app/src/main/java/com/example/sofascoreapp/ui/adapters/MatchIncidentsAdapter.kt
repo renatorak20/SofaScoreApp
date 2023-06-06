@@ -1,12 +1,10 @@
 package com.example.sofascoreapp.ui.adapters
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sofascoreapp.PlayerDetailsActivity
 import com.example.sofascoreapp.R
@@ -24,6 +22,10 @@ import com.example.sofascoreapp.databinding.PeriodLayoutBinding
 import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.clear
 
+private const val TYPE_PERIOD = 0
+private const val TYPE_GOAL = 1
+private const val TYPE_CARD = 2
+
 class MatchIncidentsAdapter(
     val context: Context,
     val array: ArrayList<Incident>,
@@ -32,12 +34,6 @@ class MatchIncidentsAdapter(
     val period: Int?
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    companion object {
-        private const val TYPE_PERIOD = 0
-        private const val TYPE_GOAL = 1
-        private const val TYPE_CARD = 2
-    }
 
     override fun getItemViewType(position: Int): Int {
         val incident = array[position]
@@ -180,7 +176,7 @@ class MatchIncidentsAdapter(
             }
         }
 
-        fun resetFields() {
+        private fun resetFields() {
             with(binding) {
                 minute
                 newResult.clear()
@@ -225,7 +221,7 @@ class MatchIncidentsAdapter(
             }
         }
 
-        fun resetFields() {
+        private fun resetFields() {
             with(binding) {
                 newResult.clear()
                 goalIcon.clear()
@@ -266,7 +262,7 @@ class MatchIncidentsAdapter(
             }
         }
 
-        fun resetFields() {
+        private fun resetFields() {
             with(binding) {
                 minute.clear()
                 playerName.clear()

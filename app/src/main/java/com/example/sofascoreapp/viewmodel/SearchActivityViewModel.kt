@@ -48,7 +48,7 @@ class SearchActivityViewModel : ViewModel() {
     private val _recentsList = MutableLiveData<List<RecentSearch>>()
     val recentsList: LiveData<List<RecentSearch>> = _recentsList
 
-    fun setRecentsList(list: List<RecentSearch>) {
+    private fun setRecentsList(list: List<RecentSearch>) {
         _recentsList.value = list
     }
 
@@ -64,7 +64,18 @@ class SearchActivityViewModel : ViewModel() {
     fun addNewRecentSearch(context: Context, recentItem: RecentSearch) {
         viewModelScope.launch {
             val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
+            checkRecentSearchSize(context)
             databaseDao?.insertRecent(recentItem)
+        }
+    }
+
+    private fun checkRecentSearchSize(context: Context) {
+        viewModelScope.launch {
+            val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
+            val recents = databaseDao?.getAllRecents()
+            if (recents?.size == 10) {
+                removeFromRecentSearch(context, recents[0].id)
+            }
         }
     }
 
@@ -72,6 +83,7 @@ class SearchActivityViewModel : ViewModel() {
         viewModelScope.launch {
             val databaseDao = SofascoreApiDatabase.getDatabase(context)?.sofascoreDao()
             databaseDao?.deleteRecent(id)
+            getRecentSearches(context)
         }
     }
 

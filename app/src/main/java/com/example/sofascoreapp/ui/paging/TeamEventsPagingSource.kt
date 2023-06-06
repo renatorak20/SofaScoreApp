@@ -1,13 +1,9 @@
 package com.example.sofascoreapp.ui.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.networking.Network
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlin.math.abs
 
 class TeamEventsPagingSource(private val teamID: Int) : PagingSource<Int, Event>() {
@@ -19,7 +15,7 @@ class TeamEventsPagingSource(private val teamID: Int) : PagingSource<Int, Event>
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Event> {
         val key = params.key ?: 0
-        var span = if (key > 0) "next" else "last"
+        val span = if (key > 0) "next" else "last"
 
         val response = Network().getService()
             .getTeamEventsPage(teamID, span, if (span == "next") abs(key - 1) else abs(key))

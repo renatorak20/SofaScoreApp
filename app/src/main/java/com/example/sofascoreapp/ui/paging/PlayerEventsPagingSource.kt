@@ -1,11 +1,9 @@
 package com.example.sofascoreapp.ui.paging
 
-import android.content.Context
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.networking.Network
-import com.example.sofascoreapp.utils.Utilities
 import kotlin.math.abs
 
 
@@ -14,7 +12,6 @@ class PlayerEventsPagingSource(private val playerID: Int) : PagingSource<Int, Ev
     override fun getRefreshKey(state: PagingState<Int, Event>): Int {
         return (state.anchorPosition ?: 0) / state.config.pageSize
     }
-
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Event> {
         val key = params.key ?: 0

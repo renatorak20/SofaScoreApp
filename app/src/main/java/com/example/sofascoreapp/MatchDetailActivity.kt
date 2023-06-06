@@ -51,7 +51,7 @@ class MatchDetailActivity : AppCompatActivity() {
             if (it.isSuccessful && it.body()?.isNotEmpty()!!) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-                var reversedList = it.body()
+                var reversedList: ArrayList<Incident>?
                 var pair: Pair<Int?, ArrayList<Incident>>? = null
 
                 if (matchViewModel.getEvent().value?.body()!!.status == EventStatusEnum.INPROGRESS) {
@@ -61,6 +61,8 @@ class MatchDetailActivity : AppCompatActivity() {
                         this
                     )
                     reversedList = pair.second.reversed() as ArrayList<Incident>
+                } else {
+                    reversedList = it.body()!!.reversed() as ArrayList<Incident>
                 }
 
                 val sportType =
@@ -71,7 +73,7 @@ class MatchDetailActivity : AppCompatActivity() {
                     }
                 recyclerAdapter = MatchIncidentsAdapter(
                     this,
-                    reversedList!!,
+                    reversedList,
                     sportType,
                     matchViewModel.getEvent().value?.body()!!.status == EventStatusEnum.INPROGRESS,
                     pair?.first

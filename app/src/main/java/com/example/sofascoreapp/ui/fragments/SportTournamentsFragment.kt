@@ -20,7 +20,6 @@ abstract class SportTournamentsFragment : Fragment() {
     private lateinit var recyclerAdapter: TournamentsAdapter
     private lateinit var tournamentsViewModel: TournamentsViewModel
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,7 +53,7 @@ abstract class SportTournamentsFragment : Fragment() {
 
     protected abstract fun getSportType(): SportType
 
-    fun getInfo() {
+    private fun getInfo() {
         if (Utilities().isNetworkAvailable(requireContext())) {
             tournamentsViewModel.getTournaments(getSportType())
         } else {

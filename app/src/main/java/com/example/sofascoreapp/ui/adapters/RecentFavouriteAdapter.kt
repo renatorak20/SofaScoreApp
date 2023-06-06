@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -26,8 +27,8 @@ import com.example.sofascoreapp.viewmodel.SearchActivityViewModel
 
 class RecentFavouriteAdapter(
     val context: Context,
-    val array: ArrayList<Any>,
-    val viewModel: ViewModel
+    private val array: ArrayList<Any>,
+    private val viewModel: ViewModel
 ) : RecyclerView.Adapter<RecentFavouriteAdapter.RecentSearchViewHolder>() {
 
     class RecentSearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -80,7 +81,12 @@ class RecentFavouriteAdapter(
                 is RecentSearch -> {
                     name.text = item.name
                     deleteIcon.visibility = View.VISIBLE
-                    deleteIcon.setImageDrawable(context.getDrawable(R.drawable.ic_close))
+                    deleteIcon.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            context,
+                            R.drawable.ic_close
+                        )
+                    )
                     sport.text = item.sport
                     sportImage.setSportIcon(context, item.sport)
                     when (item.type) {
@@ -93,8 +99,13 @@ class RecentFavouriteAdapter(
 
                         else -> {
                             image.load(context.getString(R.string.team_icon_url, item.id)) {
-                                error(context.getDrawable(R.drawable.ic_person))
-                                placeholder(context.getDrawable(R.drawable.ic_person))
+                                error(AppCompatResources.getDrawable(context, R.drawable.ic_person))
+                                placeholder(
+                                    AppCompatResources.getDrawable(
+                                        context,
+                                        R.drawable.ic_person
+                                    )
+                                )
                             }
                             layout.setOnClickListener {
                                 TeamDetailsActivity.start(context, item.id)
@@ -113,7 +124,12 @@ class RecentFavouriteAdapter(
                 is Favourite -> {
                     name.text = item.name
                     deleteIcon.visibility = View.VISIBLE
-                    deleteIcon.setImageDrawable(context.getDrawable(R.drawable.ic_star_fill))
+                    deleteIcon.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            context,
+                            R.drawable.ic_star_fill
+                        )
+                    )
                     deleteIcon.setColorFilter(context.getColor(R.color.color_primary_default))
                     when (item.type) {
                         DataType.PLAYER -> {
@@ -125,8 +141,13 @@ class RecentFavouriteAdapter(
 
                         else -> {
                             image.load(context.getString(R.string.team_icon_url, item.id)) {
-                                error(context.getDrawable(R.drawable.ic_person))
-                                placeholder(context.getDrawable(R.drawable.ic_person))
+                                error(AppCompatResources.getDrawable(context, R.drawable.ic_person))
+                                placeholder(
+                                    AppCompatResources.getDrawable(
+                                        context,
+                                        R.drawable.ic_person
+                                    )
+                                )
                             }
                             layout.setOnClickListener {
                                 TeamDetailsActivity.start(context, item.id)
@@ -142,14 +163,10 @@ class RecentFavouriteAdapter(
         }
     }
 
-    fun removeItem(position: Int) {
+    private fun removeItem(position: Int) {
         array.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, itemCount)
-        when (viewModel) {
-            is FavouritesViewModel -> viewModel.getFavourites(context)
-            is SearchActivityViewModel -> viewModel.getRecentSearches(context)
-        }
     }
 
     override fun getItemCount() = array.size

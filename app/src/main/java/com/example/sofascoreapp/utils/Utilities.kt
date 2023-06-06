@@ -1,6 +1,5 @@
 package com.example.sofascoreapp.utils
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -9,25 +8,21 @@ import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
 import android.util.TypedValue
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.compose.ui.text.toLowerCase
 import androidx.core.content.ContextCompat
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.sofascoreapp.MainActivity
 import com.example.sofascoreapp.R
-import com.example.sofascoreapp.data.model.CardColorEnum
 import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.Favourite
-import com.example.sofascoreapp.data.model.GoalTypeEnum
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.IncidentEnum
 import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.data.model.PlayerAutocomplete
 import com.example.sofascoreapp.data.model.RecentSearch
-import com.example.sofascoreapp.data.model.SportType
-import com.example.sofascoreapp.data.model.Team2
 import com.example.sofascoreapp.data.model.TeamAutocomplete
 import com.example.sofascoreapp.data.model.TeamDetails
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -43,6 +38,7 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+
 
 class Utilities {
 
@@ -200,6 +196,7 @@ class Utilities {
                         .show()
                 }
             }
+
         }
 
         fun TextView.clear() {
@@ -231,6 +228,17 @@ class Utilities {
             }
         }
 
+
+        fun loadCountryImage(country: String, imageView: ImageView) {
+            var code = Locale.getISOCountries().find { Locale("", it).displayCountry == country }
+            if (code == null) {
+                when (country) {
+                    "England" -> code = "gb-eng"
+                    "Norway" -> code = "no"
+                }
+            }
+            imageView.load("https://flagcdn.com/w20/${code?.toLowerCase()}.png")
+        }
     }
 
     fun setMatchTint(context: Context, type: Int, vararg texts: TextView) {
@@ -402,6 +410,5 @@ class Utilities {
     fun teamToFavourite(team: TeamDetails): Favourite {
         return Favourite(team.id, team.name, DataType.TEAM)
     }
-
 
 }

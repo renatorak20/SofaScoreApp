@@ -46,7 +46,7 @@ class TournamentsActivity : AppCompatActivity() {
 
     }
 
-    fun enableViews() {
+    private fun enableViews() {
         binding.navViewMain.visibility = View.GONE
         binding.toolbarMain.layout.visibility = View.GONE
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)

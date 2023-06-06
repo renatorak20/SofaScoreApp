@@ -1,11 +1,7 @@
 package com.example.sofascoreapp.ui.custom
 
 import android.content.Context
-import android.content.Intent
-import android.util.TypedValue
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.example.sofascoreapp.MatchDetailActivity
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.DataType
@@ -233,7 +229,7 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
     }
 
 
-    fun resetFields(binding: MatchListItemBinding) {
+    private fun resetFields(binding: MatchListItemBinding) {
         with(binding) {
             homeScore.text = ""
             awayScore.text = ""
@@ -246,7 +242,8 @@ class MatchViewHolder(private val binding: MatchListItemBinding, val context: Co
                 homeTeamLayout.teamName,
                 homeScore,
                 awayTeamLayout.teamName,
-                awayScore
+                awayScore,
+                timeLayout.currentMinute
             )
 
         }

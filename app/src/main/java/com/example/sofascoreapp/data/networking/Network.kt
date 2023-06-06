@@ -1,7 +1,5 @@
 package com.example.sofascoreapp.data.networking
 
-import com.example.sofascoreapp.data.model.Score
-import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

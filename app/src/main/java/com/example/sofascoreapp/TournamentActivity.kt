@@ -48,6 +48,10 @@ class TournamentActivity : AppCompatActivity() {
                 binding.tournamentToolbar.logo.loadImage(this, DataType.TOURNAMENT, it.body()!!.id)
                 binding.tournamentToolbar.name.text = it.body()!!.name
                 binding.tournamentToolbar.country.text = it.body()!!.country.name
+                Utilities.loadCountryImage(
+                    it.body()?.country?.name!!,
+                    binding.tournamentToolbar.countryImage
+                )
             }
         }
 
@@ -72,7 +76,7 @@ class TournamentActivity : AppCompatActivity() {
 
     }
 
-    fun getInfo() {
+    private fun getInfo() {
         if (Utilities().isNetworkAvailable(this)) {
             viewModel.getLatestTournamentStandings()
             viewModel.getLatestTournamentInfo()

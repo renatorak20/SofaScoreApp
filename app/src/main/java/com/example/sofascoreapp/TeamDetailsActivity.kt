@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -70,39 +71,67 @@ class TeamDetailsActivity : AppCompatActivity() {
                         response.body()!!.id
                     )
                 )
+
+                Utilities.loadCountryImage(
+                    response.body()!!.country.name,
+                    binding.teamToolbar.countryImage
+                )
             }
         }
-
-        teamDetailsViewModel.getFavourites(this)
 
         teamDetailsViewModel.favourites.observe(this) {
             if (it.map { favourite -> favourite.id }
                     .contains(teamDetailsViewModel.getTeamID().value)) {
                 isFavourite = true
-                binding.teamToolbar.favouriteIcon.setImageDrawable(getDrawable(R.drawable.ic_star_fill))
+                setStarFull()
+            } else {
+                isFavourite = false
+                setStarEmpty()
             }
-            teamDetailsViewModel.favourites.value?.forEach { Log.i("FAV", it.toString()) }
         }
 
         binding.teamToolbar.favouriteIcon.setOnClickListener {
             if (isFavourite) {
                 teamDetailsViewModel.removeFromFavourites(this)
-                binding.teamToolbar.favouriteIcon.setImageDrawable(getDrawable(R.drawable.ic_star_outline))
+                setStarEmpty()
             } else {
                 teamDetailsViewModel.addToFavourite(this)
-                binding.teamToolbar.favouriteIcon.setImageDrawable(getDrawable(R.drawable.ic_star_fill))
+                setStarFull()
             }
 
             isFavourite = !isFavourite
         }
     }
 
-    fun getInfo() {
+    private fun getInfo() {
         if (Utilities().isNetworkAvailable(this)) {
             teamDetailsViewModel.getLatestTeamDetails()
         } else {
             showNoInternetDialog(this) { getInfo() }
         }
+    }
+
+    private fun setStarEmpty() {
+        binding.teamToolbar.favouriteIcon.setImageDrawable(
+            AppCompatResources.getDrawable(
+                this,
+                R.drawable.ic_star_outline
+            )
+        )
+    }
+
+    private fun setStarFull() {
+        binding.teamToolbar.favouriteIcon.setImageDrawable(
+            AppCompatResources.getDrawable(
+                this,
+                R.drawable.ic_star_fill
+            )
+        )
+    }
+
+    override fun onStart() {
+        super.onStart()
+        teamDetailsViewModel.getFavourites(this)
     }
 
     companion object {

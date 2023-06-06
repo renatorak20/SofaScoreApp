@@ -8,22 +8,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.example.sofascoreapp.data.model.DataType
-import com.example.sofascoreapp.data.model.Player
-import com.example.sofascoreapp.data.model.Tournament
-import com.example.sofascoreapp.data.model.UiModel
 import com.example.sofascoreapp.databinding.ActivityPlayerDetailsBinding
 import com.example.sofascoreapp.ui.adapters.EventsPagingAdapter
 import com.example.sofascoreapp.ui.adapters.LoadStateHeaderFooterAdapter
 import com.example.sofascoreapp.utils.Preferences
 import com.example.sofascoreapp.utils.Utilities
+import com.example.sofascoreapp.utils.Utilities.Companion.loadCountryImage
 import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.PlayerDetailsViewModel
@@ -70,6 +66,8 @@ class PlayerDetailsActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
                     DataType.PLAYER,
                     viewModel.getPlayerID().value!!
                 )
+
+                loadCountryImage(player.country?.name!!, binding.content.nationalityIcon)
 
                 binding.content.playerClubLayout.clubIcon.loadImage(
                     this,

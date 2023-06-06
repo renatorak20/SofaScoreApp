@@ -13,7 +13,6 @@ import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.liveData
 import androidx.paging.map
-import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.Favourite
 import com.example.sofascoreapp.data.model.Player
@@ -81,7 +80,7 @@ class PlayerDetailsViewModel : ViewModel() {
             }
     }
 
-    fun shouldSeparate(before: Tournament?, after: Tournament?): Boolean {
+    private fun shouldSeparate(before: Tournament?, after: Tournament?): Boolean {
         if (after == null) {
             return false
         }
@@ -91,7 +90,7 @@ class PlayerDetailsViewModel : ViewModel() {
     private val _favourites = MutableLiveData<List<Favourite>>()
     var favourites: LiveData<List<Favourite>> = _favourites
 
-    fun setFavourites(list: List<Favourite>) {
+    private fun setFavourites(list: List<Favourite>) {
         _favourites.value = list
     }
 
