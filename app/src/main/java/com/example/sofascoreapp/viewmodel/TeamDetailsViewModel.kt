@@ -99,7 +99,7 @@ class TeamDetailsViewModel : ViewModel() {
             UiModel.Event(event)
         }
             .insertSeparators { before, after ->
-                val event = before ?: after
+                val event = after ?: before
                 when {
                     shouldSeparate(before?.tournament, after?.tournament) -> event?.let {
                         UiModel.SeparatorTournament(

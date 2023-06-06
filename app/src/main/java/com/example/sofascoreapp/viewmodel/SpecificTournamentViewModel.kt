@@ -102,7 +102,7 @@ class SpecificTournamentViewModel : ViewModel() {
             UiModel.Event(event)
         }
             .insertSeparators { before, after ->
-                val round = before?.round ?: after?.round
+                val round = after?.round ?: before?.round
                 when {
                     shouldSeparate(before, after) -> UiModel.SeparatorRound(
                         "Round $round"
@@ -114,7 +114,7 @@ class SpecificTournamentViewModel : ViewModel() {
     }
 
     fun shouldSeparate(before: UiModel.Event?, after: UiModel.Event?): Boolean {
-        if (before?.round == 1) return false
+        if (before?.round == 1 && after?.round == 3) return true
         if (after == null) return false
         return before?.round != after.round
     }

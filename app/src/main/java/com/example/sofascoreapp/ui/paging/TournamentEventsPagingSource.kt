@@ -13,9 +13,9 @@ class TournamentEventsPagingSource(private val tournamentID: Int) : PagingSource
         return (state.anchorPosition ?: 0) / state.config.pageSize
     }
 
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Event> {
         val key = params.key ?: 0
+
         val span = if (key > 0) "next" else "last"
 
         val response = Network().getService().getTournamentEventsPage(

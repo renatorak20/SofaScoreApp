@@ -67,7 +67,7 @@ class PlayerDetailsViewModel : ViewModel() {
             UiModel.Event(event)
         }
             .insertSeparators { before, after ->
-                val event = before ?: after
+                val event = after ?: before
                 when {
                     shouldSeparate(before?.tournament, after?.tournament) -> event?.let {
                         UiModel.SeparatorTournament(
@@ -81,9 +81,8 @@ class PlayerDetailsViewModel : ViewModel() {
     }
 
     private fun shouldSeparate(before: Tournament?, after: Tournament?): Boolean {
-        if (after == null) {
-            return false
-        }
+        if (before?.id == 1) return false
+        if (after == null) return false
         return before?.id != after.id
     }
 
