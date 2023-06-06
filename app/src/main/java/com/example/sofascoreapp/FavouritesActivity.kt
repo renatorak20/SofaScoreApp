@@ -68,7 +68,7 @@ class FavouritesActivity : AppCompatActivity() {
                     }
 
                     TEAMS -> {
-                        toggleAnimation(viewModel.favourites.value!!)
+                        toggleAnimation(viewModel.favourites.value?.filter { it.type == DataType.TEAM } as ArrayList<Any>)
                         binding.recyclerView.adapter = RecentFavouriteAdapter(
                             this,
                             viewModel.favourites.value?.filter { it.type == DataType.TEAM } as ArrayList<Any>,

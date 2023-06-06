@@ -2,15 +2,14 @@ package com.example.sofascoreapp
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.View
-import androidx.core.content.ContextCompat
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Incident
@@ -23,7 +22,7 @@ import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.MatchDetailViewModel
-import kotlin.collections.ArrayList
+
 
 class MatchDetailActivity : AppCompatActivity() {
 
@@ -156,6 +155,13 @@ class MatchDetailActivity : AppCompatActivity() {
                             it.body()?.awayScore?.total.toString()
                         binding.matchHeader.scoreLayout.currentMinute.text =
                             getString(R.string.in_progress)
+                        
+                        val anim: Animation = AlphaAnimation(0.0f, 1.0f)
+                        anim.duration = 1000
+
+                        anim.repeatMode = Animation.REVERSE
+                        anim.repeatCount = Animation.INFINITE
+                        binding.matchHeader.scoreLayout.currentMinute.startAnimation(anim)
 
                         Utilities().setMatchTint(
                             this,
