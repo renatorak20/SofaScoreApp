@@ -28,6 +28,9 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="8dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_background"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/match_header" />

@@ -26,7 +26,6 @@ class DatesAdapter(
 ) :
     RecyclerView.Adapter<DatesAdapter.MatchDateViewHolder>() {
 
-
     class MatchDateViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = DateListItemBinding.bind(view)
     }

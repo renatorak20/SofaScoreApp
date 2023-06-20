@@ -57,5 +57,12 @@
     <string name="player">Spieler</string>
     <string name="football_first_half">Erste Hälfte (%1$d - %2$d)</string>
     <string name="football_second_half">Zweite Hälfte (%1$d - %2$d)</string>
+    <string name="search_hint">Suche etwas...</string>
+    <string name="recent">Jüngste</string>
+    <string name="favourites">Favoriten</string>
+    <string name="all">Alle</string>
+    <string name="teams">Mannschaften</string>
+    <string name="favourites_desc">Tippen Sie auf das Sternsymbol neben der Mannschaft oder dem Spieler.</string>
+    <string name="search_empty">Ihr Suchverlauf ist leer.</string>
 
 </resources>

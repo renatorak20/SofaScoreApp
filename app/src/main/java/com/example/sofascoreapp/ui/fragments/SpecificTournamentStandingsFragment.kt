@@ -5,11 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
-import com.example.sofascoreapp.R
 import com.example.sofascoreapp.databinding.FragmentTournamentStandingsBinding
 import com.example.sofascoreapp.ui.adapters.StandingsAdapter
 import com.example.sofascoreapp.viewmodel.SpecificTournamentViewModel

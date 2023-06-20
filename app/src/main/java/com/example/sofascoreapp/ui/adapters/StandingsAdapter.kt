@@ -1,7 +1,6 @@
 package com.example.sofascoreapp.ui.adapters
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -26,9 +25,9 @@ private const val TYPE_BASKETBALL = "Basketball"
 
 class StandingsAdapter(
     val context: Context,
-    val array: ArrayList<StandingRow>,
+    private val array: ArrayList<StandingRow>,
     val sport: String,
-    val selectedTeamID: Int
+    private val selectedTeamID: Int
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -97,9 +96,9 @@ class StandingsAdapter(
                         context.getColor(R.color.status_success),
                         128
                     )
-                );
+                )
             } else {
-                binding.layout.setBackgroundColor(context.getColor(android.R.color.transparent));
+                binding.layout.setBackgroundColor(context.getColor(android.R.color.transparent))
             }
 
             Utilities().setRotatingText(binding.teamName)
@@ -136,9 +135,9 @@ class StandingsAdapter(
                         context.getColor(R.color.status_success),
                         128
                     )
-                );
+                )
             } else {
-                binding.layout.setBackgroundColor(context.getColor(android.R.color.transparent));
+                binding.layout.setBackgroundColor(context.getColor(android.R.color.transparent))
             }
 
             Utilities().setRotatingText(binding.teamName)
@@ -178,9 +177,9 @@ class StandingsAdapter(
                         context.getColor(R.color.status_success),
                         128
                     )
-                );
+                )
             } else {
-                binding.layout.setBackgroundColor(context.getColor(android.R.color.transparent));
+                binding.layout.setBackgroundColor(context.getColor(android.R.color.transparent))
             }
 
             Utilities().setRotatingText(binding.teamName)

@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
 import com.example.sofascoreapp.R
 import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.databinding.FragmentTeamStandingsBinding
@@ -118,7 +116,7 @@ class TeamStandingsFragment : Fragment() {
         binding.recyclerView.adapter = recyclerAdapter
     }
 
-    fun getInfo() {
+    private fun getInfo() {
         if (Utilities().isNetworkAvailable(requireContext())) {
             viewModel.getTeamTournamentStandings()
         } else {

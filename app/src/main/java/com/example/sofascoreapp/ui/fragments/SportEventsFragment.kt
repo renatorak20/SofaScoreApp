@@ -1,12 +1,10 @@
 package com.example.sofascoreapp.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sofascoreapp.R
@@ -24,7 +22,7 @@ abstract class SportEventsFragment : Fragment() {
 
     private lateinit var binding: FragmentSportEventsBinding
     private lateinit var recyclerAdapter: EventsRecyclerAdapter
-    protected lateinit var mainViewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var datesAdapter: DatesAdapter
 
     override fun onCreateView(
@@ -106,11 +104,11 @@ abstract class SportEventsFragment : Fragment() {
 
     protected abstract fun getSportType(): SportType
 
-    fun setInitialDate() {
+    private fun setInitialDate() {
         mainViewModel.setDate(Utilities().getTodaysDate())
     }
 
-    fun getInfo() {
+    private fun getInfo() {
         if (Utilities().isNetworkAvailable(requireContext())) {
             mainViewModel.getNewestEvents(getSportType(), mainViewModel.getDate().value!!)
         } else {

@@ -2,15 +2,14 @@ package com.example.sofascoreapp
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.View
-import androidx.core.content.ContextCompat
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.bumptech.glide.util.Util
 import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.EventStatusEnum
 import com.example.sofascoreapp.data.model.Incident
@@ -23,7 +22,7 @@ import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import com.example.sofascoreapp.utils.Utilities.Companion.showNoInternetDialog
 import com.example.sofascoreapp.viewmodel.MatchDetailViewModel
-import kotlin.collections.ArrayList
+
 
 class MatchDetailActivity : AppCompatActivity() {
 
@@ -51,7 +50,7 @@ class MatchDetailActivity : AppCompatActivity() {
             if (it.isSuccessful && it.body()?.isNotEmpty()!!) {
                 binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-                var reversedList = it.body()
+                var reversedList: ArrayList<Incident>?
                 var pair: Pair<Int?, ArrayList<Incident>>? = null
 
                 if (matchViewModel.getEvent().value?.body()!!.status == EventStatusEnum.INPROGRESS) {
@@ -61,6 +60,8 @@ class MatchDetailActivity : AppCompatActivity() {
                         this
                     )
                     reversedList = pair.second.reversed() as ArrayList<Incident>
+                } else {
+                    reversedList = it.body()!!.reversed() as ArrayList<Incident>
                 }
 
                 val sportType =
@@ -71,7 +72,7 @@ class MatchDetailActivity : AppCompatActivity() {
                     }
                 recyclerAdapter = MatchIncidentsAdapter(
                     this,
-                    reversedList!!,
+                    reversedList,
                     sportType,
                     matchViewModel.getEvent().value?.body()!!.status == EventStatusEnum.INPROGRESS,
                     pair?.first
@@ -154,6 +155,13 @@ class MatchDetailActivity : AppCompatActivity() {
                             it.body()?.awayScore?.total.toString()
                         binding.matchHeader.scoreLayout.currentMinute.text =
                             getString(R.string.in_progress)
+                        
+                        val anim: Animation = AlphaAnimation(0.0f, 1.0f)
+                        anim.duration = 1000
+
+                        anim.repeatMode = Animation.REVERSE
+                        anim.repeatCount = Animation.INFINITE
+                        binding.matchHeader.scoreLayout.currentMinute.startAnimation(anim)
 
                         Utilities().setMatchTint(
                             this,
@@ -171,15 +179,18 @@ class MatchDetailActivity : AppCompatActivity() {
                     DataType.TOURNAMENT,
                     it.body()?.tournament?.id!!
                 )
-                binding.matchHeader.homeTeamLayout.teamIcon.loadImage(
-                    this,
-                    DataType.TEAM,
-                    it.body()?.homeTeam?.id!!
+
+                binding.matchHeader.homeTeamLayout.teamIcon.load(
+                    getString(
+                        R.string.team_icon_url,
+                        it.body()?.homeTeam?.id!!
+                    )
                 )
-                binding.matchHeader.awayTeamLayout.teamIcon.loadImage(
-                    this,
-                    DataType.TEAM,
-                    it.body()?.awayTeam?.id!!
+                binding.matchHeader.awayTeamLayout.teamIcon.load(
+                    getString(
+                        R.string.team_icon_url,
+                        it.body()?.awayTeam?.id!!
+                    )
                 )
 
                 binding.matchHeader.homeTeamLayout.teamTitle.text = it.body()?.homeTeam?.name

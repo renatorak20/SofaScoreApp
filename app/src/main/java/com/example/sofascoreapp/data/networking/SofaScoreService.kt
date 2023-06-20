@@ -3,7 +3,9 @@ package com.example.sofascoreapp.data.networking
 import com.example.sofascoreapp.data.model.Event
 import com.example.sofascoreapp.data.model.Incident
 import com.example.sofascoreapp.data.model.Player
+import com.example.sofascoreapp.data.model.PlayerAutocomplete
 import com.example.sofascoreapp.data.model.Standing
+import com.example.sofascoreapp.data.model.TeamAutocomplete
 import com.example.sofascoreapp.data.model.TeamDetails
 import com.example.sofascoreapp.data.model.Tournament
 import retrofit2.Response
@@ -65,5 +67,11 @@ interface SofaScoreService {
 
     @GET("/tournament/{id}")
     suspend fun getTournamentDetails(@Path("id") id: Int): Response<Tournament>
+
+    @GET("/search/team/{query}")
+    suspend fun getTeamAutocomplete(@Path("query") team: String): Response<ArrayList<TeamAutocomplete>>
+
+    @GET("/search/player/{query}")
+    suspend fun getPlayerAutocomplete(@Path("query") team: String): Response<ArrayList<PlayerAutocomplete>>
 
 }

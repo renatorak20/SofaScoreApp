@@ -1,31 +1,16 @@
 package com.example.sofascoreapp.ui.adapters
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.bumptech.glide.util.Util
-import com.example.sofascoreapp.MatchDetailActivity
-import com.example.sofascoreapp.R
 import com.example.sofascoreapp.TournamentActivity
 import com.example.sofascoreapp.data.model.DataType
 import com.example.sofascoreapp.data.model.Event
-import com.example.sofascoreapp.data.model.EventStatusEnum
-import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.data.model.Tournament
-import com.example.sofascoreapp.data.model.WinnerCode
 import com.example.sofascoreapp.databinding.MatchListItemBinding
 import com.example.sofascoreapp.databinding.MatchListLeagueSectionBinding
-import com.example.sofascoreapp.databinding.TeamMemberLayoutBinding
-import com.example.sofascoreapp.databinding.TeamMemberSectionBinding
 import com.example.sofascoreapp.ui.custom.MatchViewHolder
-import com.example.sofascoreapp.utils.Preferences
-import com.example.sofascoreapp.utils.Utilities
 import com.example.sofascoreapp.utils.Utilities.Companion.loadImage
 import java.lang.IllegalArgumentException
 
@@ -34,7 +19,7 @@ private const val VIEW_TYPE_MATCH = 1
 
 class EventsRecyclerAdapter(
     val context: Context,
-    val array: ArrayList<Any>
+    private val array: ArrayList<Any>
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

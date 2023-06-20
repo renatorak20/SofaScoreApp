@@ -1,9 +1,9 @@
 package com.example.sofascoreapp.ui.adapters
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -13,15 +13,14 @@ import com.example.sofascoreapp.data.model.Player
 import com.example.sofascoreapp.databinding.TeamMemberLayoutBinding
 import com.example.sofascoreapp.databinding.TeamMemberSectionBinding
 
+private const val VIEW_TYPE_PLAYER = 1
+private const val VIEW_TYPE_SECTION = 2
+
+//adapter se ne koristi zbog compose-a
 class TeamMembersRecyclerAdapter(
     private val context: Context,
     private val array: List<Any>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    companion object {
-        private const val VIEW_TYPE_PLAYER = 1
-        private const val VIEW_TYPE_SECTION = 2
-    }
 
     override fun setHasStableIds(hasStableIds: Boolean) {
         setHasStableIds(true)
@@ -62,7 +61,7 @@ class TeamMembersRecyclerAdapter(
             with(binding) {
                 memberImage.load(context.getString(R.string.player_image_url, player.id)) {
                     transformations(CircleCropTransformation())
-                    error(context.getDrawable(R.drawable.ic_person))
+                    error(AppCompatResources.getDrawable(context, R.drawable.ic_person))
                 }
                 name.text = player.name
                 countryName.text = player.country?.name

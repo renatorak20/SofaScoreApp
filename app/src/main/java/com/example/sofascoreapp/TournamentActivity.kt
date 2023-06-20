@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -47,11 +48,15 @@ class TournamentActivity : AppCompatActivity() {
                 binding.tournamentToolbar.logo.loadImage(this, DataType.TOURNAMENT, it.body()!!.id)
                 binding.tournamentToolbar.name.text = it.body()!!.name
                 binding.tournamentToolbar.country.text = it.body()!!.country.name
+                Utilities.loadCountryImage(
+                    it.body()?.country?.name!!,
+                    binding.tournamentToolbar.countryImage
+                )
             }
         }
 
         supportActionBar?.hide()
-
+        binding.tournamentToolbar.favouriteIcon.visibility = View.INVISIBLE
 
         val navController = findNavController(R.id.nav_host_fragment_activity_specific_tournament)
         val appBarConfiguration = AppBarConfiguration(
@@ -71,7 +76,7 @@ class TournamentActivity : AppCompatActivity() {
 
     }
 
-    fun getInfo() {
+    private fun getInfo() {
         if (Utilities().isNetworkAvailable(this)) {
             viewModel.getLatestTournamentStandings()
             viewModel.getLatestTournamentInfo()

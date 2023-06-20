@@ -59,6 +59,10 @@ class TeamDetailsFragment : Fragment() {
                 binding.coach.name.text =
                     getString(R.string.coachName, response.body()?.managerName)
                 binding.stadiumText.text = response.body()?.venue
+                Utilities.loadCountryImage(
+                    response.body()?.country?.name!!,
+                    binding.coach.countryImage
+                )
             }
         }
 
@@ -170,6 +174,9 @@ class TeamDetailsFragment : Fragment() {
                     DataType.TOURNAMENT,
                     response.body()!![0].tournament.id
                 )
+                binding.nextMatchHeader.layout.setOnClickListener {
+                    TournamentActivity.start(requireContext(), response.body()!![0].tournament)
+                }
 
             }
         }
@@ -184,7 +191,7 @@ class TeamDetailsFragment : Fragment() {
 
     }
 
-    fun getInfo() {
+    private fun getInfo() {
         if (Utilities().isNetworkAvailable(requireContext())) {
             teamDetailsViewModel.getLatestTeamDetails()
         } else {
@@ -192,7 +199,7 @@ class TeamDetailsFragment : Fragment() {
         }
     }
 
-    fun animateIndicator(indicator: CircularProgressIndicator, value: Int) {
+    private fun animateIndicator(indicator: CircularProgressIndicator, value: Int) {
         val duration = 500
         val animator = ObjectAnimator.ofInt(indicator, "progress", value)
         animator.duration = duration.toLong()

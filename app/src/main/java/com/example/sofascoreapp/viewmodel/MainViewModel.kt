@@ -1,6 +1,5 @@
 package com.example.sofascoreapp.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +17,7 @@ class MainViewModel : ViewModel() {
     private val _availableDays = MutableLiveData<ArrayList<MatchDate>>()
     private val _date = MutableLiveData<String>()
 
-    fun setAvailableDays(days: ArrayList<MatchDate>) {
+    private fun setAvailableDays(days: ArrayList<MatchDate>) {
         _availableDays.value = days
     }
 
@@ -41,7 +40,7 @@ class MainViewModel : ViewModel() {
         )].isSelected = true
     }
 
-    fun clearDays() {
+    private fun clearDays() {
         if (!_availableDays.value.isNullOrEmpty()) {
             for (item in _availableDays.value!!) {
                 item.isSelected = false
@@ -78,7 +77,7 @@ class MainViewModel : ViewModel() {
 
     private val _events = MutableLiveData<Response<ArrayList<Event>>>()
 
-    fun setEvents(results: Response<ArrayList<Event>>) {
+    private fun setEvents(results: Response<ArrayList<Event>>) {
         _events.value = results
     }
 

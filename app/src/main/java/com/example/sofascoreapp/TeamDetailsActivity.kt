@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -23,6 +24,7 @@ class TeamDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTeamDetailsBinding
     private lateinit var teamDetailsViewModel: TeamDetailsViewModel
+    var isFavourite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,17 +65,73 @@ class TeamDetailsActivity : AppCompatActivity() {
             if (response.isSuccessful) {
                 binding.teamToolbar.name.text = response.body()!!.name
                 binding.teamToolbar.country.text = response.body()!!.country.name
-                binding.teamToolbar.logo.loadImage(this, DataType.TEAM, response.body()!!.id)
+                binding.teamToolbar.logo.load(
+                    getString(
+                        R.string.team_icon_url,
+                        response.body()!!.id
+                    )
+                )
+
+                Utilities.loadCountryImage(
+                    response.body()!!.country.name,
+                    binding.teamToolbar.countryImage
+                )
             }
+        }
+
+        teamDetailsViewModel.favourites.observe(this) {
+            if (it.map { favourite -> favourite.id }
+                    .contains(teamDetailsViewModel.getTeamID().value)) {
+                isFavourite = true
+                setStarFull()
+            } else {
+                isFavourite = false
+                setStarEmpty()
+            }
+        }
+
+        binding.teamToolbar.favouriteIcon.setOnClickListener {
+            if (isFavourite) {
+                teamDetailsViewModel.removeFromFavourites(this)
+                setStarEmpty()
+            } else {
+                teamDetailsViewModel.addToFavourite(this)
+                setStarFull()
+            }
+
+            isFavourite = !isFavourite
         }
     }
 
-    fun getInfo() {
+    private fun getInfo() {
         if (Utilities().isNetworkAvailable(this)) {
             teamDetailsViewModel.getLatestTeamDetails()
         } else {
             showNoInternetDialog(this) { getInfo() }
         }
+    }
+
+    private fun setStarEmpty() {
+        binding.teamToolbar.favouriteIcon.setImageDrawable(
+            AppCompatResources.getDrawable(
+                this,
+                R.drawable.ic_star_outline
+            )
+        )
+    }
+
+    private fun setStarFull() {
+        binding.teamToolbar.favouriteIcon.setImageDrawable(
+            AppCompatResources.getDrawable(
+                this,
+                R.drawable.ic_star_fill
+            )
+        )
+    }
+
+    override fun onStart() {
+        super.onStart()
+        teamDetailsViewModel.getFavourites(this)
     }
 
     companion object {

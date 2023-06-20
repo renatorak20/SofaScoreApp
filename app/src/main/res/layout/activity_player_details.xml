@@ -31,7 +31,7 @@
             android:background="?attr/surface_surface_1">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_city"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:backgroundTint="?attr/color_primary_default"
@@ -46,9 +46,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/ic_back"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/texteneter"
                     app:backgroundTint="?attr/color_white" />
 
             </androidx.appcompat.widget.Toolbar>
