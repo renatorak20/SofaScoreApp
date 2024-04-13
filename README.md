@@ -1,6 +1,6 @@
 # SofaScoreApp
 
-This is a simpler Sofascore app for Android devices, created as part of the SofaScore Android
+This is a simple Sofascore app for Android devices, created as part of the SofaScore Android
 Development Academy. It allows users to explore sports matches, view team details, tournament
 standings, and player information. It integrates with the Sofascore Demo API to fetch data for 
 football, basketball and American football matches.
